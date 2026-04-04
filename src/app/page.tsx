@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { listReviews } from "@/lib/review-store";
 import { DoctorCarousel } from "./DoctorCarousel";
+import { MouseTiltCard } from "./MouseTiltCard";
 import styles from "./page.module.css";
 
 const services = [
@@ -38,17 +40,57 @@ const categories = [
 const menuItems = [
   { label: "Home", href: "#top" },
   { label: "About Us", href: "/about" },
-  { label: "Profile", href: "#profile" },
-  { label: "Reviews", href: "#reviews" },
+  { label: "Reviews", href: "/reviews" },
   { label: "Contact Us", href: "#contact-us" },
 ] as const;
 
-export default function Home() {
+const fallbackReviews = [
+  {
+    name: "Susan Parker, MD",
+    location: "Chicago, IL",
+    content:
+      "The consultation flow felt smooth and thoughtful. I was able to connect quickly and leave with real confidence about next steps.",
+    rating: 5,
+  },
+  {
+    name: "Kevin Malone, DDS",
+    location: "Richmond, VA",
+    content:
+      "Booking was straightforward and the care team followed up fast. The platform made the whole experience feel personal instead of rushed.",
+    rating: 5,
+  },
+  {
+    name: "Mark Flores, DO",
+    location: "New York, NY",
+    content:
+      "I appreciated how easy it was to review details, ask questions, and get support without bouncing between multiple systems.",
+    rating: 5,
+  },
+] as const;
+
+export default async function Home() {
+  let reviewCards = fallbackReviews;
+
+  try {
+    const storedReviews = await listReviews(3);
+
+    if (storedReviews.length > 0) {
+      reviewCards = storedReviews.map((review) => ({
+        name: review.name,
+        location: review.location,
+        content: review.content,
+        rating: review.rating,
+      }));
+    }
+  } catch {
+    reviewCards = fallbackReviews;
+  }
+
   return (
     <div className={styles.page}>
       <header className={styles.header}>
         <a className={styles.brand} href="#top">
-          SHPE Health Care
+          SHPE Medical
         </a>
 
         <nav className={styles.nav} aria-label="Primary">
@@ -59,9 +101,14 @@ export default function Home() {
           ))}
         </nav>
 
-        <Link className={styles.headerCta} href="/auth">
-          Book Appointment
-        </Link>
+        <div className={styles.headerActions}>
+          <Link className={styles.headerSecondaryCta} href="/auth">
+            Log In
+          </Link>
+          <Link className={styles.headerCta} href="/auth?mode=signup">
+            Get Started
+          </Link>
+        </div>
       </header>
 
       <main className={styles.main} id="top">
@@ -94,7 +141,8 @@ export default function Home() {
 
           <div className={styles.heroVisual}>
             <div className={styles.visualGlow} />
-            <div className={styles.visualPanel}>
+            <MouseTiltCard className={styles.visualTilt}>
+              <div className={styles.visualPanel}>
               <div className={styles.badgeCard}>
                 <span className={styles.badgeDot} />
                 24/7 Virtual Support
@@ -116,7 +164,8 @@ export default function Home() {
                   <span>Average response</span>
                 </div>
               </div>
-            </div>
+              </div>
+            </MouseTiltCard>
           </div>
         </section>
 
@@ -132,18 +181,20 @@ export default function Home() {
 
           <div className={styles.serviceGrid}>
             {services.map((service) => (
-              <article key={service.title} className={styles.serviceCard}>
-                <div
-                  className={`${styles.serviceIcon} ${
-                    styles[`serviceIcon${capitalize(service.accent)}`]
-                  }`}
-                >
-                  {service.icon}
-                </div>
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
-                <a href="#contact-us">Learn more →</a>
-              </article>
+              <MouseTiltCard key={service.title}>
+                <article className={styles.serviceCard}>
+                  <div
+                    className={`${styles.serviceIcon} ${
+                      styles[`serviceIcon${capitalize(service.accent)}`]
+                    }`}
+                  >
+                    {service.icon}
+                  </div>
+                  <h3>{service.title}</h3>
+                  <p>{service.description}</p>
+                  <a href="#contact-us">Learn more →</a>
+                </article>
+              </MouseTiltCard>
             ))}
           </div>
         </section>
@@ -157,10 +208,12 @@ export default function Home() {
 
           <div className={styles.categoryGrid}>
             {categories.map((category) => (
-              <article key={category.title} className={styles.categoryCard}>
-                <div className={styles.categoryIcon}>{category.icon}</div>
-                <h3>{category.title}</h3>
-              </article>
+              <MouseTiltCard key={category.title}>
+                <article className={styles.categoryCard}>
+                  <div className={styles.categoryIcon}>{category.icon}</div>
+                  <h3>{category.title}</h3>
+                </article>
+              </MouseTiltCard>
             ))}
           </div>
         </section>
@@ -175,38 +228,68 @@ export default function Home() {
           </a>
         </section>
 
-        <section className={styles.bottomCtas}>
-          <article className={styles.advicePanel}>
-            <div className={styles.adviceIcon}>
-              <SupportIcon />
-            </div>
-            <div className={styles.bottomCtaCopy}>
-              <h2>Need more advice?</h2>
-              <p>
-                Our care team is standing by to provide guidance for your
-                health questions.
-              </p>
-              <a className={styles.bottomPrimaryButton} href="#contact-us">
-                Get Help
-              </a>
-            </div>
-          </article>
+        <section className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.sectionKicker}>Reviews</div>
+            <h2>What patients are saying</h2>
+            <p>Recent feedback from people using SHPE Health Care.</p>
+          </div>
 
-          <article className={styles.profilePanel}>
-            <div className={styles.profileIcon}>
-              <ProfileIcon />
-            </div>
-            <div className={styles.bottomCtaCopy}>
-              <h2>See your Profile</h2>
-              <p>
-                Review your medical details, appointments, and health history
-                all in one place.
-              </p>
-              <a className={styles.bottomPrimaryButton} href="#profile">
-                View Profile
-              </a>
-            </div>
-          </article>
+          <div className={styles.reviewCardGrid}>
+            {reviewCards.map((review) => (
+              <MouseTiltCard key={`${review.name}-${review.location}`}>
+                <article className={styles.reviewPreviewCard}>
+                  <div className={styles.reviewPreviewTop}>
+                    <div className={styles.reviewPreviewAvatar}>
+                      {review.name.charAt(0)}
+                    </div>
+                    <div>
+                      <h3>{review.name}</h3>
+                      <p>{review.location}</p>
+                    </div>
+                  </div>
+
+                  <div
+                    className={styles.reviewPreviewStars}
+                    aria-label={`${review.rating} out of 5 stars`}
+                  >
+                    {"★".repeat(review.rating)}
+                    <span className={styles.reviewPreviewStarsDim}>
+                      {"★".repeat(5 - review.rating)}
+                    </span>
+                  </div>
+
+                  <p className={styles.reviewPreviewText}>{review.content}</p>
+                </article>
+              </MouseTiltCard>
+            ))}
+          </div>
+
+          <div className={styles.reviewPreviewAction}>
+            <Link className={styles.secondaryButton} href="/reviews">
+              Read All Reviews
+            </Link>
+          </div>
+        </section>
+
+        <section className={styles.bottomCtas}>
+          <MouseTiltCard>
+            <article className={styles.advicePanel}>
+              <div className={styles.adviceIcon}>
+                <SupportIcon />
+              </div>
+              <div className={styles.bottomCtaCopy}>
+                <h2>Need more advice?</h2>
+                <p>
+                  Our care team is standing by to provide guidance for your
+                  health questions.
+                </p>
+                <a className={styles.bottomPrimaryButton} href="#contact-us">
+                  Get Help
+                </a>
+              </div>
+            </article>
+          </MouseTiltCard>
 
           <article className={styles.reviewsPanel} id="reviews">
             <div className={styles.bottomCtaCopy}>
@@ -215,9 +298,9 @@ export default function Home() {
                 Browse real patient experiences and learn how we&apos;ve made a
                 difference.
               </p>
-              <a className={styles.bottomSecondaryButton} href="#reviews">
+              <Link className={styles.bottomSecondaryButton} href="/reviews">
                 Read Reviews
-              </a>
+              </Link>
             </div>
             <div className={styles.reviewsIcon}>
               <ClipboardCheckIcon />
@@ -359,19 +442,6 @@ function SupportIcon() {
       <path d="M56 21H70" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
       <path d="M56 30H67" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
       <path d="M57 41L54 54L66 42" stroke="currentColor" strokeWidth="4" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function ProfileIcon() {
-  return (
-    <svg viewBox="0 0 96 96" fill="none" aria-hidden="true">
-      <circle cx="48" cy="48" r="34" stroke="currentColor" strokeWidth="4" />
-      <circle cx="48" cy="36" r="10" fill="currentColor" />
-      <path
-        d="M27 72C28.8 60.7 37.3 54 48 54C58.7 54 67.2 60.7 69 72"
-        fill="currentColor"
-      />
     </svg>
   );
 }

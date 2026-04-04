@@ -1,0 +1,505 @@
+.page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(61, 100, 225, 0.08), transparent 32%),
+    linear-gradient(180deg, #ffffff 0%, #f6f9ff 100%);
+  color: #11172b;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 32px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(146, 168, 222, 0.18);
+}
+
+.brand {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #2f55db;
+  white-space: nowrap;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: #5b6377;
+}
+
+.nav a {
+  padding: 10px 12px;
+  font-weight: 600;
+}
+
+.nav a[aria-current="page"] {
+  color: #2f55db;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.headerCta,
+.headerSecondaryCta,
+.submitButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 28px;
+  border-radius: 18px;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.headerCta,
+.submitButton {
+  background: linear-gradient(135deg, #2f55db, #466bfa);
+  color: #fff;
+  box-shadow: 0 14px 30px rgba(47, 85, 219, 0.2);
+}
+
+.headerSecondaryCta {
+  background: rgba(255, 255, 255, 0.78);
+  color: #2f55db;
+  border: 2px solid rgba(47, 85, 219, 0.65);
+}
+
+.main {
+  width: min(1120px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 42px 0 90px;
+}
+
+.hero {
+  margin-bottom: 26px;
+}
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(69, 112, 244, 0.12);
+  color: #3560e0;
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero h1,
+.formHeader h2 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.06em;
+}
+
+.hero h1 {
+  max-width: 11ch;
+  margin-top: 18px;
+  font-size: clamp(3rem, 5vw, 5rem);
+  line-height: 0.94;
+}
+
+.reviewList {
+  display: grid;
+  gap: 34px;
+}
+
+.reviewCard {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 34px;
+  align-items: center;
+}
+
+.avatarFrame {
+  display: grid;
+  place-items: center;
+  width: 220px;
+  height: 220px;
+  border-radius: 999px;
+  box-shadow: 0 16px 28px rgba(114, 141, 220, 0.15);
+}
+
+.avatarLavender {
+  background: #d8c7ff;
+}
+
+.avatarViolet {
+  background: #d1c1ff;
+}
+
+.avatarSky {
+  background: #d6d0ff;
+}
+
+.avatarPhoto {
+  width: 164px;
+  height: 164px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #25314d, #0f1423);
+  overflow: hidden;
+  position: relative;
+}
+
+.avatarFigure {
+  position: absolute;
+  inset: 0;
+}
+
+.avatarFigure1 {
+  background:
+    radial-gradient(circle at 50% 26%, #f2d0b4 0 16%, transparent 17%),
+    radial-gradient(circle at 50% 22%, #7a5a45 0 22%, transparent 23%),
+    linear-gradient(180deg, transparent 0 42%, #314d3d 42% 100%),
+    linear-gradient(135deg, #9b7f6b, #526d5d);
+}
+
+.avatarFigure2 {
+  background:
+    radial-gradient(circle at 50% 27%, #f0c7a7 0 16%, transparent 17%),
+    radial-gradient(circle at 50% 21%, #111114 0 22%, transparent 23%),
+    linear-gradient(180deg, transparent 0 42%, #151723 42% 100%),
+    linear-gradient(135deg, #25283a, #0e1017);
+}
+
+.avatarFigure3 {
+  background:
+    radial-gradient(circle at 50% 28%, #efc49d 0 16%, transparent 17%),
+    radial-gradient(circle at 50% 22%, #2f2a25 0 22%, transparent 23%),
+    linear-gradient(180deg, transparent 0 42%, #44657a 42% 100%),
+    linear-gradient(135deg, #7ea5b8, #2c4556);
+}
+
+.reviewCopy h2 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.role,
+.location {
+  color: #4c5262;
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.stars {
+  margin: 10px 0 16px;
+  color: #f0c546;
+  font-size: 1.35rem;
+  letter-spacing: 0.14em;
+}
+
+.starsDim {
+  color: #e1d6a9;
+}
+
+.quote {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px 14px;
+  max-width: 28rem;
+}
+
+.quoteMark {
+  color: #6e48ff;
+  font-family: Georgia, serif;
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.quote p {
+  color: #3f4352;
+  font-style: italic;
+  line-height: 1.75;
+}
+
+.quote footer {
+  grid-column: 2;
+  color: #2f3340;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.formSection {
+  margin-top: 54px;
+  padding-top: 12px;
+}
+
+.formHeader h2 {
+  font-size: clamp(2.6rem, 4vw, 4.4rem);
+  line-height: 0.95;
+}
+
+.formHeader p {
+  margin-top: 10px;
+  color: #7e879b;
+}
+
+.form {
+  margin-top: 18px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.field span,
+.ratingBlock span {
+  color: #5c6275;
+  font-weight: 700;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  border: 1px solid rgba(197, 211, 247, 0.95);
+  border-radius: 16px;
+  padding: 16px 18px;
+  background: #fbfdff;
+  color: #11172b;
+  font: inherit;
+}
+
+.fieldLarge textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.formFooter {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.ratingBlock {
+  display: grid;
+  gap: 8px;
+}
+
+.ratingStars {
+  display: flex;
+  gap: 6px;
+}
+
+.ratingStarButton {
+  border: 0;
+  background: transparent;
+  color: #ddd6b4;
+  cursor: pointer;
+  font-size: 2rem;
+  line-height: 1;
+  transition:
+    transform 0.15s ease,
+    color 0.15s ease;
+}
+
+.ratingStarButton:hover {
+  transform: translateY(-1px) scale(1.04);
+}
+
+.ratingStarActive {
+  color: #f0c546;
+}
+
+.formError,
+.formSuccess {
+  margin-top: 14px;
+  font-weight: 700;
+}
+
+.formError {
+  color: #c43d5b;
+}
+
+.formSuccess {
+  color: #2b8a57;
+}
+
+.shareRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 26px;
+  color: #848b9c;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.submittedSection {
+  margin-top: 54px;
+}
+
+.submittedHeader h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  letter-spacing: -0.05em;
+}
+
+.submittedHeader p {
+  margin-top: 8px;
+  color: #7e879b;
+}
+
+.emptyState {
+  margin-top: 18px;
+  padding: 24px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(218, 228, 250, 0.9);
+  color: #7e879b;
+  font-weight: 700;
+}
+
+.submittedList {
+  display: grid;
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.submittedCard {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
+  gap: 20px;
+  padding: 22px 24px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(218, 228, 250, 0.9);
+  box-shadow: 0 12px 24px rgba(126, 145, 196, 0.08);
+}
+
+.submittedAvatar {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  color: #2a3042;
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.submittedBody {
+  display: grid;
+  gap: 10px;
+}
+
+.submittedTop {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.submittedTop h3 {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  letter-spacing: -0.03em;
+}
+
+.submittedTop p,
+.submittedRole {
+  color: #6f7789;
+}
+
+.submittedStars {
+  color: #f0c546;
+  font-size: 1.05rem;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.submittedText {
+  color: #3f4352;
+  line-height: 1.75;
+}
+
+.submittedActions {
+  display: flex;
+  gap: 24px;
+  margin-top: 8px;
+  color: #848b9c;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+@media (max-width: 980px) {
+  .header {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .reviewCard,
+  .formRow,
+  .submittedCard {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 820px) {
+  .header {
+    padding: 18px;
+  }
+
+  .brand {
+    font-size: 1.6rem;
+  }
+
+  .nav,
+  .headerActions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .main {
+    width: min(100% - 28px, 1120px);
+    padding-top: 26px;
+  }
+
+  .reviewCard {
+    gap: 20px;
+  }
+
+  .avatarFrame {
+    width: 180px;
+    height: 180px;
+  }
+
+  .avatarPhoto {
+    width: 136px;
+    height: 136px;
+  }
+
+  .formFooter {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

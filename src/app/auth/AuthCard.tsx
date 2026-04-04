@@ -141,8 +141,8 @@ export function AuthCard({ initialMode }: AuthCardProps) {
           />
         </label>
 
-        <div className={styles.formMeta}>
-          {isSignUp ? (
+        {isSignUp ? (
+          <div className={styles.formMeta}>
             <label className={styles.checkbox}>
               <input
                 type="checkbox"
@@ -156,7 +156,22 @@ export function AuthCard({ initialMode }: AuthCardProps) {
               />
               <span>I agree to the patient privacy and care terms.</span>
             </label>
-          ) : (
+
+            <div className={styles.memberPrompt}>
+              <span>Already a member?</span>
+              <Link
+                href="/auth"
+                onClick={(event) => {
+                  event.preventDefault();
+                  switchMode("signin");
+                }}
+              >
+                Sign in
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className={styles.signInMeta}>
             <label className={styles.checkbox}>
               <input
                 type="checkbox"
@@ -170,21 +185,27 @@ export function AuthCard({ initialMode }: AuthCardProps) {
               />
               <span>Keep me signed in</span>
             </label>
-          )}
 
-          <div className={styles.memberPrompt}>
-            <span>{isSignUp ? "Already a member?" : "Not a member?"}</span>
-            <Link
-              href={isSignUp ? "/auth" : "/auth?mode=signup"}
-              onClick={(event) => {
-                event.preventDefault();
-                switchMode(isSignUp ? "signin" : "signup");
-              }}
-            >
-              {isSignUp ? "Sign in" : "Sign up"}
-            </Link>
+            <div className={styles.signInMetaRow}>
+              <Link className={styles.helperLink} href="/forgot-password">
+                Forgot password?
+              </Link>
+
+              <div className={styles.memberPrompt}>
+                <span>Not a member?</span>
+                <Link
+                  href="/auth?mode=signup"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    switchMode("signup");
+                  }}
+                >
+                  Sign up
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
 
         {error ? <p className={styles.errorText}>{error}</p> : null}
 

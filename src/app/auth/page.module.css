@@ -221,6 +221,11 @@
   gap: 12px;
 }
 
+.signInMeta {
+  display: grid;
+  gap: 10px;
+}
+
 .checkbox {
   display: inline-flex;
   align-items: center;
@@ -231,6 +236,14 @@
   width: 16px;
   height: 16px;
   accent-color: #3a67f1;
+}
+
+.signInMetaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .memberPrompt {
@@ -247,10 +260,32 @@
   font-weight: 800;
 }
 
+.helperLink {
+  color: #3158dd;
+  font-weight: 800;
+}
+
 .errorText {
   color: #c43d5b;
   font-size: 0.95rem;
   font-weight: 700;
+}
+
+.successText {
+  color: #2b8a57;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.helperText {
+  color: #6d7487;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.helperText a {
+  color: #3158dd;
+  font-weight: 800;
 }
 
 @media (max-width: 1120px) {
@@ -294,6 +329,11 @@
   }
 
   .formMeta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .signInMetaRow {
     align-items: flex-start;
     flex-direction: column;
   }

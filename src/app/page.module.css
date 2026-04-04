@@ -49,7 +49,14 @@
   transform: translateY(-1px);
 }
 
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .headerCta,
+.headerSecondaryCta,
 .primaryButton,
 .secondaryButton {
   display: inline-flex;
@@ -75,12 +82,14 @@
   box-shadow: 0 14px 30px rgba(47, 85, 219, 0.22);
 }
 
+.headerSecondaryCta,
 .secondaryButton {
   background: rgba(255, 255, 255, 0.78);
   color: #2f55db;
   border: 2px solid rgba(47, 85, 219, 0.65);
 }
 
+.headerSecondaryCta:hover,
 .headerCta:hover,
 .primaryButton:hover,
 .secondaryButton:hover {
@@ -91,6 +100,44 @@
   width: min(1280px, calc(100% - 40px));
   margin: 0 auto;
   padding: 26px 0 80px;
+}
+
+.tiltCard {
+  position: relative;
+  transform-style: preserve-3d;
+  perspective: 1200px;
+}
+
+.tiltCardInner {
+  position: relative;
+  z-index: 1;
+  transform:
+    rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg))
+    translateZ(0);
+  transition: transform 0.18s ease-out;
+  will-change: transform;
+}
+
+.tiltCardGlare {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      circle at var(--glare-x, 50%) var(--glare-y, 50%),
+      rgba(255, 255, 255, 0.32),
+      transparent 36%
+    );
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.18s ease-out;
+}
+
+.tiltCard:hover .tiltCardGlare {
+  opacity: 1;
 }
 
 .hero {
@@ -158,6 +205,10 @@
 .heroVisual {
   position: relative;
   min-height: 620px;
+}
+
+.visualTilt {
+  border-radius: 38px;
 }
 
 .visualGlow {
@@ -417,6 +468,7 @@
   background: rgba(255, 255, 255, 0.84);
   border: 1px solid rgba(218, 228, 250, 0.9);
   box-shadow: 0 14px 34px rgba(126, 145, 196, 0.12);
+  height: 100%;
 }
 
 .serviceCard {
@@ -519,6 +571,76 @@
 .categoryCard h3 {
   font-size: 1.8rem;
   line-height: 1.05;
+}
+
+.reviewCardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px;
+}
+
+.reviewPreviewCard {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  height: 100%;
+  padding: 28px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(218, 228, 250, 0.9);
+  box-shadow: 0 14px 34px rgba(126, 145, 196, 0.12);
+}
+
+.reviewPreviewTop {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.reviewPreviewAvatar {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #dfe8ff, #c5d4ff);
+  color: #2f55db;
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.reviewPreviewTop h3 {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  letter-spacing: -0.04em;
+}
+
+.reviewPreviewTop p {
+  color: #8d96aa;
+  font-size: 0.95rem;
+}
+
+.reviewPreviewStars {
+  color: #f0c546;
+  font-size: 1.2rem;
+  letter-spacing: 0.12em;
+}
+
+.reviewPreviewStarsDim {
+  color: #ddd7b8;
+}
+
+.reviewPreviewText {
+  color: #687289;
+  line-height: 1.7;
+  font-size: 1.02rem;
+}
+
+.reviewPreviewAction {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
 }
 
 .contactBand {
@@ -691,6 +813,10 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .reviewCardGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .advicePanel,
   .profilePanel,
   .reviewsPanel {
@@ -716,6 +842,12 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 8px;
+  }
+
+  .headerActions {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
   .main {
@@ -745,7 +877,8 @@
   }
 
   .serviceGrid,
-  .categoryGrid {
+  .categoryGrid,
+  .reviewCardGrid {
     grid-template-columns: 1fr;
   }
 
@@ -762,5 +895,15 @@
 
   .bottomCtaCopy p {
     font-size: 1.05rem;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .tiltCardInner {
+    transform: none;
+  }
+
+  .tiltCardGlare {
+    display: none;
   }
 }

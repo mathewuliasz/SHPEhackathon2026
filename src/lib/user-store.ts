@@ -1,3 +1,5 @@
+import { supabaseRequest } from "./supabase-server";
+
 type SupabaseUserRecord = {
   id: string;
   full_name: string;
@@ -14,24 +16,6 @@ export type StoredUser = {
   createdAt: string;
 };
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-function getSupabaseConfig() {
-  if (!SUPABASE_URL) {
-    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL.");
-  }
-
-  if (!SUPABASE_SERVICE_ROLE_KEY) {
-    throw new Error("Missing SUPABASE_SERVICE_ROLE_KEY.");
-  }
-
-  return {
-    url: SUPABASE_URL,
-    key: SUPABASE_SERVICE_ROLE_KEY,
-  };
-}
-
 function mapUser(record: SupabaseUserRecord): StoredUser {
   return {
     id: record.id,
@@ -40,31 +24,6 @@ function mapUser(record: SupabaseUserRecord): StoredUser {
     passwordHash: record.password_hash,
     createdAt: record.created_at,
   };
-}
-
-async function supabaseRequest<T>(
-  path: string,
-  init?: RequestInit,
-): Promise<T> {
-  const { url, key } = getSupabaseConfig();
-  const response = await fetch(`${url}/rest/v1/${path}`, {
-    ...init,
-    headers: {
-      apikey: key,
-      Authorization: `Bearer ${key}`,
-      "Content-Type": "application/json",
-      Prefer: "return=representation",
-      ...(init?.headers ?? {}),
-    },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    const message = await response.text();
-    throw new Error(`Supabase request failed: ${message}`);
-  }
-
-  return (await response.json()) as T;
 }
 
 export async function findUserByEmail(email: string) {
@@ -96,4 +55,21 @@ export async function createUser(input: {
   });
 
   return mapUser(records[0]);
+}
+
+export async function updateUserPassword(input: {
+  userId: string;
+  passwordHash: string;
+}) {
+  const records = await supabaseRequest<SupabaseUserRecord[]>(
+    `app_users?id=eq.${input.userId}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({
+        password_hash: input.passwordHash,
+      }),
+    },
+  );
+
+  return records[0] ? mapUser(records[0]) : null;
 }

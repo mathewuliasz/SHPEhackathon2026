@@ -29,8 +29,7 @@ export default function AboutPage() {
           <Link href="/about" aria-current="page">
             About Us
           </Link>
-          <Link href="/#profile">Profile</Link>
-          <Link href="/#reviews">Reviews</Link>
+          <Link href="/reviews">Reviews</Link>
           <Link href="/#contact-us">Contact Us</Link>
         </nav>
 
