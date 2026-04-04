@@ -3,6 +3,11 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import styles from "./layout.module.css";
+import LogoutButton from "./LogoutButton";
+
+type SidebarProps = {
+  user: { fullName: string; email: string };
+};
 
 const navItems = [
   {
@@ -74,7 +79,7 @@ const navItems = [
   },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname();
 
   return (
@@ -99,6 +104,11 @@ export default function Sidebar() {
           );
         })}
       </nav>
+      <div className={styles.userPanel}>
+        <strong>{user.fullName}</strong>
+        <span>{user.email}</span>
+      </div>
+      <LogoutButton />
     </aside>
   );
 }
