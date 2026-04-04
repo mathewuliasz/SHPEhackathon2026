@@ -39,6 +39,25 @@
   flex: 1;
 }
 
+.userPanel {
+  margin: 20px 28px 14px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.userPanel strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.userPanel span {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 12px;
+  word-break: break-word;
+}
+
 .navItem {
   display: flex;
   align-items: center;
@@ -88,4 +107,26 @@
   margin-left: 260px;
   padding: 32px 40px;
   overflow-y: auto;
+}
+
+.sidebarFooter {
+  padding: 0 28px;
+}
+
+.logoutButton {
+  width: 100%;
+  min-height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(91, 139, 212, 0.18);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
+.logoutError {
+  margin-top: 8px;
+  color: #f7b6c2;
+  font-size: 12px;
 }

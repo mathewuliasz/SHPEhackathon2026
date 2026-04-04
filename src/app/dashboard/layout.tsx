@@ -1,11 +1,20 @@
+import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/lib/auth";
 import styles from "./layout.module.css";
 import Chatbot from "./Chatbot";
+import LogoutButton from "./LogoutButton";
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    redirect("/auth");
+  }
+
   return (
     <div className={styles.wrapper}>
       <aside className={styles.sidebar}>
@@ -74,6 +83,11 @@ export default function DashboardLayout({
             Your Profile
           </a>
         </nav>
+        <div className={styles.userPanel}>
+          <strong>{user.fullName}</strong>
+          <span>{user.email}</span>
+        </div>
+        <LogoutButton />
       </aside>
       <main className={styles.content}>{children}</main>
       <Chatbot />
