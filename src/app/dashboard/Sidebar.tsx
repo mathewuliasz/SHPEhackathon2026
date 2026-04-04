@@ -24,7 +24,7 @@ const navItems = [
     exact: true,
   },
   {
-    href: "/dashboard/doctors",
+    href: "/dashboard/schedule",
     label: "Doctor's via Specialty",
     icon: (
       <svg viewBox="0 0 24 24">
