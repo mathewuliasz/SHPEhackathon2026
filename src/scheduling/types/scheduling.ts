@@ -27,5 +27,7 @@ export interface Appointment {
   date: string;
   time: string;
   patient_name: string;
+  zoom_join_url?: string | null;
+  zoom_meeting_id?: number | null;
   created_at: string;
 }

@@ -1,7 +1,7 @@
 import { ScheduleWizard } from "@/scheduling/components/ScheduleWizard";
 
 export const metadata = {
-  title: "Schedule Appointment | MedSchedule",
+  title: "Schedule Appointment | MediTrack",
 };
 
 export default function SchedulePage() {

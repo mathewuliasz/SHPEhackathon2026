@@ -16,6 +16,7 @@ export function ScheduleWizard() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [isBooking, setIsBooking] = useState(false);
+  const [zoomLink, setZoomLink] = useState<string | null>(null);
 
   const handleSelectSpecialty = (specialty: Specialty) => {
     setSelectedSpecialty(specialty);
@@ -31,7 +32,7 @@ export function ScheduleWizard() {
     if (!selectedSpecialty || !selectedDoctor) return;
     setIsBooking(true);
     try {
-      await bookAppointment({
+      const appointmentId = await bookAppointment({
         doctorId: selectedDoctor.id,
         specialtyId: selectedSpecialty.id,
         date,
@@ -39,6 +40,27 @@ export function ScheduleWizard() {
       });
       setSelectedDate(date);
       setSelectedTime(time);
+
+      try {
+        const zoomRes = await fetch("/api/zoom/create-meeting", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            appointmentId,
+            doctorName: selectedDoctor.name,
+            specialtyName: selectedSpecialty.name,
+            date,
+            time,
+          }),
+        });
+        if (zoomRes.ok) {
+          const zoomData = await zoomRes.json();
+          setZoomLink(zoomData.join_url);
+        }
+      } catch (zoomErr) {
+        console.error("Zoom meeting creation failed:", zoomErr);
+      }
+
       setStep(4);
     } catch (err) {
       console.error("Booking failed:", err);
@@ -63,6 +85,7 @@ export function ScheduleWizard() {
     setSelectedDoctor(null);
     setSelectedDate(null);
     setSelectedTime(null);
+    setZoomLink(null);
   };
 
   return (
@@ -96,6 +119,7 @@ export function ScheduleWizard() {
             doctor={selectedDoctor}
             date={selectedDate}
             time={selectedTime}
+            zoomLink={zoomLink}
             onReset={handleReset}
           />
         )}

@@ -82,24 +82,26 @@ export function DateTimePicker({ doctorId, onConfirm, isBooking }: DateTimePicke
         <div className="h-72 rounded-xl bg-gray-100 animate-pulse" />
       ) : (
         <div className="space-y-6">
-          <div className="bg-white rounded-xl border border-gray-200 p-4">
-            <MonthCalendar
-              year={year}
-              month={month}
-              availableDates={availableDates}
-              selectedDate={selectedDate}
-              onSelectDate={handleSelectDate}
-              onPrevMonth={handlePrevMonth}
-              onNextMonth={handleNextMonth}
-            />
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="bg-white rounded-xl border border-gray-200 p-4">
+              <MonthCalendar
+                year={year}
+                month={month}
+                availableDates={availableDates}
+                selectedDate={selectedDate}
+                onSelectDate={handleSelectDate}
+                onPrevMonth={handlePrevMonth}
+                onNextMonth={handleNextMonth}
+              />
+            </div>
 
-          <div className="bg-white rounded-xl border border-gray-200 p-4">
-            <TimeSlotGrid
-              slots={slotsForDate}
-              selectedTime={selectedTime}
-              onSelectTime={setSelectedTime}
-            />
+            <div className="bg-white rounded-xl border border-gray-200 p-4">
+              <TimeSlotGrid
+                slots={slotsForDate}
+                selectedTime={selectedTime}
+                onSelectTime={setSelectedTime}
+              />
+            </div>
           </div>
 
           <button
