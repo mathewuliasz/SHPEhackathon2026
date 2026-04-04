@@ -82,7 +82,16 @@ export function Confirmation({ specialty, doctor, date, time, zoomLink, onReset 
         You should be receiving a confirmation email shortly.
       </p>
 
-      <div className="flex items-center justify-center gap-4">
+      <div className="flex flex-wrap items-center justify-center gap-4">
+        <Link
+          href={`/dashboard/consultations/${doctor.id}`}
+          className="px-6 py-2.5 rounded-xl font-semibold text-white bg-green-600 hover:bg-green-700 transition-colors inline-flex items-center gap-2"
+        >
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
+          Go to Consultation Chat
+        </Link>
         <Link
           href="/dashboard"
           className="px-6 py-2.5 rounded-xl font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors"
