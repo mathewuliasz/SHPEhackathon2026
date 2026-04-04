@@ -1,4 +1,4 @@
-import { supabase } from "./supabase";
+import { supabase } from "@/lib/supabase";
 import type { Specialty, Doctor, Availability } from "@/scheduling/types/scheduling";
 
 export async function getSpecialties(): Promise<Specialty[]> {
