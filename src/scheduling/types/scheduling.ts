@@ -27,5 +27,19 @@ export interface Appointment {
   date: string;
   time: string;
   patient_name: string;
+  user_id: string | null;
   created_at: string;
+}
+
+export interface Message {
+  id: string;
+  appointment_id: string;
+  sender_type: "patient" | "doctor";
+  content: string;
+  created_at: string;
+}
+
+export interface ConsultationDoctor extends Doctor {
+  specialty_name: string;
+  appointments: Appointment[];
 }

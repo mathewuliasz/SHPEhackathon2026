@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StepIndicator } from "./StepIndicator";
 import { SpecialtyPicker } from "./SpecialtyPicker";
 import { DoctorPicker } from "./DoctorPicker";
@@ -16,6 +16,20 @@ export function ScheduleWizard() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [isBooking, setIsBooking] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [patientName, setPatientName] = useState<string>("");
+
+  useEffect(() => {
+    fetch("/api/auth/session")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.user) {
+          setUserId(data.user.userId);
+          setPatientName(data.user.fullName || "");
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const handleSelectSpecialty = (specialty: Specialty) => {
     setSelectedSpecialty(specialty);
@@ -36,6 +50,8 @@ export function ScheduleWizard() {
         specialtyId: selectedSpecialty.id,
         date,
         time,
+        userId: userId ?? undefined,
+        patientName: patientName || undefined,
       });
       setSelectedDate(date);
       setSelectedTime(time);
