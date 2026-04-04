@@ -1,0 +1,279 @@
+.page {
+  display: grid;
+  gap: 22px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.title {
+  margin: 0;
+  color: #2d3746;
+  font-size: clamp(2rem, 4vw, 2.7rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  color: #778293;
+  font-size: 1.02rem;
+  font-weight: 600;
+}
+
+.uploadButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 10px;
+  background: #3f75ca;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+  box-shadow: 0 12px 24px rgba(63, 117, 202, 0.2);
+  text-decoration: none;
+}
+
+.uploadButton svg,
+.tab svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tabBar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  width: fit-content;
+  padding: 4px;
+  border: 1px solid #dbe3ef;
+  border-radius: 12px;
+  background: #f7f9fc;
+  box-shadow: 0 8px 18px rgba(116, 137, 174, 0.06);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #667383;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+}
+
+.tabActive {
+  background: #fff;
+  color: #4a7fd0;
+  box-shadow: 0 4px 10px rgba(116, 137, 174, 0.12);
+}
+
+.hiddenInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.uploadZone {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 34px 20px;
+  border: 2px dashed #d9e3f0;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fff, #fbfcff);
+  text-align: center;
+}
+
+.uploadIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #edf3ff;
+  color: #4a7fd0;
+}
+
+.uploadIcon svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.uploadZone strong {
+  color: #384456;
+  font-size: 1.08rem;
+}
+
+.uploadZone p {
+  margin: 0;
+  color: #8390a3;
+  font-weight: 600;
+}
+
+.browseButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 10px;
+  background: #3f75ca;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+
+.card {
+  padding: 18px 20px;
+  border: 1px solid #dbe3ef;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 22px rgba(116, 137, 174, 0.06);
+}
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.cardTitle {
+  margin: 0;
+  color: #323d4d;
+  font-size: 1.02rem;
+  font-weight: 800;
+}
+
+.cardMeta,
+.cardSummary {
+  margin: 0;
+  color: #788394;
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+
+.cardMeta {
+  margin-bottom: 8px;
+}
+
+.cardSource {
+  margin: 12px 0 0;
+  color: #94a0b1;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.statusNormal {
+  background: #56b46a;
+  color: #fff;
+}
+
+.statusBorderline {
+  background: #f6b233;
+  color: #2c3440;
+}
+
+.statusCompleted,
+.statusReviewed {
+  background: #56b46a;
+  color: #fff;
+}
+
+.statusNeedsAttention {
+  background: #f0b13c;
+  color: #2c3440;
+}
+
+.formError,
+.formSuccess,
+.emptyState {
+  margin: 0;
+  font-weight: 700;
+}
+
+.formError {
+  color: #c43d5b;
+}
+
+.formSuccess {
+  color: #2f8d59;
+}
+
+.emptyState {
+  padding: 28px;
+  border: 1px dashed #d9e3f0;
+  border-radius: 16px;
+  background: #fff;
+  color: #7b8798;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .uploadButton {
+    justify-content: center;
+  }
+
+  .tabBar {
+    width: 100%;
+    overflow-x: auto;
+  }
+}

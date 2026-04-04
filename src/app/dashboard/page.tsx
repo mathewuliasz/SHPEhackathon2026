@@ -1,230 +1,179 @@
+import Link from "next/link";
+import { getCurrentUser } from "@/lib/auth";
 import styles from "./page.module.css";
 
-type Biomarker = {
-  name: string;
-  subtitle: string;
+type StatCard = {
+  title: string;
   value: string;
-  unit: string;
-  markerPosition: number;
-  barColors: string[];
+  detail: string;
+  tone: "blue" | "teal" | "slate";
+  icon: React.ReactNode;
 };
 
-type StatusGroup = {
-  status: "outOfRange" | "average" | "optimal";
-  items: Biomarker[];
+type QuickLink = {
+  title: string;
+  description: string;
+  href: string;
 };
 
-type Category = {
-  name: string;
-  color: string;
-  groups: StatusGroup[];
-};
-
-const BAR_BLUE = "#5B8BD4";
-const BAR_BLUE_LIGHT = "#A8C4E6";
-const BAR_DARK = "#2D3142";
-const BAR_DARK_MUTED = "#4A4E5A";
-const BAR_PINK = "#E8A0A5";
-const BAR_RED = "#D4686E";
-
-function makeBar(colors: string[], count = 16): string[] {
-  const result: string[] = [];
-  const segmentSize = count / colors.length;
-  for (let i = 0; i < count; i++) {
-    const idx = Math.min(Math.floor(i / segmentSize), colors.length - 1);
-    result.push(colors[idx]);
-  }
-  return result;
-}
-
-const barHighIsBad = makeBar([BAR_BLUE, BAR_BLUE_LIGHT, BAR_DARK_MUTED, BAR_DARK, BAR_PINK, BAR_RED]);
-const barLowIsBad = makeBar([BAR_RED, BAR_PINK, BAR_DARK, BAR_DARK_MUTED, BAR_BLUE_LIGHT, BAR_BLUE]);
-const barMiddleBest = makeBar([BAR_PINK, BAR_DARK, BAR_BLUE, BAR_BLUE, BAR_DARK, BAR_PINK]);
-const barOptimalHigh = makeBar([BAR_RED, BAR_PINK, BAR_DARK_MUTED, BAR_BLUE_LIGHT, BAR_BLUE, BAR_BLUE]);
-
-const categories: Category[] = [
+const stats: StatCard[] = [
   {
-    name: "Hormonal Health",
-    color: "#7C5CBF",
-    groups: [
-      {
-        status: "average",
-        items: [
-          { name: "Estrogen", subtitle: "Reproductive Health", value: "18.41", unit: "pg/mL", markerPosition: 42, barColors: barMiddleBest },
-          { name: "SHBG", subtitle: "Hormone Availability", value: "24.3", unit: "nmol/L", markerPosition: 38, barColors: barMiddleBest },
-          { name: "Total Testosterone", subtitle: "Vitality Indicator", value: "465.0", unit: "ng/dL", markerPosition: 55, barColors: barMiddleBest },
-          { name: "Free Testosterone", subtitle: "Active Testosterone", value: "106.15", unit: "pg/mL", markerPosition: 35, barColors: barMiddleBest },
-        ],
-      },
-    ],
+    title: "Active Prescriptions",
+    value: "3",
+    detail: "Updated today",
+    tone: "blue",
+    icon: (
+      <svg viewBox="0 0 24 24">
+        <path d="M8 7.5 16.5 16a3.18 3.18 0 1 1-4.5 4.5L3.5 12A3.18 3.18 0 0 1 8 7.5Z" />
+        <path d="m14 5 5 5" />
+      </svg>
+    ),
   },
   {
-    name: "Metabolic Efficiency",
-    color: "#4CAF50",
-    groups: [
-      {
-        status: "outOfRange",
-        items: [
-          { name: "Thyroid Stimulating Hormone", subtitle: "Thyroid Regulator", value: "5.655", unit: "uIU/mL", markerPosition: 78, barColors: barHighIsBad },
-          { name: "Vitamin D", subtitle: "Vitality Hormone", value: "22.9", unit: "ng/mL", markerPosition: 25, barColors: barLowIsBad },
-        ],
-      },
-      {
-        status: "average",
-        items: [
-          { name: "Ferritin", subtitle: "Iron Storage", value: "213.4", unit: "ng/mL", markerPosition: 50, barColors: barHighIsBad },
-          { name: "Triglycerides/HDL Ratio", subtitle: "Metabolic Health", value: "1.49", unit: "mg/dL", markerPosition: 55, barColors: barHighIsBad },
-          { name: "Free T3", subtitle: "Active Thyroid", value: "2.97", unit: "pg/mL", markerPosition: 58, barColors: barLowIsBad },
-        ],
-      },
-      {
-        status: "optimal",
-        items: [
-          { name: "Albumin", subtitle: "Fluid Balance", value: "4.8", unit: "g/dL", markerPosition: 62, barColors: barOptimalHigh },
-          { name: "Triglycerides", subtitle: "Stored Energy", value: "82", unit: "mg/dL", markerPosition: 55, barColors: barMiddleBest },
-        ],
-      },
-    ],
+    title: "Upcoming Appointments",
+    value: "2",
+    detail: "Next: Tomorrow 10:00 AM",
+    tone: "blue",
+    icon: (
+      <svg viewBox="0 0 24 24">
+        <rect x="3" y="5" width="18" height="16" rx="2" />
+        <path d="M16 3v4" />
+        <path d="M8 3v4" />
+        <path d="M3 10h18" />
+        <path d="m9.5 15 1.8 1.8L15 13" />
+      </svg>
+    ),
   },
   {
-    name: "Heart Health",
-    color: "#D4686E",
-    groups: [
-      {
-        status: "outOfRange",
-        items: [
-          { name: "ApoB", subtitle: "Number of Particles", value: "106.84", unit: "mg/dL", markerPosition: 78, barColors: barHighIsBad },
-        ],
-      },
-      {
-        status: "average",
-        items: [
-          { name: "Total Cholesterol", subtitle: "Heart Health", value: "214", unit: "mg/dL", markerPosition: 52, barColors: barHighIsBad },
-          { name: "Total Cholesterol/HDL Ratio", subtitle: "Heart Health", value: "3.89", unit: "", markerPosition: 55, barColors: barHighIsBad },
-          { name: "HDL Cholesterol", subtitle: "Cholesterol Clearer", value: "55", unit: "mg/dL", markerPosition: 48, barColors: barLowIsBad },
-          { name: "LDL Cholesterol", subtitle: "Cholesterol Mass", value: "142.60", unit: "mg/dL", markerPosition: 58, barColors: barHighIsBad },
-          { name: "LDL/ApoB Ratio", subtitle: "LDL-C Particle Size", value: "1.33", unit: "", markerPosition: 52, barColors: barLowIsBad },
-        ],
-      },
-      {
-        status: "optimal",
-        items: [
-          { name: "CRP (C-Reactive Protein)", subtitle: "Inflammation Indicator", value: "1.0", unit: "mg/L", markerPosition: 18, barColors: barHighIsBad },
-          { name: "Remnant Cholesterol", subtitle: "", value: "16.4", unit: "mg/dL", markerPosition: 50, barColors: barMiddleBest },
-        ],
-      },
-    ],
+    title: "Unread Messages",
+    value: "3",
+    detail: "From 2 consultants",
+    tone: "teal",
+    icon: (
+      <svg viewBox="0 0 24 24">
+        <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.9 8.9 0 0 1-3.5-.7L3 21l1.8-5.1A8.5 8.5 0 1 1 21 11.5Z" />
+      </svg>
+    ),
+  },
+  {
+    title: "Pending Reviews",
+    value: "1",
+    detail: "Share your latest care feedback",
+    tone: "slate",
+    icon: (
+      <svg viewBox="0 0 24 24">
+        <path d="m4 20 4.5-1 9-9a2.1 2.1 0 0 0-3-3l-9 9L4 20Z" />
+        <path d="m13.5 6.5 4 4" />
+      </svg>
+    ),
   },
 ];
 
-function StatusLabel({ status }: { status: "outOfRange" | "average" | "optimal" }) {
-  const config = {
-    outOfRange: {
-      label: "Out of Range",
-      className: styles.statusOutOfRange,
-      icon: (
-        <svg viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10" />
-          <line x1="8" y1="12" x2="16" y2="12" />
-        </svg>
-      ),
-    },
-    average: {
-      label: "Average",
-      className: styles.statusAverage,
-      icon: (
-        <svg viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10" />
-          <path d="M8 12h8" />
-        </svg>
-      ),
-    },
-    optimal: {
-      label: "Optimal",
-      className: styles.statusOptimal,
-      icon: (
-        <svg viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10" />
-          <path d="M9 12l2 2 4-4" />
-        </svg>
-      ),
-    },
-  };
+const quickLinks: QuickLink[] = [
+  {
+    title: "Find a specialist",
+    description: "Browse doctors by specialty and compare providers.",
+    href: "/dashboard/doctors",
+  },
+  {
+    title: "Write a review",
+    description: "Leave feedback after a visit and help other patients.",
+    href: "/reviews",
+  },
+  {
+    title: "Reset account access",
+    description: "Manage password recovery and security settings.",
+    href: "/forgot-password",
+  },
+];
 
-  const c = config[status];
-  return (
-    <div className={`${styles.statusLabel} ${c.className}`}>
-      <span className={styles.statusIcon}>{c.icon}</span>
-      {c.label}
-    </div>
-  );
+function StatIcon({
+  tone,
+  children,
+}: {
+  tone: StatCard["tone"];
+  children: React.ReactNode;
+}) {
+  return <span className={`${styles.statIcon} ${styles[`statIcon${tone[0].toUpperCase()}${tone.slice(1)}`]}`}>{children}</span>;
 }
 
-function BiomarkerCard({ marker }: { marker: Biomarker }) {
+export default async function Dashboard() {
+  const user = await getCurrentUser();
+  const firstName = user?.fullName.split(" ")[0] ?? "Patient";
+
   return (
-    <div className={styles.card}>
-      <div className={styles.cardTop}>
-        <span className={styles.cardName}>{marker.name}</span>
-        <span className={styles.cardCopyIcon}>
-          <svg viewBox="0 0 24 24">
-            <rect x="9" y="9" width="13" height="13" rx="2" />
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-          </svg>
-        </span>
-      </div>
-      <div className={styles.cardSubtitle}>{marker.subtitle}</div>
-      <div className={styles.cardValue}>
-        {marker.value}
-        {marker.unit && <span className={styles.cardUnit}>{marker.unit}</span>}
-      </div>
-      <div className={styles.rangeBar}>
-        <div className={styles.rangeTrack}>
-          {marker.barColors.map((color, i) => (
-            <div
-              key={i}
-              className={styles.rangeDot}
-              style={{ backgroundColor: color }}
-            />
+    <div className={styles.page}>
+      <section className={styles.hero}>
+        <div className={styles.heroContent}>
+          <p className={styles.eyebrow}>Today&apos;s Summary</p>
+          <h1 className={styles.heroTitle}>Good morning, {firstName}</h1>
+          <p className={styles.heroText}>
+            Here is your health summary for today. Review appointments, messages,
+            prescriptions, and next steps in one place.
+          </p>
+
+          <div className={styles.heroActions}>
+            <Link className={styles.primaryAction} href="/dashboard/doctors">
+              Book Appointment
+            </Link>
+            <Link className={styles.secondaryAction} href="/reviews">
+              View Reviews
+            </Link>
+          </div>
+        </div>
+
+        <div className={styles.heroVisual} aria-hidden="true">
+          <div className={styles.heroGlow} />
+          <div className={styles.heroCard}>
+            <span className={styles.heroCardLabel}>Next Check-In</span>
+            <strong>Tomorrow, 10:00 AM</strong>
+            <span>Internal medicine follow-up with your care team.</span>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.statsGrid}>
+        {stats.map((stat) => (
+          <article key={stat.title} className={styles.statCard}>
+            <StatIcon tone={stat.tone}>{stat.icon}</StatIcon>
+
+            <div className={styles.statContent}>
+              <h2 className={styles.statTitle}>{stat.title}</h2>
+              <p className={styles.statValue}>{stat.value}</p>
+              <p className={styles.statDetail}>{stat.detail}</p>
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <section className={styles.quickSection}>
+        <div className={styles.sectionHeader}>
+          <div>
+            <p className={styles.sectionEyebrow}>Quick Actions</p>
+            <h2 className={styles.sectionTitle}>Continue where you left off</h2>
+          </div>
+          <Link className={styles.sectionLink} href="/dashboard/consultations">
+            Open consultations
+          </Link>
+        </div>
+
+        <div className={styles.quickGrid}>
+          {quickLinks.map((item) => (
+            <Link key={item.title} href={item.href} className={styles.quickCard}>
+              <div>
+                <h3 className={styles.quickTitle}>{item.title}</h3>
+                <p className={styles.quickDescription}>{item.description}</p>
+              </div>
+              <span className={styles.quickArrow}>
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14" />
+                  <path d="m13 5 7 7-7 7" />
+                </svg>
+              </span>
+            </Link>
           ))}
         </div>
-        <div
-          className={styles.rangeMarker}
-          style={{ left: `${marker.markerPosition}%` }}
-        />
-      </div>
-    </div>
-  );
-}
-
-export default function Dashboard() {
-  return (
-    <div>
-      <div className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>Dashboard</h1>
-      </div>
-
-      {categories.map((cat) => (
-        <section key={cat.name} className={styles.category}>
-          <div className={styles.categoryHeader}>
-            <span
-              className={styles.categoryDot}
-              style={{ backgroundColor: cat.color }}
-            />
-            <h2 className={styles.categoryTitle}>{cat.name}</h2>
-          </div>
-
-          {cat.groups.map((group) => (
-            <div key={group.status} className={styles.statusGroup}>
-              <StatusLabel status={group.status} />
-              <div className={styles.cardGrid}>
-                {group.items.map((marker) => (
-                  <BiomarkerCard key={marker.name} marker={marker} />
-                ))}
-              </div>
-            </div>
-          ))}
-        </section>
-      ))}
+      </section>
     </div>
   );
 }
