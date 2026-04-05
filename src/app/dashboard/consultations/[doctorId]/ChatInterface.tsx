@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 import type { Appointment, Message } from "@/scheduling/types/scheduling";
 import styles from "./page.module.css";
 
@@ -35,6 +36,7 @@ type Props = {
 };
 
 export default function ChatInterface({ appointments, doctorName }: Props) {
+  const { t } = useLanguage();
   const [selectedId, setSelectedId] = useState<string | null>(
     appointments[0]?.id ?? null
   );
@@ -103,7 +105,7 @@ export default function ChatInterface({ appointments, doctorName }: Props) {
     <div className={styles.chatLayout}>
       {/* Appointment sidebar */}
       <div className={styles.appointmentSidebar}>
-        <div className={styles.sidebarTitle}>Appointments</div>
+        <div className={styles.sidebarTitle}>{t("consult_sidebarTitle")}</div>
         {appointments.map((appt) => (
           <button
             key={appt.id}
@@ -129,16 +131,16 @@ export default function ChatInterface({ appointments, doctorName }: Props) {
         {selectedAppt ? (
           <>
             <div className={styles.chatHeader}>
-              Chat with {doctorName} &mdash;{" "}
-              {formatDate(selectedAppt.date)} at{" "}
+              {t("consult_chatWith")} {doctorName} &mdash;{" "}
+              {formatDate(selectedAppt.date)} {t("consult_at")}{" "}
               {formatTime(selectedAppt.time)}
             </div>
             <div className={styles.messageList}>
               {isLoading ? (
-                <div className={styles.emptyChat}>Loading messages...</div>
+                <div className={styles.emptyChat}>{t("consult_loadingMessages")}</div>
               ) : messages.length === 0 ? (
                 <div className={styles.emptyChat}>
-                  No messages yet. Start the conversation.
+                  {t("consult_noMessages")}
                 </div>
               ) : (
                 messages.map((msg) => (
@@ -163,7 +165,7 @@ export default function ChatInterface({ appointments, doctorName }: Props) {
               <input
                 className={styles.chatInput}
                 type="text"
-                placeholder="Type a message..."
+                placeholder={t("consult_typePlaceholder")}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => {
@@ -185,7 +187,7 @@ export default function ChatInterface({ appointments, doctorName }: Props) {
           </>
         ) : (
           <div className={styles.emptyChat}>
-            Select an appointment to view the conversation.
+            {t("consult_selectAppointment")}
           </div>
         )}
       </div>

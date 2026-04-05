@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
+import { getLanguage, t } from "@/lib/language";
 import {
   getDoctorById,
   getAppointmentsForDoctorAndUser,
@@ -27,6 +28,7 @@ export default async function ConsultationChat({
     redirect("/dashboard/consultations");
   }
 
+  const lang = await getLanguage();
   const initials = doctor.name
     .replace(/^Dr\.\s*/, "")
     .split(" ")
@@ -40,7 +42,7 @@ export default async function ConsultationChat({
         <svg viewBox="0 0 24 24">
           <polyline points="15 18 9 12 15 6" />
         </svg>
-        Back to consultations
+        {t(lang, "consult_back")}
       </Link>
 
       <div className={styles.doctorHeader}>

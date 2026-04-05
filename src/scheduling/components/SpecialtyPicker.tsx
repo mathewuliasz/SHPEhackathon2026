@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 import type { Specialty } from "@/scheduling/types/scheduling";
 import { getSpecialties } from "@/scheduling/lib/scheduling-data";
 
@@ -10,9 +11,6 @@ interface SpecialtyPickerProps {
   onContinue: () => void;
 }
 
-function getSpecialtyDescription(): string {
-  return "Explore doctors and available visit times.";
-}
 
 function getSpecialtyIcon(name: string) {
   switch (name.toLowerCase()) {
@@ -40,6 +38,7 @@ export function SpecialtyPicker({
   onSelect,
   onContinue,
 }: SpecialtyPickerProps) {
+  const { t } = useLanguage();
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -70,11 +69,10 @@ export function SpecialtyPicker({
       <div className="w-full max-w-6xl rounded-[28px] border border-[#dbe2ec] bg-white px-6 py-7 shadow-[0_10px_24px_rgba(34,49,73,0.05)] sm:px-8 sm:py-8 lg:px-10 lg:py-10">
         <div className="mx-auto mb-8 w-full max-w-3xl">
           <h2 className="text-2xl font-semibold tracking-[-0.03em] text-[#27313f] sm:text-3xl">
-            Choose a Specialty
+            {t("specialty_title")}
           </h2>
           <p className="mt-3 max-w-3xl text-base leading-7 text-[#7f8a98] sm:text-lg">
-            Start with the type of care you need and we&apos;ll narrow the provider list to
-            the right team.
+            {t("specialty_text")}
           </p>
         </div>
 
@@ -94,7 +92,7 @@ export function SpecialtyPicker({
               </div>
               <div className="text-[1.1rem] font-semibold text-[#27313f]">{s.name}</div>
               <div className="mt-2 text-base leading-7 text-[#7f8a98]">
-                {getSpecialtyDescription()}
+                {t("specialty_description")}
               </div>
             </button>
           ))}
@@ -108,10 +106,10 @@ export function SpecialtyPicker({
                 +
               </div>
               <div className="text-[1.1rem] font-semibold text-[#7f8a98]">
-                More Specialties Soon
+                {t("specialty_moreSoon")}
               </div>
               <div className="mt-2 text-base leading-7 text-[#9aa4b1]">
-                Additional care categories can be added here as the provider network grows.
+                {t("specialty_moreText")}
               </div>
             </div>
           ))}
@@ -123,7 +121,7 @@ export function SpecialtyPicker({
             disabled={!selectedSpecialtyId}
             className="inline-flex items-center justify-center rounded-full bg-[#4a84ec] px-8 py-3.5 text-lg font-medium text-white transition-opacity disabled:cursor-not-allowed disabled:bg-[#f0f3f7] disabled:text-[#c2c9d2]"
           >
-            Continue →
+            {t("specialty_continue")}
           </button>
         </div>
       </div>

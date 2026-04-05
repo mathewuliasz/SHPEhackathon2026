@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import {
   AUTH_COOKIE_NAME,
   createSessionToken,
@@ -7,7 +7,7 @@ import {
 } from "@/lib/auth";
 import { createUser, findUserByEmail } from "@/lib/user-store";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as {
       fullName?: string;
@@ -51,10 +51,13 @@ export async function POST(request: Request) {
       );
     }
 
+    const preferredLanguage = request.cookies.get("lang")?.value === "es" ? "es" : "en";
+
     const user = await createUser({
       fullName,
       email,
       passwordHash: hashPassword(password),
+      preferredLanguage,
     });
 
     const response = NextResponse.json({
@@ -63,6 +66,7 @@ export async function POST(request: Request) {
         id: user.id,
         fullName: user.fullName,
         email: user.email,
+        role: user.role,
       },
     });
 
@@ -72,6 +76,7 @@ export async function POST(request: Request) {
         userId: user.id,
         fullName: user.fullName,
         email: user.email,
+        role: user.role,
       }),
       getSessionCookieOptions(),
     );

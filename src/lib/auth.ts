@@ -4,10 +4,13 @@ import { createHmac, randomBytes, scryptSync, timingSafeEqual } from "node:crypt
 export const AUTH_COOKIE_NAME = "shpe_auth_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
 
+export type AppRole = "patient" | "admin";
+
 type SessionPayload = {
   userId: string;
   email: string;
   fullName: string;
+  role: AppRole;
   exp: number;
 };
 
@@ -90,6 +93,7 @@ export function verifySessionToken(token: string): SessionUser | null {
       userId: payload.userId,
       email: payload.email,
       fullName: payload.fullName,
+      role: payload.role,
     };
   } catch {
     return null;

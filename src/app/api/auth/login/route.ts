@@ -39,6 +39,7 @@ export async function POST(request: Request) {
         id: user.id,
         fullName: user.fullName,
         email: user.email,
+        role: user.role,
       },
     });
 
@@ -48,9 +49,17 @@ export async function POST(request: Request) {
         userId: user.id,
         fullName: user.fullName,
         email: user.email,
+        role: user.role,
       }),
       getSessionCookieOptions(),
     );
+
+    // Restore user's saved language preference
+    response.cookies.set("lang", user.preferredLanguage, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 365,
+      sameSite: "lax",
+    });
 
     return response;
   } catch (error) {

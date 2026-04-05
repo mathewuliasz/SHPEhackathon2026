@@ -2,10 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 import styles from "./layout.module.css";
 
 export default function LogoutButton() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
 
@@ -18,7 +20,7 @@ export default function LogoutButton() {
       });
 
       if (!response.ok) {
-        setError("Could not log out.");
+        setError(t("logout_error"));
         return;
       }
 
@@ -35,7 +37,7 @@ export default function LogoutButton() {
         onClick={handleLogout}
         disabled={isPending}
       >
-        {isPending ? "Signing out..." : "Log Out"}
+        {isPending ? t("logout_signingOut") : t("logout_button")}
       </button>
       {error ? <p className={styles.logoutError}>{error}</p> : null}
     </div>
