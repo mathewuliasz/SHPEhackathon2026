@@ -19,14 +19,15 @@ type QuickLink = {
 
 const stats: StatCard[] = [
   {
-    title: "Active Prescriptions",
+    title: "Lab Results",
     value: "3",
     detail: "Updated today",
     tone: "blue",
     icon: (
       <svg viewBox="0 0 24 24">
-        <path d="M8 7.5 16.5 16a3.18 3.18 0 1 1-4.5 4.5L3.5 12A3.18 3.18 0 0 1 8 7.5Z" />
-        <path d="m14 5 5 5" />
+        <path d="M9 2v6l-2 8a4 4 0 0 0 4 4h2a4 4 0 0 0 4-4l-2-8V2" />
+        <path d="M7 2h10" />
+        <path d="M12 16h.01" />
       </svg>
     ),
   },
@@ -88,14 +89,14 @@ export default async function Dashboard() {
   const greeting = t(lang, "dash_greeting").replace("{name}", firstName);
 
   const translatedStats: StatCard[] = [
-    { ...stats[0], title: t(lang, "dash_activePrescriptions"), detail: t(lang, "dash_updatedToday") },
+    { ...stats[0], title: t(lang, "dash_labResults"), detail: t(lang, "dash_updatedToday") },
     { ...stats[1], title: t(lang, "dash_upcomingAppointments"), detail: t(lang, "dash_nextTomorrow") },
     { ...stats[2], title: t(lang, "dash_unreadMessages"), detail: t(lang, "dash_fromConsultants") },
     { ...stats[3], title: t(lang, "dash_pendingReviews"), detail: t(lang, "dash_shareFeedback") },
   ];
 
   const translatedQuickLinks: QuickLink[] = [
-    { title: t(lang, "dash_findSpecialist"), description: t(lang, "dash_findSpecialistDesc"), href: "/dashboard/doctors" },
+    { title: t(lang, "dash_findSpecialist"), description: t(lang, "dash_findSpecialistDesc"), href: "/dashboard/schedule" },
     { title: t(lang, "dash_writeReview"), description: t(lang, "dash_writeReviewDesc"), href: "/reviews" },
     { title: t(lang, "dash_resetAccess"), description: t(lang, "dash_resetAccessDesc"), href: "/forgot-password" },
   ];
@@ -109,7 +110,7 @@ export default async function Dashboard() {
           <p className={styles.heroText}>{t(lang, "dash_summaryText")}</p>
 
           <div className={styles.heroActions}>
-            <Link className={styles.primaryAction} href="/dashboard/doctors">
+            <Link className={styles.primaryAction} href="/dashboard/schedule">
               {t(lang, "dash_bookAppointment")}
             </Link>
             <Link className={styles.secondaryAction} href="/reviews">

@@ -131,7 +131,7 @@ const translations = {
     dash_nextCheckInTime: "Tomorrow, 10:00 AM",
     dash_nextCheckInDesc:
       "Internal medicine follow-up with your care team.",
-    dash_activePrescriptions: "Active Prescriptions",
+    dash_labResults: "Lab Results",
     dash_updatedToday: "Updated today",
     dash_upcomingAppointments: "Upcoming Appointments",
     dash_nextTomorrow: "Next: Tomorrow 10:00 AM",
@@ -164,7 +164,7 @@ const translations = {
     sidebar_dashboard: "Dashboard",
     sidebar_doctors: "Doctor's via Specialty",
     sidebar_consultations: "Your Consultation/Chats",
-    sidebar_prescriptions: "Current Prescriptions",
+    sidebar_labResults: "Lab Results",
     sidebar_records: "Medical Records",
     sidebar_profile: "Your Profile",
 
@@ -210,6 +210,10 @@ const translations = {
     rx_active: "Active",
     rx_expired: "Expired",
     rx_pending: "Pending",
+
+    // Lab Results
+    labResults_title: "Lab Results",
+    labResults_subtitle: "View your latest lab test results and trends.",
 
     // Records
     records_title: "Medical Records",
@@ -659,7 +663,7 @@ const translations = {
     dash_nextCheckInTime: "Mañana, 10:00 AM",
     dash_nextCheckInDesc:
       "Seguimiento de medicina interna con tu equipo de atención.",
-    dash_activePrescriptions: "Recetas Activas",
+    dash_labResults: "Resultados de Laboratorio",
     dash_updatedToday: "Actualizado hoy",
     dash_upcomingAppointments: "Próximas Citas",
     dash_nextTomorrow: "Siguiente: Mañana 10:00 AM",
@@ -692,7 +696,7 @@ const translations = {
     sidebar_dashboard: "Panel Principal",
     sidebar_doctors: "Doctores por Especialidad",
     sidebar_consultations: "Tus Consultas/Chats",
-    sidebar_prescriptions: "Recetas Actuales",
+    sidebar_labResults: "Resultados de Laboratorio",
     sidebar_records: "Expedientes Médicos",
     sidebar_profile: "Tu Perfil",
 
@@ -747,6 +751,10 @@ const translations = {
     dash_triageText:
       "Describe tus síntomas y nuestro asistente de triaje con IA los analizará y te recomendará el tipo de doctor adecuado — luego agenda directamente.",
     dash_triageCta: "Iniciar Revisión de Síntomas",
+
+    // Lab Results
+    labResults_title: "Resultados de Laboratorio",
+    labResults_subtitle: "Consulta tus resultados de laboratorio más recientes.",
 
     // Records
     records_title: "Expedientes Médicos",

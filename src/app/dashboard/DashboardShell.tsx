@@ -56,12 +56,13 @@ const menuItems = [
     ),
   },
   {
-    labelKey: "sidebar_prescriptions",
-    href: "/dashboard/prescriptions",
+    labelKey: "sidebar_labResults",
+    href: "/dashboard/lab-results",
     icon: (
       <svg viewBox="0 0 24 24">
-        <path d="M8 7.5 16.5 16a3.18 3.18 0 1 1-4.5 4.5L3.5 12A3.18 3.18 0 0 1 8 7.5Z" />
-        <path d="m14 5 5 5" />
+        <path d="M9 2v6l-2 8a4 4 0 0 0 4 4h2a4 4 0 0 0 4-4l-2-8V2" />
+        <path d="M7 2h10" />
+        <path d="M12 16h.01" />
       </svg>
     ),
   },

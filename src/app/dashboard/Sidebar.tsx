@@ -44,14 +44,13 @@ const navItems = [
     ),
   },
   {
-    href: "/dashboard/prescriptions",
-    label: "Current Prescriptions",
+    href: "/dashboard/lab-results",
+    label: "Lab Results",
     icon: (
       <svg viewBox="0 0 24 24">
-        <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
-        <rect x="9" y="3" width="6" height="4" rx="1" />
-        <path d="M9 14h6" />
-        <path d="M9 18h6" />
+        <path d="M9 2v6l-2 8a4 4 0 0 0 4 4h2a4 4 0 0 0 4-4l-2-8V2" />
+        <path d="M7 2h10" />
+        <path d="M12 16h.01" />
       </svg>
     ),
   },
