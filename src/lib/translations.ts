@@ -179,6 +179,7 @@ const translations = {
       "Here is your health summary for today. Review appointments, messages, prescriptions, and next steps in one place.",
     dash_bookAppointment: "Book Appointment",
     dash_viewReviews: "View Reviews",
+    dash_manageAppointments: "Manage Appointments",
     dash_nextCheckIn: "Next Check-In",
     dash_nextCheckInTime: "Tomorrow, 10:00 AM",
     dash_nextCheckInDesc:
@@ -266,6 +267,29 @@ const translations = {
     // Lab Results
     labResults_title: "Lab Results",
     labResults_subtitle: "View your latest lab test results and trends.",
+
+    // Manage Appointments
+    appts_title: "Manage Appointments",
+    appts_subtitle: "View, reschedule, or cancel your upcoming appointments.",
+    appts_upcoming: "Upcoming",
+    appts_past: "Past",
+    appts_reschedule: "Reschedule",
+    appts_cancel: "Cancel",
+    appts_completed: "Completed",
+    appts_loading: "Loading appointments...",
+    appts_emptyTitle: "No appointments",
+    appts_emptyText: "You don't have any scheduled appointments yet.",
+    appts_confirmCancel: "Are you sure you want to cancel this appointment?",
+    appts_cancelFailed: "Failed to cancel appointment. Please try again.",
+    appts_rescheduleFailed: "Failed to reschedule appointment. Please try again.",
+    appts_rescheduleTitle: "Reschedule Appointment",
+    appts_at: "at",
+    appts_selectDate: "Select new date",
+    appts_selectTime: "Select new time",
+    appts_loadingSlots: "Loading available slots...",
+    appts_noSlots: "No available slots found for this doctor.",
+    appts_confirmReschedule: "Confirm Reschedule",
+    appts_rescheduling: "Rescheduling...",
 
     // Records
     records_title: "Medical Records",
@@ -763,6 +787,7 @@ const translations = {
       "Aquí está tu resumen de salud de hoy. Revisa citas, mensajes, recetas y próximos pasos en un solo lugar.",
     dash_bookAppointment: "Agendar Cita",
     dash_viewReviews: "Ver Reseñas",
+    dash_manageAppointments: "Administrar Citas",
     dash_nextCheckIn: "Próxima Consulta",
     dash_nextCheckInTime: "Mañana, 10:00 AM",
     dash_nextCheckInDesc:
@@ -859,6 +884,29 @@ const translations = {
     // Lab Results
     labResults_title: "Resultados de Laboratorio",
     labResults_subtitle: "Consulta tus resultados de laboratorio más recientes.",
+
+    // Manage Appointments
+    appts_title: "Administrar Citas",
+    appts_subtitle: "Consulta, reprograma o cancela tus próximas citas.",
+    appts_upcoming: "Próximas",
+    appts_past: "Pasadas",
+    appts_reschedule: "Reprogramar",
+    appts_cancel: "Cancelar",
+    appts_completed: "Completada",
+    appts_loading: "Cargando citas...",
+    appts_emptyTitle: "Sin citas",
+    appts_emptyText: "Aún no tienes citas programadas.",
+    appts_confirmCancel: "¿Estás seguro de que deseas cancelar esta cita?",
+    appts_cancelFailed: "No se pudo cancelar la cita. Inténtalo de nuevo.",
+    appts_rescheduleFailed: "No se pudo reprogramar la cita. Inténtalo de nuevo.",
+    appts_rescheduleTitle: "Reprogramar Cita",
+    appts_at: "a las",
+    appts_selectDate: "Selecciona nueva fecha",
+    appts_selectTime: "Selecciona nueva hora",
+    appts_loadingSlots: "Cargando horarios disponibles...",
+    appts_noSlots: "No se encontraron horarios disponibles para este doctor.",
+    appts_confirmReschedule: "Confirmar Reprogramación",
+    appts_rescheduling: "Reprogramando...",
 
     // Records
     records_title: "Expedientes Médicos",

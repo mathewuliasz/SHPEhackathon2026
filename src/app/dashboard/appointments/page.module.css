@@ -1,0 +1,313 @@
+.page {
+  display: grid;
+  gap: 28px;
+}
+
+.header {
+  margin-bottom: 4px;
+}
+
+.title {
+  margin: 0;
+  color: #2d3746;
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  color: #778293;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.sectionLabel {
+  margin: 0 0 14px;
+  color: #98a2ad;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  border: 1px solid #dbe3ef;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(116, 137, 174, 0.06);
+}
+
+.cardPast {
+  opacity: 0.55;
+}
+
+.cardInfo {
+  min-width: 0;
+}
+
+.doctorName {
+  color: #27313f;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.dateTime {
+  margin-top: 4px;
+  color: #7f8a98;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.cardActions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.rescheduleBtn,
+.cancelBtn {
+  min-height: 38px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  transition: background 0.15s, color 0.15s;
+}
+
+.rescheduleBtn {
+  background: #eef4fb;
+  color: #4a84ec;
+}
+
+.rescheduleBtn:hover:not(:disabled) {
+  background: #dde9f8;
+}
+
+.cancelBtn {
+  background: #fef0f0;
+  color: #d14b4b;
+}
+
+.cancelBtn:hover:not(:disabled) {
+  background: #fde0e0;
+}
+
+.rescheduleBtn:disabled,
+.cancelBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pastBadge {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #f0f3f7;
+  color: #98a2ad;
+  font-size: 0.82rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Empty state */
+.empty {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.emptyIcon {
+  margin-bottom: 16px;
+  opacity: 0.3;
+}
+
+.emptyIcon svg {
+  width: 52px;
+  height: 52px;
+  fill: none;
+  stroke: #98a2ad;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.emptyTitle {
+  color: #27313f;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.emptyText {
+  color: #98a2ad;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #98a2ad;
+  font-weight: 600;
+}
+
+/* Reschedule Modal */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  width: 90%;
+  max-width: 520px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 28px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.18);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.modalTitle {
+  margin: 0;
+  color: #27313f;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.modalClose {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  background: #f0f3f7;
+  color: #647083;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalSubtitle {
+  color: #7f8a98;
+  font-size: 0.92rem;
+  font-weight: 600;
+  margin: 0 0 20px;
+}
+
+.fieldLabel {
+  margin: 16px 0 10px;
+  color: #98a2ad;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.dateGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dateChip,
+.timeChip {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid #dbe3ef;
+  border-radius: 10px;
+  background: #fff;
+  color: #647083;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: all 0.15s;
+}
+
+.dateChipActive,
+.timeChipActive {
+  background: #4a84ec;
+  color: #fff;
+  border-color: #4a84ec;
+}
+
+.timeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.confirmBtn {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 22px;
+  border: 0;
+  border-radius: 12px;
+  background: #4a84ec;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 800;
+  transition: opacity 0.15s;
+}
+
+.confirmBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.noSlots {
+  text-align: center;
+  padding: 20px;
+  color: #98a2ad;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cardActions {
+    justify-content: stretch;
+  }
+
+  .rescheduleBtn,
+  .cancelBtn {
+    flex: 1;
+    text-align: center;
+  }
+
+  .timeGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
