@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 import styles from "../auth/page.module.css";
 
 type ResetPasswordFormProps = {
@@ -11,6 +12,7 @@ type ResetPasswordFormProps = {
 
 export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const router = useRouter();
+  const { t } = useLanguage();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -23,12 +25,12 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     setSuccess("");
 
     if (!token) {
-      setError("This reset link is missing a token.");
+      setError(t("reset_missingToken"));
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError(t("reset_noMatch"));
       return;
     }
 
@@ -49,11 +51,11 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         | null;
 
       if (!response.ok) {
-        setError(data?.error ?? "Could not reset your password.");
+        setError(data?.error ?? t("reset_error"));
         return;
       }
 
-      setSuccess(data?.message ?? "Password updated.");
+      setSuccess(data?.message ?? t("reset_success"));
       setPassword("");
       setConfirmPassword("");
       setTimeout(() => {
@@ -65,27 +67,27 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   return (
     <section className={styles.formCard}>
       <div className={styles.formHeader}>
-        <div className={styles.formKicker}>New Password</div>
-        <h2>Reset password</h2>
-        <p>Create a new password with at least 8 characters.</p>
+        <div className={styles.formKicker}>{t("reset_formKicker")}</div>
+        <h2>{t("reset_formTitle")}</h2>
+        <p>{t("reset_formText")}</p>
       </div>
 
       <form className={styles.form} onSubmit={handleSubmit}>
         <label className={styles.field}>
-          <span>New Password</span>
+          <span>{t("reset_newPassword")}</span>
           <input
             type="password"
-            placeholder="Choose a secure password"
+            placeholder={t("reset_newPasswordPlaceholder")}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
         </label>
 
         <label className={styles.field}>
-          <span>Confirm Password</span>
+          <span>{t("reset_confirmPassword")}</span>
           <input
             type="password"
-            placeholder="Re-enter your password"
+            placeholder={t("reset_confirmPlaceholder")}
             value={confirmPassword}
             onChange={(event) => setConfirmPassword(event.target.value)}
           />
@@ -101,7 +103,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         ) : null}
 
         <button className={styles.primaryButton} type="submit" disabled={isPending}>
-          {isPending ? "Updating..." : "Update Password"}
+          {isPending ? t("reset_updating") : t("reset_submit")}
         </button>
       </form>
     </section>

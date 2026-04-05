@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 import styles from "./Chatbot.module.css";
 
 type Message = {
@@ -9,14 +10,17 @@ type Message = {
 };
 
 export default function Chatbot() {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "assistant",
-      content:
-        "Hi! I'm your MediTrack assistant. Ask me medical questions or how to find something on the site.",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const initializedRef = useRef(false);
+
+  useEffect(() => {
+    if (!initializedRef.current) {
+      initializedRef.current = true;
+      setMessages([{ role: "assistant", content: t("chatbot_welcome") }]);
+    }
+  }, [t]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -60,7 +64,7 @@ export default function Chatbot() {
         ...prev,
         {
           role: "assistant",
-          content: "Sorry, something went wrong. Please try again.",
+          content: t("chatbot_error"),
         },
       ]);
     } finally {
@@ -73,7 +77,7 @@ export default function Chatbot() {
       <button
         className={styles.toggleButton}
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="Toggle chat"
+        aria-label={t("chatbot_toggle")}
       >
         {isOpen ? (
           <svg viewBox="0 0 24 24">
@@ -92,7 +96,7 @@ export default function Chatbot() {
           <div className={styles.chatHeader}>
             <div className={styles.chatHeaderLeft}>
               <span className={styles.chatHeaderDot} />
-              <span className={styles.chatHeaderTitle}>MediTrack Assistant</span>
+              <span className={styles.chatHeaderTitle}>{t("chatbot_title")}</span>
             </div>
             <button
               className={styles.chatCloseBtn}
@@ -130,7 +134,7 @@ export default function Chatbot() {
             <input
               className={styles.chatInput}
               type="text"
-              placeholder="Ask a question..."
+              placeholder={t("chatbot_placeholder")}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {

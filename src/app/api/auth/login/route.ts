@@ -54,6 +54,13 @@ export async function POST(request: Request) {
       getSessionCookieOptions(),
     );
 
+    // Restore user's saved language preference
+    response.cookies.set("lang", user.preferredLanguage, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 365,
+      sameSite: "lax",
+    });
+
     return response;
   } catch (error) {
     console.error(error);

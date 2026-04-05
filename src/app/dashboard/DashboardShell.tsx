@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 import styles from "./layout.module.css";
 import LogoutButton from "./LogoutButton";
+import LanguageToggle from "@/components/LanguageToggle";
 
 type DashboardShellProps = {
   children: React.ReactNode;
@@ -16,7 +18,7 @@ type DashboardShellProps = {
 
 const menuItems = [
   {
-    label: "Dashboard",
+    labelKey: "sidebar_dashboard",
     href: "/dashboard",
     icon: (
       <svg viewBox="0 0 24 24">
@@ -26,7 +28,7 @@ const menuItems = [
     ),
   },
   {
-    label: "Doctor's via Specialty",
+    labelKey: "sidebar_doctors",
     href: "/dashboard/schedule",
     icon: (
       <svg viewBox="0 0 24 24">
@@ -37,7 +39,7 @@ const menuItems = [
     ),
   },
   {
-    label: "Your Consultation/Chats",
+    labelKey: "sidebar_consultations",
     href: "/dashboard/consultations",
     icon: (
       <svg viewBox="0 0 24 24">
@@ -46,7 +48,7 @@ const menuItems = [
     ),
   },
   {
-    label: "Current Prescriptions",
+    labelKey: "sidebar_prescriptions",
     href: "/dashboard/prescriptions",
     icon: (
       <svg viewBox="0 0 24 24">
@@ -56,7 +58,7 @@ const menuItems = [
     ),
   },
   {
-    label: "Medical Records",
+    labelKey: "sidebar_records",
     href: "/dashboard/records",
     icon: (
       <svg viewBox="0 0 24 24">
@@ -66,7 +68,7 @@ const menuItems = [
     ),
   },
   {
-    label: "Your Profile",
+    labelKey: "sidebar_profile",
     href: "/dashboard/profile",
     icon: (
       <svg viewBox="0 0 24 24">
@@ -83,6 +85,7 @@ export default function DashboardShell({
 }: DashboardShellProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { t } = useLanguage();
   const firstName = user.fullName.split(" ")[0] ?? "Patient";
 
   return (
@@ -103,8 +106,8 @@ export default function DashboardShell({
           </button>
 
           <Link href="/dashboard" className={styles.brand}>
-            <span className={styles.brandMark}>M</span>
-            <span className={styles.brandText}>Medical Dashboard</span>
+            <span className={styles.brandMark}>{t("shell_brandMark")}</span>
+            <span className={styles.brandText}>{t("shell_brandText")}</span>
           </Link>
         </div>
 
@@ -115,12 +118,13 @@ export default function DashboardShell({
           </svg>
           <input
             type="search"
-            placeholder="Search patients, prescriptions, records..."
+            placeholder={t("shell_searchPlaceholder")}
           />
         </label>
 
         <div className={styles.topbarRight}>
-          <button type="button" className={styles.notificationButton} aria-label="Notifications">
+          <LanguageToggle />
+          <button type="button" className={styles.notificationButton} aria-label={t("shell_notifications")}>
             <svg viewBox="0 0 24 24">
               <path d="M15 17H5.5a1.5 1.5 0 0 1-1.2-2.4L6 12.5V10a6 6 0 1 1 12 0v2.5l1.7 2.1a1.5 1.5 0 0 1-1.2 2.4H15" />
               <path d="M10 20a2 2 0 0 0 4 0" />
@@ -165,8 +169,8 @@ export default function DashboardShell({
           </button>
 
           <Link href="/dashboard" className={styles.brand}>
-            <span className={styles.brandMark}>M</span>
-            <span className={styles.brandText}>Medical Dashboard</span>
+            <span className={styles.brandMark}>{t("shell_brandMark")}</span>
+            <span className={styles.brandText}>{t("shell_brandText")}</span>
           </Link>
         </div>
 
@@ -179,13 +183,13 @@ export default function DashboardShell({
 
             return (
               <Link
-                key={item.label}
+                key={item.labelKey}
                 href={item.href}
                 className={`${styles.navItem} ${isActive ? styles.navItemActive : ""}`}
                 onClick={() => setMenuOpen(false)}
               >
                 <span className={styles.navIcon}>{item.icon}</span>
-                {item.label}
+                {t(item.labelKey)}
               </Link>
             );
           })}

@@ -1,98 +1,62 @@
 import Link from "next/link";
+import { getLanguage, t } from "@/lib/language";
+import LanguageToggle from "@/components/LanguageToggle";
 import styles from "./page.module.css";
 
-const menuItems = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
-  { label: "Reviews", href: "/reviews" },
-  { label: "Contact Us", href: "/#contact-us" },
-] as const;
+export default async function AboutPage() {
+  const lang = await getLanguage();
 
-const impactStats = [
-  { value: "3,800+", label: "Families Served" },
-  { value: "210+", label: "Medical Volunteers" },
-  { value: "100%", label: "Free of Charge" },
-  { value: "Bilingual", label: "Spanish & English Service" },
-] as const;
+  const impactStats = [
+    { valueKey: "about_stat1Value", labelKey: "about_stat1Label" },
+    { valueKey: "about_stat2Value", labelKey: "about_stat2Label" },
+    { valueKey: "about_stat3Value", labelKey: "about_stat3Label" },
+    { valueKey: "about_stat4Value", labelKey: "about_stat4Label" },
+  ] as const;
 
-const storyHighlights = [
-  {
-    title: "501(c)(3) Certified Nonprofit",
-    text: "Every dollar donated goes directly to operations, outreach, and keeping every single consultation free of charge.",
-    tone: "blue",
-    icon: "★",
-  },
-  {
-    title: "Fully Bilingual",
-    text: "Every consultation, form, follow-up, and support message is available in Spanish and English.",
-    tone: "mint",
-    icon: "文",
-  },
-  {
-    title: "No Insurance Needed",
-    text: "Uninsured, undocumented, or underinsured, everyone is welcome. Zero paperwork. Zero judgment. Zero cost.",
-    tone: "sky",
-    icon: "⌂",
-  },
-] as const;
+  const storyHighlights = [
+    { titleKey: "about_highlight1Title", textKey: "about_highlight1Text", tone: "blue", icon: "★" },
+    { titleKey: "about_highlight2Title", textKey: "about_highlight2Text", tone: "mint", icon: "文" },
+    { titleKey: "about_highlight3Title", textKey: "about_highlight3Text", tone: "sky", icon: "⌂" },
+  ] as const;
 
-const audiences = [
-  "Low-income Hispanic families",
-  "Uninsured individuals",
-  "Immigrant and undocumented communities",
-  "Spanish-speaking seniors",
-  "Mothers and children without pediatric access",
-] as const;
+  const audiences = [
+    "about_audience1",
+    "about_audience2",
+    "about_audience3",
+    "about_audience4",
+    "about_audience5",
+  ] as const;
 
-const values = [
-  {
-    title: "Dignity in Every Visit",
-    text: "Every family regardless of income, insurance status, or immigration background deserves respectful, high-quality medical guidance.",
-    icon: "♡",
-    featured: false,
-  },
-  {
-    title: "Culturally Rooted",
-    text: "We bridge language and cultural barriers so Hispanic families feel seen, heard, and trusted. All services are fully bilingual.",
-    icon: "◍",
-    featured: true,
-  },
-  {
-    title: "Community First",
-    text: "Built by and for the community. We collaborate with local organizations, churches, and schools to reach those who need us most.",
-    icon: "◌",
-    featured: false,
-  },
-  {
-    title: "Volunteer Powered",
-    text: "Licensed physicians, nurses, and specialists donate their expertise to provide free online consultations, changing lives one hour at a time.",
-    icon: "⌘",
-    featured: false,
-  },
-] as const;
+  const values = [
+    { titleKey: "about_value1Title", textKey: "about_value1Text", icon: "♡", featured: false },
+    { titleKey: "about_value2Title", textKey: "about_value2Text", icon: "◍", featured: true },
+    { titleKey: "about_value3Title", textKey: "about_value3Text", icon: "◌", featured: false },
+    { titleKey: "about_value4Title", textKey: "about_value4Text", icon: "⌘", featured: false },
+  ] as const;
 
-export default function AboutPage() {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
         <Link className={styles.brand} href="/">
-          SHPE Medical
+          {t(lang, "brand")}
         </Link>
 
         <nav className={styles.nav} aria-label="Primary">
-          {menuItems.map((item) => (
-            <Link key={item.label} href={item.href} aria-current={item.label === "About Us" ? "page" : undefined}>
-              {item.label}
-            </Link>
-          ))}
+          <Link href="/">{t(lang, "nav_home")}</Link>
+          <Link href="/about" aria-current="page">
+            {t(lang, "nav_about")}
+          </Link>
+          <Link href="/reviews">{t(lang, "nav_reviews")}</Link>
+          <Link href="/#contact-us">{t(lang, "nav_contact")}</Link>
         </nav>
 
         <div className={styles.headerActions}>
+          <LanguageToggle />
           <Link className={styles.headerSecondaryCta} href="/auth">
-            Log In
+            {t(lang, "about_logIn")}
           </Link>
           <Link className={styles.headerCta} href="/auth?mode=signup">
-            Get Started
+            {t(lang, "about_getStarted")}
           </Link>
         </div>
       </header>
@@ -100,19 +64,15 @@ export default function AboutPage() {
       <main className={styles.main}>
         <section className={styles.hero}>
           <div className={styles.heroCopy}>
-            <span className={styles.heroKicker}>About SHPE Medical</span>
-            <h1>Health For Everyone.</h1>
-            <p>
-              SHPE Medical is a nonprofit connecting low-income Hispanic households
-              with licensed volunteer doctors. Completely free, bilingual, and from
-              home.
-            </p>
+            <span className={styles.heroKicker}>{t(lang, "about_heroKicker")}</span>
+            <h1>{t(lang, "about_heroTitle")}</h1>
+            <p>{t(lang, "about_heroText")}</p>
             <div className={styles.heroActions}>
               <Link className={styles.primaryCta} href="/dashboard/schedule">
-                Book Free Consult →
+                {t(lang, "about_bookFreeConsult")}
               </Link>
               <Link className={styles.secondaryCta} href="/volunteer">
-                I&apos;m a Doctor
+                {t(lang, "about_imADoctor")}
               </Link>
             </div>
           </div>
@@ -120,53 +80,42 @@ export default function AboutPage() {
           <aside className={styles.heroStats}>
             <div className={styles.statsGrid}>
               {impactStats.map((item) => (
-                <div key={item.label} className={styles.statItem}>
-                  <strong>{item.value}</strong>
-                  <span>{item.label}</span>
+                <div key={item.labelKey} className={styles.statItem}>
+                  <strong>{t(lang, item.valueKey)}</strong>
+                  <span>{t(lang, item.labelKey)}</span>
                 </div>
               ))}
             </div>
             <div className={styles.quoteBlock}>
-              <p>&quot;Health is a human right, not a privilege.&quot;</p>
-              <span>Founders of SHPE Medical</span>
+              <p>&quot;{t(lang, "about_heroQuote")}&quot;</p>
+              <span>{t(lang, "about_heroQuoteAttrib")}</span>
             </div>
           </aside>
         </section>
 
         <section className={styles.storySection}>
           <div className={styles.storyCopy}>
-            <span className={styles.sectionKicker}>Who We Are</span>
+            <span className={styles.sectionKicker}>{t(lang, "about_storyKicker")}</span>
             <h2>
-              Born from necessity,
-              <br />
-              built with heart.
+              {t(lang, "about_storyTitle")}
             </h2>
-            <p>
-              SHPE Medical was founded in 2026 after our co-founders witnessed
-              firsthand how language barriers, fear of deportation, and lack of
-              financial resources left entire families without medical care.
-            </p>
-            <p>
-              What started as a weekend volunteer clinic in a Houston church
-              basement grew into a national network of over 210 doctors, nurses,
-              and specialists donating their time for free online consultations.
-            </p>
+            <p>{t(lang, "about_storyText1")}</p>
+            <p>{t(lang, "about_storyText2")}</p>
             <blockquote>
-              “Health is a human right. No family should have to choose between a
-              doctor and dinner.”
+              &ldquo;{t(lang, "about_storyQuote")}&rdquo;
             </blockquote>
           </div>
 
           <div className={styles.storyCards}>
             {storyHighlights.map((item) => (
               <article
-                key={item.title}
+                key={item.titleKey}
                 className={`${styles.storyCard} ${styles[`storyCard${capitalize(item.tone)}`]}`}
               >
                 <div className={styles.storyIcon}>{item.icon}</div>
                 <div>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
+                  <h3>{t(lang, item.titleKey)}</h3>
+                  <p>{t(lang, item.textKey)}</p>
                 </div>
               </article>
             ))}
@@ -174,39 +123,36 @@ export default function AboutPage() {
         </section>
 
         <section className={styles.audienceSection}>
-          <span className={styles.sectionKicker}>Who We Serve</span>
-          <h2>Designed for families like yours.</h2>
-          <p className={styles.sectionIntro}>
-            Our services are specifically built for low-income Hispanic households
-            that face systemic barriers to healthcare access.
-          </p>
+          <span className={styles.sectionKicker}>{t(lang, "about_audienceKicker")}</span>
+          <h2>{t(lang, "about_audienceTitle")}</h2>
+          <p className={styles.sectionIntro}>{t(lang, "about_audienceText")}</p>
 
           <div className={styles.audienceList}>
-            {audiences.map((item, index) => (
+            {audiences.map((key, index) => (
               <div
-                key={item}
+                key={key}
                 className={`${styles.audienceItem} ${index === 2 ? styles.audienceItemActive : ""}`}
               >
                 <span className={styles.audienceCheck}>✓</span>
-                <span>{item}</span>
+                <span>{t(lang, key)}</span>
               </div>
             ))}
           </div>
         </section>
 
         <section className={styles.valuesSection}>
-          <span className={styles.sectionKicker}>Our Values</span>
-          <h2>What Guides Us</h2>
+          <span className={styles.sectionKicker}>{t(lang, "about_valuesKicker")}</span>
+          <h2>{t(lang, "about_valuesTitle")}</h2>
 
           <div className={styles.valuesGrid}>
             {values.map((item) => (
               <article
-                key={item.title}
+                key={item.titleKey}
                 className={`${styles.valueCard} ${item.featured ? styles.valueCardFeatured : ""}`}
               >
                 <div className={styles.valueIcon}>{item.icon}</div>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
+                <h3>{t(lang, item.titleKey)}</h3>
+                <p>{t(lang, item.textKey)}</p>
               </article>
             ))}
           </div>
@@ -214,40 +160,31 @@ export default function AboutPage() {
 
         <section className={styles.volunteerBanner}>
           <div>
-            <span className={styles.bannerKicker}>Are you a doctor or specialist?</span>
-            <h2>Join as a Volunteer</h2>
-            <p>
-              Doctors, nurses, and specialists sign up to donate online consultations
-              and directly impact families with no other access to care.
-            </p>
+            <span className={styles.bannerKicker}>{t(lang, "about_volunteerKicker")}</span>
+            <h2>{t(lang, "about_volunteerTitle")}</h2>
+            <p>{t(lang, "about_volunteerText")}</p>
           </div>
           <Link className={styles.bannerCta} href="/volunteer">
-            Sign Up to Volunteer →
+            {t(lang, "about_volunteerCta")}
           </Link>
         </section>
 
         <section className={styles.dualCards}>
           <article className={styles.ctaCardBlue}>
             <div className={styles.ctaIcon}>♥</div>
-            <h3>Need a Consultation?</h3>
-            <p>
-              Book a free online consultation today. No insurance, no fee, no
-              barriers. Available in Spanish and English.
-            </p>
+            <h3>{t(lang, "about_consultTitle")}</h3>
+            <p>{t(lang, "about_consultText")}</p>
             <Link className={styles.cardCta} href="/dashboard/schedule">
-              Book Free Consult →
+              {t(lang, "about_bookFreeConsult")}
             </Link>
           </article>
 
           <article className={styles.ctaCardNavy}>
             <div className={styles.ctaIcon}>⌘</div>
-            <h3>Are You a Doctor or Specialist?</h3>
-            <p>
-              Join our volunteer network. Even one hour a week transforms lives for
-              families with nowhere else to turn. Fully remote.
-            </p>
+            <h3>{t(lang, "about_doctorTitle")}</h3>
+            <p>{t(lang, "about_doctorText")}</p>
             <Link className={styles.cardCta} href="/volunteer">
-              Sign Up to Volunteer →
+              {t(lang, "about_volunteerCta")}
             </Link>
           </article>
         </section>

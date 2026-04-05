@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 import { MonthCalendar } from "./MonthCalendar";
 import { TimeSlotGrid } from "./TimeSlotGrid";
 import { getAvailabilityForDoctor } from "@/scheduling/lib/scheduling-data";
@@ -15,19 +16,19 @@ interface DateTimePickerProps {
   onBack: () => void;
 }
 
-function formatDatePreview(dateStr: string | null): string {
-  if (!dateStr) return "Not selected";
+function formatDatePreview(dateStr: string | null, fallback: string, locale: string): string {
+  if (!dateStr) return fallback;
 
   const [y, m, d] = dateStr.split("-").map(Number);
-  return new Date(y, m - 1, d).toLocaleDateString("en-US", {
+  return new Date(y, m - 1, d).toLocaleDateString(locale, {
     weekday: "long",
     month: "long",
     day: "numeric",
   });
 }
 
-function formatTimePreview(time24: string | null): string {
-  if (!time24) return "Not selected";
+function formatTimePreview(time24: string | null, fallback: string): string {
+  if (!time24) return fallback;
 
   const [h, m] = time24.split(":").map(Number);
   const period = h >= 12 ? "PM" : "AM";
@@ -43,6 +44,8 @@ export function DateTimePicker({
   isBooking,
   onBack,
 }: DateTimePickerProps) {
+  const { t, lang } = useLanguage();
+  const locale = lang === "es" ? "es-ES" : "en-US";
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
   const [month, setMonth] = useState(now.getMonth());
@@ -107,11 +110,10 @@ export function DateTimePicker({
     <div className="mx-auto w-full max-w-6xl">
       <div className="mb-10">
         <h2 className="text-3xl font-semibold tracking-[-0.04em] text-[#27313f]">
-          Pick a Date & Time
+          {t("dateTime_title")}
         </h2>
         <p className="mt-3 max-w-4xl text-lg leading-8 text-[#7f8a98]">
-          Select an available date and time slot for your appointment with{" "}
-          <span className="font-semibold text-[#414d60]">{doctor.name}</span>.
+          {t("dateTime_text_1")}<span className="font-semibold text-[#414d60]">{doctor.name}</span>.
         </p>
       </div>
 
@@ -141,22 +143,22 @@ export function DateTimePicker({
 
           <div className="rounded-[28px] border border-[#dbe2ec] bg-white p-8">
             <h3 className="mb-8 text-3xl font-semibold tracking-[-0.03em] text-[#27313f]">
-              Appointment Summary
+              {t("dateTime_summaryTitle")}
             </h3>
 
             <div className="space-y-6">
-              <SummaryRow label="Doctor" value={doctor.name} detail={doctor.bio} icon="◉" />
-              <SummaryRow label="Specialty" value={specialty.name} detail="" icon="⌁" />
+              <SummaryRow label={t("dateTime_labelDoctor")} value={doctor.name} detail={doctor.bio} icon="◉" />
+              <SummaryRow label={t("dateTime_labelSpecialty")} value={specialty.name} detail="" icon="⌁" />
               <SummaryRow
-                label="Date"
-                value={formatDatePreview(selectedDate)}
+                label={t("dateTime_labelDate")}
+                value={formatDatePreview(selectedDate, t("dateTime_notSelected"), locale)}
                 detail=""
                 icon="□"
                 muted={!selectedDate}
               />
               <SummaryRow
-                label="Time"
-                value={formatTimePreview(selectedTime)}
+                label={t("dateTime_labelTime")}
+                value={formatTimePreview(selectedTime, t("dateTime_notSelected"))}
                 detail=""
                 icon="◔"
                 muted={!selectedTime}
@@ -169,12 +171,12 @@ export function DateTimePicker({
                 onClick={() => selectedDate && selectedTime && onConfirm(selectedDate, selectedTime)}
                 className="w-full rounded-full bg-[#f3f6fa] px-8 py-5 text-xl font-medium text-[#bcc5d0] disabled:cursor-not-allowed"
               >
-                {isBooking ? "Booking..." : "Confirm Booking"}
+                {isBooking ? t("dateTime_booking") : t("dateTime_confirmBooking")}
               </button>
               <p className="mt-4 text-center text-lg text-[#a5aeb8]">
                 {selectedDate && selectedTime
-                  ? "Ready to confirm your appointment."
-                  : "Select a date and time to confirm"}
+                  ? t("dateTime_ready")
+                  : t("dateTime_selectPrompt")}
               </p>
             </div>
           </div>
@@ -184,14 +186,14 @@ export function DateTimePicker({
               onClick={onBack}
               className="rounded-full border border-[#dbe2ec] px-6 py-3 text-lg text-[#647083]"
             >
-              ← Back
+              {t("dateTime_back")}
             </button>
             <button
               disabled={!selectedDate || !selectedTime || isBooking}
               onClick={() => selectedDate && selectedTime && onConfirm(selectedDate, selectedTime)}
               className="rounded-full bg-[#4a84ec] px-8 py-4 text-xl font-medium text-white transition-opacity disabled:cursor-not-allowed disabled:bg-[#f0f3f7] disabled:text-[#c2c9d2]"
             >
-              {isBooking ? "Booking..." : "Confirm Booking →"}
+              {isBooking ? t("dateTime_booking") : t("dateTime_confirmBookingArrow")}
             </button>
           </div>
         </div>

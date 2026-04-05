@@ -1,7 +1,11 @@
-const steps = ["Choose Specialty", "Choose Doctor", "Date & Time"];
-const captions = ["Select your care type", "Pick your provider", "Schedule your visit"];
+"use client";
+
+import { useLanguage } from "@/lib/LanguageContext";
 
 export function StepIndicator({ currentStep }: { currentStep: number }) {
+  const { t } = useLanguage();
+  const steps = [t("step_chooseSpecialty"), t("step_chooseDoctor"), t("step_dateTime")];
+  const captions = [t("step_captionSpecialty"), t("step_captionDoctor"), t("step_captionDateTime")];
   return (
     <div className="mx-auto mb-10 w-full max-w-4xl px-4">
       <div className="grid grid-cols-3 items-start gap-8 md:gap-10">

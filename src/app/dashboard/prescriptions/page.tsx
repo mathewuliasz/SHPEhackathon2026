@@ -1,3 +1,4 @@
+import { getLanguage, t } from "@/lib/language";
 import styles from "./page.module.css";
 
 type Prescription = {
@@ -52,15 +53,21 @@ const prescriptions: Prescription[] = [
   },
 ];
 
-export default function PrescriptionsPage() {
+export default async function PrescriptionsPage() {
+  const lang = await getLanguage();
+
+  const statusLabel = (status: string) => {
+    if (status === "Active") return t(lang, "rx_active");
+    if (status === "Expired") return t(lang, "rx_expired");
+    return t(lang, "rx_pending");
+  };
+
   return (
     <section className={styles.page}>
       <div className={styles.header}>
         <div>
-          <h1 className={styles.title}>Prescriptions</h1>
-          <p className={styles.subtitle}>
-            Manage and review your active medications.
-          </p>
+          <h1 className={styles.title}>{t(lang, "rx_title")}</h1>
+          <p className={styles.subtitle}>{t(lang, "rx_subtitle")}</p>
         </div>
 
         <button type="button" className={styles.renewButton}>
@@ -68,7 +75,7 @@ export default function PrescriptionsPage() {
             <path d="M20 11a8 8 0 1 1-2.34-5.66" />
             <path d="M20 4v7h-7" />
           </svg>
-          Request Renewal
+          {t(lang, "rx_requestRenewal")}
         </button>
       </div>
 
@@ -77,19 +84,19 @@ export default function PrescriptionsPage() {
           <circle cx="11" cy="11" r="7" />
           <path d="m20 20-3.5-3.5" />
         </svg>
-        <input type="search" placeholder="Search medications or doctors..." />
+        <input type="search" placeholder={t(lang, "rx_searchPlaceholder")} />
       </label>
 
       <div className={styles.tableShell}>
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>Medication</th>
-              <th>Dosage</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Doctor</th>
-              <th>Status</th>
+              <th>{t(lang, "rx_medication")}</th>
+              <th>{t(lang, "rx_dosage")}</th>
+              <th>{t(lang, "rx_startDate")}</th>
+              <th>{t(lang, "rx_endDate")}</th>
+              <th>{t(lang, "rx_doctor")}</th>
+              <th>{t(lang, "rx_status")}</th>
               <th />
             </tr>
           </thead>
@@ -111,12 +118,12 @@ export default function PrescriptionsPage() {
                           : styles.statusPending
                     }`}
                   >
-                    {item.status}
+                    {statusLabel(item.status)}
                   </span>
                 </td>
                 <td className={styles.actionCell}>
                   <button type="button" className={styles.detailsButton}>
-                    View Details
+                    {t(lang, "rx_viewDetails")}
                   </button>
                 </td>
               </tr>
