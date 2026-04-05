@@ -125,7 +125,7 @@ export function ScheduleWizard({ initialSpecialtyName }: ScheduleWizardProps) {
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col items-center space-y-8">
+    <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-8">
       <StepIndicator currentStep={step} />
 
       <div className="flex w-full justify-center animate-fade-in-up" key={step}>

@@ -49,9 +49,9 @@ export function DoctorPicker({
 
   if (loading) {
     return (
-      <div className="rounded-[32px] border border-[#dbe2ec] bg-white p-8">
+      <div className="w-full max-w-6xl rounded border bg-white p-8">
         {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="mb-4 h-40 rounded-[24px] bg-[#eef2f6] animate-pulse last:mb-0" />
+          <div key={i} className="mb-4 h-40 rounded border bg-gray-100 animate-pulse last:mb-0" />
         ))}
       </div>
     );
@@ -78,23 +78,23 @@ export function DoctorPicker({
   });
 
   return (
-    <div className="rounded-[32px] border border-[#dbe2ec] bg-white p-8 shadow-[0_12px_32px_rgba(34,49,73,0.06)] sm:p-10">
+    <div className="w-full max-w-6xl rounded border bg-white p-8 sm:p-10 lg:translate-x-[60px]">
       <div className="mb-10">
-        <h2 className="text-3xl font-semibold tracking-[-0.04em] text-[#27313f]">
+        <h2 className="text-3xl font-semibold text-gray-900">
           {t("doctor_title")}
         </h2>
-        <p className="mt-3 max-w-4xl text-lg leading-8 text-[#7f8a98]">
-          {t("doctor_text_1")}<span className="font-semibold text-[#414d60]">{specialtyName}</span>{t("doctor_text_2")}
+        <p className="mt-3 max-w-4xl text-lg leading-8 text-gray-600">
+          {t("doctor_text_1")}<span className="font-semibold text-gray-900">{specialtyName}</span>{t("doctor_text_2")}
         </p>
       </div>
 
-      <label className="mb-6 flex items-center gap-4 rounded-full border border-[#dbe2ec] px-5 py-4">
-        <span className="text-2xl text-[#a4acb7]">⌕</span>
+      <label className="mb-6 flex items-center gap-4 rounded border border-gray-200 px-4 py-3">
+        <span className="text-xl text-gray-400">⌕</span>
         <input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder={t("doctor_searchPlaceholder")}
-          className="w-full border-0 bg-transparent text-lg text-[#27313f] outline-none placeholder:text-[#b0b8c3]"
+          className="w-full border-0 bg-transparent text-lg text-gray-900 outline-none placeholder:text-gray-400"
         />
       </label>
 
@@ -107,10 +107,10 @@ export function DoctorPicker({
               key={filterKey}
               type="button"
               onClick={() => setActiveFilter(filterKey)}
-              className={`rounded-full px-6 py-3 text-lg transition-colors ${
+              className={`rounded border px-4 py-2 text-base ${
                 isActive
-                  ? "bg-[#4a84ec] text-white"
-                  : "border border-[#dbe2ec] bg-[#f4f7fa] text-[#667282]"
+                  ? "border-gray-900 bg-gray-900 text-white"
+                  : "border-gray-200 bg-white text-gray-600"
               }`}
             >
               {t(filterKey)}
@@ -124,53 +124,53 @@ export function DoctorPicker({
           <button
             key={doc.id}
             onClick={() => onSelect(doc)}
-            className={`flex w-full items-start gap-4 rounded-[24px] border p-6 text-left transition-all ${
+            className={`flex w-full items-start gap-4 rounded border p-6 text-left ${
               selectedDoctorId === doc.id
-                ? "border-[#6f9cff] shadow-[0_0_0_1px_#6f9cff]"
-                : "border-[#dbe2ec] hover:border-[#c8d4e4]"
+                ? "border-gray-900 bg-gray-50"
+                : "border-gray-200 bg-white"
             }`}
           >
-            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#eef4fb] text-base font-bold text-[#4a84ec]">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gray-100 text-base font-bold text-gray-700">
               {getInitials(doc.name)}
             </div>
 
             <div className="min-w-0 flex-1">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                  <p className="text-2xl font-semibold text-[#27313f]">{doc.name}</p>
-                  <p className="mt-1 text-lg text-[#8a94a2]">{doc.bio}</p>
+                  <p className="text-2xl font-semibold text-gray-900">{doc.name}</p>
+                  <p className="mt-1 text-lg text-gray-500">{doc.bio}</p>
                 </div>
-                <span className="inline-flex rounded-full border border-[#d8eee2] bg-[#eefaf3] px-4 py-2 text-sm font-semibold uppercase tracking-[0.08em] text-[#74bf8d]">
+                <span className="inline-flex rounded border border-gray-200 px-3 py-1 text-sm font-medium text-gray-600">
                   {t("doctor_available")}
                 </span>
               </div>
 
-              <p className="mt-4 text-lg leading-8 text-[#7f8a98]">
+              <p className="mt-4 text-lg leading-8 text-gray-600">
                 {t("doctor_selectText")}
               </p>
-              <div className="mt-5 text-xl font-medium text-[#4a84ec]">{t("doctor_viewDates")}</div>
+              <div className="mt-5 text-lg font-medium text-gray-900">{t("doctor_viewDates")}</div>
             </div>
           </button>
         ))}
       </div>
 
       {visibleDoctors.length === 0 ? (
-        <div className="mt-6 rounded-[24px] border border-dashed border-[#dbe2ec] px-6 py-10 text-center text-lg text-[#98a2ad]">
+        <div className="mt-6 rounded border border-dashed border-gray-300 px-6 py-10 text-center text-lg text-gray-500">
           {t("doctor_noMatch")}
         </div>
       ) : null}
 
-      <div className="mt-10 flex items-center justify-between border-t border-[#edf1f5] pt-8">
+      <div className="mt-10 flex items-center justify-between border-t pt-8">
         <button
           onClick={onBack}
-          className="rounded-full border border-[#dbe2ec] px-6 py-3 text-lg text-[#647083]"
+          className="rounded border border-gray-300 px-6 py-3 text-base text-gray-700"
         >
           {t("doctor_back")}
         </button>
         <button
           onClick={onContinue}
           disabled={!selectedDoctorId}
-          className="rounded-full bg-[#4a84ec] px-8 py-4 text-xl font-medium text-white transition-opacity disabled:cursor-not-allowed disabled:bg-[#f0f3f7] disabled:text-[#c2c9d2]"
+          className="rounded border bg-gray-900 px-6 py-3 text-base font-medium text-white disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-400"
         >
           {t("doctor_continue")}
         </button>
