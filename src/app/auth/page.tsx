@@ -39,7 +39,7 @@ export default async function AuthPage({ searchParams }: AuthPageProps) {
           <Link href="/">{t(lang, "nav_home")}</Link>
           <Link href="/about">{t(lang, "nav_about")}</Link>
           <Link href="/reviews">{t(lang, "nav_reviews")}</Link>
-          <Link href="/#contact-us">{t(lang, "nav_contact")}</Link>
+          <Link href="/contact">{t(lang, "nav_contact")}</Link>
         </nav>
 
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>

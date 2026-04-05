@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Appointment, Message } from "@/scheduling/types/scheduling";
 import styles from "./page.module.css";
@@ -26,10 +27,29 @@ function formatTime(time: string) {
   return `${h12}:${m} ${ampm}`;
 }
 
+function getInitials(name: string) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .map((part) => part[0] ?? "")
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
+
+function getVisitType(time: string, hasZoom: boolean) {
+  if (hasZoom) return "Follow-up";
+  if (time < "10:00") return "Annual Physical";
+  if (time < "11:00") return "Follow-up";
+  if (time < "12:00") return "Lab Review";
+  return "Prescription Review";
+}
+
 export default function DoctorWorkspace({
   doctorName,
   appointments,
 }: DoctorWorkspaceProps) {
+  const router = useRouter();
   const [selectedAppointmentId, setSelectedAppointmentId] = useState<string | null>(
     appointments[0]?.id ?? null,
   );
@@ -43,6 +63,8 @@ export default function DoctorWorkspace({
     () => appointments.find((item) => item.id === selectedAppointmentId) ?? null,
     [appointments, selectedAppointmentId],
   );
+  const nextPatient = appointments[0] ?? null;
+  const criticalPatient = appointments[2] ?? appointments[1] ?? null;
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -122,6 +144,70 @@ export default function DoctorWorkspace({
         </article>
       </section>
 
+      {nextPatient ? (
+        <section className={styles.nextPatientCard}>
+          <span className={styles.nextPatientEyebrow}>Next Patient</span>
+          <div className={styles.nextPatientIdentity}>
+            <span className={styles.nextPatientAvatar}>
+              {getInitials(nextPatient.patient_name || "Patient")}
+            </span>
+            <div>
+              <h2>{nextPatient.patient_name || "Patient"}</h2>
+              <p>
+                {getVisitType(nextPatient.time, Boolean(nextPatient.zoom_join_url))} ·{" "}
+                {formatTime(nextPatient.time)}
+              </p>
+            </div>
+          </div>
+          <span className={styles.nextPatientMeta}>
+            Last visit: March 12 · Hypertension management
+          </span>
+          <div className={styles.nextPatientActions}>
+            <button
+              type="button"
+              className={styles.nextPatientPrimary}
+              onClick={() => setSelectedAppointmentId(nextPatient.id)}
+            >
+              Start Visit
+            </button>
+            <button
+              type="button"
+              className={styles.nextPatientSecondary}
+              onClick={() => setSelectedAppointmentId(nextPatient.id)}
+            >
+              View Chart
+            </button>
+          </div>
+        </section>
+      ) : null}
+
+      {criticalPatient ? (
+        <section className={styles.alertsPanel}>
+          <div className={styles.alertsHeader}>
+            <div className={styles.alertsTitle}>
+              <span className={styles.alertsIcon}>▲</span>
+              <h2>Critical Alerts</h2>
+            </div>
+            <span className={styles.alertsBadge}>1 new</span>
+          </div>
+
+          <button
+            type="button"
+            className={styles.alertCard}
+            onClick={() => router.push("/doctor/lab-results")}
+          >
+            <span className={styles.alertAvatar}>
+              {getInitials(criticalPatient.patient_name || "Patient")}
+            </span>
+            <div className={styles.alertCopy}>
+              <strong>{criticalPatient.patient_name || "Patient"}</strong>
+              <p>K+ critically low — 2.8 mEq/L</p>
+              <span>Review lab results →</span>
+            </div>
+          </button>
+        </section>
+      ) : null}
+
       <section className={styles.mainGrid}>
         <div className={styles.appointmentsPanel} id="appointments">
           <div className={styles.panelHeader}>
@@ -192,9 +278,18 @@ export default function DoctorWorkspace({
 
           <div className={styles.messageList}>
             {isLoading ? (
-              <div className={styles.emptyState}>Loading messages...</div>
+              <div className={styles.messageEmptyState}>
+                <strong>Loading messages...</strong>
+                <p>Pulling the latest conversation for this appointment.</p>
+              </div>
             ) : messages.length === 0 ? (
-              <div className={styles.emptyState}>No patient messages yet.</div>
+              <div className={styles.messageEmptyState}>
+                <strong>No patient messages yet.</strong>
+                <p>
+                  When the patient sends a note, the conversation will appear here and you can
+                  reply directly from this panel.
+                </p>
+              </div>
             ) : (
               messages.map((message) => (
                 <div
