@@ -6,10 +6,14 @@ import { SpecialtyPicker } from "./SpecialtyPicker";
 import { DoctorPicker } from "./DoctorPicker";
 import { DateTimePicker } from "./DateTimePicker";
 import { Confirmation } from "./Confirmation";
-import { bookAppointment } from "@/scheduling/lib/scheduling-data";
+import { bookAppointment, getSpecialties } from "@/scheduling/lib/scheduling-data";
 import type { Specialty, Doctor } from "@/scheduling/types/scheduling";
 
-export function ScheduleWizard() {
+interface ScheduleWizardProps {
+  initialSpecialtyName?: string;
+}
+
+export function ScheduleWizard({ initialSpecialtyName }: ScheduleWizardProps) {
   const [step, setStep] = useState(1);
   const [selectedSpecialty, setSelectedSpecialty] = useState<Specialty | null>(null);
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
@@ -31,6 +35,21 @@ export function ScheduleWizard() {
       })
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (!initialSpecialtyName) return;
+    getSpecialties()
+      .then((specialties) => {
+        const match = specialties.find(
+          (s) => s.name.toLowerCase() === initialSpecialtyName.toLowerCase()
+        );
+        if (match) {
+          setSelectedSpecialty(match);
+          setStep(2);
+        }
+      })
+      .catch(() => {});
+  }, [initialSpecialtyName]);
 
   const handleSelectSpecialty = (specialty: Specialty) => {
     setSelectedSpecialty(specialty);

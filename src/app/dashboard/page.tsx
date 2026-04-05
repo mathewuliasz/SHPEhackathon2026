@@ -146,6 +146,35 @@ export default async function Dashboard() {
         ))}
       </section>
 
+      <section className={styles.triageCard}>
+        <div className={styles.triageGlow} />
+        <div className={styles.triageInner}>
+          <div className={styles.triageBadge}>
+            <span className={styles.triagePulse} />
+            AI-Powered
+          </div>
+          <h2 className={styles.triageTitle}>
+            Not sure which specialist you need?
+          </h2>
+          <p className={styles.triageDescription}>
+            Describe your symptoms and our AI triage assistant will analyze them
+            and recommend the right type of doctor — then book directly.
+          </p>
+          <Link className={styles.triageAction} href="/dashboard/triage">
+            Start Symptom Check
+            <svg viewBox="0 0 24 24">
+              <path d="M5 12h14" />
+              <path d="m13 5 7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
+        <div className={styles.triageVisual} aria-hidden="true">
+          <svg viewBox="0 0 24 24" className={styles.triageIconLarge}>
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+          </svg>
+        </div>
+      </section>
+
       <section className={styles.quickSection}>
         <div className={styles.sectionHeader}>
           <div>
