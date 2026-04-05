@@ -177,6 +177,19 @@ export async function getUpcomingAppointmentsForDoctor(
   return data || [];
 }
 
+export async function getAllAppointmentsForUser(
+  userId: string
+): Promise<Appointment[]> {
+  const { data, error } = await supabase
+    .from("appointments")
+    .select("*")
+    .eq("user_id", userId)
+    .order("date", { ascending: true })
+    .order("time", { ascending: true });
+  if (error) throw error;
+  return data || [];
+}
+
 export async function bookAppointment(params: {
   doctorId: string;
   specialtyId: string;
@@ -217,4 +230,130 @@ export async function bookAppointment(params: {
   }
 
   return appointment.id;
+}
+
+export async function cancelAppointment(
+  appointmentId: string,
+  userId: string
+): Promise<Appointment> {
+  // Fetch the appointment and verify ownership
+  const { data: appointment, error: fetchError } = await supabase
+    .from("appointments")
+    .select("*")
+    .eq("id", appointmentId)
+    .eq("user_id", userId)
+    .single();
+  if (fetchError || !appointment) throw new Error("Appointment not found");
+
+  // Restore the slot to availability
+  const { data: avail } = await supabase
+    .from("availability")
+    .select("id, slots")
+    .eq("doctor_id", appointment.doctor_id)
+    .eq("date", appointment.date)
+    .single();
+
+  if (avail) {
+    const slots: string[] = avail.slots;
+    if (!slots.includes(appointment.time)) {
+      slots.push(appointment.time);
+      slots.sort();
+      await supabase
+        .from("availability")
+        .update({ slots })
+        .eq("id", avail.id);
+    }
+  }
+
+  // Insert auto-generated cancellation message
+  await supabase.from("messages").insert({
+    appointment_id: appointmentId,
+    sender_type: "patient",
+    content: "This appointment has been cancelled.",
+  });
+
+  // Delete the appointment
+  await supabase.from("appointments").delete().eq("id", appointmentId);
+
+  return appointment;
+}
+
+export async function rescheduleAppointment(
+  appointmentId: string,
+  userId: string,
+  newDate: string,
+  newTime: string
+): Promise<Appointment> {
+  // Fetch the appointment and verify ownership
+  const { data: appointment, error: fetchError } = await supabase
+    .from("appointments")
+    .select("*")
+    .eq("id", appointmentId)
+    .eq("user_id", userId)
+    .single();
+  if (fetchError || !appointment) throw new Error("Appointment not found");
+
+  const oldDate = appointment.date;
+  const oldTime = appointment.time;
+
+  // Restore the old slot to availability
+  const { data: oldAvail } = await supabase
+    .from("availability")
+    .select("id, slots")
+    .eq("doctor_id", appointment.doctor_id)
+    .eq("date", oldDate)
+    .single();
+
+  if (oldAvail) {
+    const slots: string[] = oldAvail.slots;
+    if (!slots.includes(oldTime)) {
+      slots.push(oldTime);
+      slots.sort();
+      await supabase
+        .from("availability")
+        .update({ slots })
+        .eq("id", oldAvail.id);
+    }
+  }
+
+  // Remove the new slot from availability
+  const { data: newAvail } = await supabase
+    .from("availability")
+    .select("id, slots")
+    .eq("doctor_id", appointment.doctor_id)
+    .eq("date", newDate)
+    .single();
+
+  if (newAvail) {
+    const updatedSlots = newAvail.slots.filter((s: string) => s !== newTime);
+    await supabase
+      .from("availability")
+      .update({ slots: updatedSlots })
+      .eq("id", newAvail.id);
+  }
+
+  // Update the appointment
+  const { data: updated, error: updateError } = await supabase
+    .from("appointments")
+    .update({ date: newDate, time: newTime })
+    .eq("id", appointmentId)
+    .select("*")
+    .single();
+  if (updateError) throw updateError;
+
+  // Format times for the message
+  const fmtTime = (t: string) => {
+    const [h, m] = t.split(":").map(Number);
+    const p = h >= 12 ? "PM" : "AM";
+    return `${h % 12 || 12}:${String(m).padStart(2, "0")} ${p}`;
+  };
+
+  // Insert auto-generated reschedule message
+  await supabase.from("messages").insert({
+    appointment_id: appointmentId,
+    sender_type: "patient",
+    content: `This appointment has been rescheduled from ${oldDate} at ${fmtTime(oldTime)} to ${newDate} at ${fmtTime(newTime)}.`,
+  });
+
+  return updated;
 }

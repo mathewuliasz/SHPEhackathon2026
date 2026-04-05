@@ -113,8 +113,8 @@ export default async function Dashboard() {
             <Link className={styles.primaryAction} href="/dashboard/schedule">
               {t(lang, "dash_bookAppointment")}
             </Link>
-            <Link className={styles.secondaryAction} href="/reviews">
-              {t(lang, "dash_viewReviews")}
+            <Link className={styles.secondaryAction} href="/dashboard/appointments">
+              {t(lang, "dash_manageAppointments")}
             </Link>
           </div>
         </div>
