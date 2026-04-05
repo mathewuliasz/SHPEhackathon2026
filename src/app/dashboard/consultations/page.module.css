@@ -14,25 +14,26 @@
   margin-top: 6px;
 }
 
-/* Doctor Cards Grid */
+/* Doctor Cards List */
 .doctorGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .doctorCard {
   background: #fff;
-  border-radius: 12px;
-  padding: 20px 24px;
+  border-radius: 14px;
+  padding: 22px 28px;
   border: 1px solid #eaeaea;
   cursor: pointer;
   transition: box-shadow 0.2s, border-color 0.2s;
   display: flex;
-  gap: 16px;
-  align-items: flex-start;
+  gap: 18px;
+  align-items: center;
   text-decoration: none;
   color: inherit;
+  width: 100%;
 }
 
 .doctorCard:hover {
@@ -105,8 +106,9 @@
 
 .arrow {
   align-self: center;
+  margin-left: auto;
   color: #ccc;
-  font-size: 18px;
+  font-size: 22px;
   flex-shrink: 0;
 }
 

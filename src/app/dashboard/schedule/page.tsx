@@ -1,10 +1,13 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { ScheduleWizard } from "@/scheduling/components/ScheduleWizard";
 
-export const metadata = {
-  title: "Schedule Appointment | MediTrack",
-};
+function ScheduleContent() {
+  const searchParams = useSearchParams();
+  const specialtyParam = searchParams.get("specialty") ?? undefined;
 
-export default function SchedulePage() {
   return (
     <main className="min-h-screen bg-[#f6f8fb] px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -22,9 +25,17 @@ export default function SchedulePage() {
         </div>
 
         <div className="pb-8">
-          <ScheduleWizard />
+          <ScheduleWizard initialSpecialtyName={specialtyParam} />
         </div>
       </div>
     </main>
+  );
+}
+
+export default function SchedulePage() {
+  return (
+    <Suspense>
+      <ScheduleContent />
+    </Suspense>
   );
 }
