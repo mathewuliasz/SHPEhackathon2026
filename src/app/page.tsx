@@ -25,7 +25,7 @@ const menuKeys = [
   { key: "nav_home" as const, href: "#top" },
   { key: "nav_about" as const, href: "/about" },
   { key: "nav_reviews" as const, href: "/reviews" },
-  { key: "nav_contact" as const, href: "#contact-us" },
+  { key: "nav_contact" as const, href: "/contact" },
 ] as const;
 
 const fallbackReviews = [
@@ -186,7 +186,7 @@ export default async function Home() {
                   </div>
                   <h3>{t(lang, service.titleKey)}</h3>
                   <p>{t(lang, service.descKey)}</p>
-                  <a href="#contact-us">{t(lang, "services_learnMore")}</a>
+                  <Link href="/contact">{t(lang, "services_learnMore")}</Link>
                 </article>
               </MouseTiltCard>
             ))}
@@ -275,9 +275,9 @@ export default async function Home() {
               <div className={styles.bottomCtaCopy}>
                 <h2>{t(lang, "bottom_adviceTitle")}</h2>
                 <p>{t(lang, "bottom_adviceText")}</p>
-                <a className={styles.bottomPrimaryButton} href="#contact-us">
+                <Link className={styles.bottomPrimaryButton} href="/contact">
                   {t(lang, "bottom_adviceCta")}
-                </a>
+                </Link>
               </div>
             </article>
           </MouseTiltCard>

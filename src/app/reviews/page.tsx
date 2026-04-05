@@ -67,7 +67,7 @@ export default async function ReviewsPage() {
           <Link href="/reviews" aria-current="page">
             {t(lang, "nav_reviews")}
           </Link>
-          <Link href="/#contact-us">{t(lang, "nav_contact")}</Link>
+          <Link href="/contact">{t(lang, "nav_contact")}</Link>
         </nav>
 
         <div className={styles.headerActions}>

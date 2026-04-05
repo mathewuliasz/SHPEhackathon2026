@@ -4,6 +4,29 @@ import { getAppointmentsForDoctor, getDoctorById } from "@/scheduling/lib/schedu
 import DoctorWorkspace from "./DoctorWorkspace";
 import styles from "./page.module.css";
 
+function getGreeting() {
+  const hour = new Date().getHours();
+
+  if (hour < 12) {
+    return "Good morning";
+  }
+
+  if (hour < 18) {
+    return "Good afternoon";
+  }
+
+  return "Good evening";
+}
+
+function getTodayLabel() {
+  return new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
 export default async function DoctorDashboardPage() {
   const user = await getCurrentUser();
 
@@ -42,17 +65,23 @@ export default async function DoctorDashboardPage() {
   }
 
   const nextAppointment = appointments[0] ?? null;
+  const greeting = `${getGreeting()}, ${doctor.name}`;
+  const todayLabel = getTodayLabel();
+  const heroNote = nextAppointment
+    ? `Your next visit is with ${nextAppointment.patient_name || "your patient"} at ${new Date(`${nextAppointment.date}T${nextAppointment.time}:00`).toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+      })}.`
+    : "You have space to catch up on charts and patient follow-ups today.";
 
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
           <span className={styles.kicker}>Doctor Dashboard</span>
-          <h1>Care delivery, messaging, and follow-up in one workspace.</h1>
-          <p>
-            Review today&apos;s visit queue, respond to patients, and keep your schedule
-            moving without switching between tools.
-          </p>
+          <h1>{greeting}</h1>
+          <p className={styles.heroDate}>{todayLabel}</p>
+          <p className={styles.heroNote}>{heroNote}</p>
         </div>
 
         <div className={styles.heroRail}>

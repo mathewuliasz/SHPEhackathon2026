@@ -63,6 +63,58 @@ const translations = {
     contact_eyebrow: "Ready to get started?",
     contact_title: "Speak with a licensed provider today.",
     contact_cta: "Contact Us",
+    contact_pageKicker: "Contact SHPE Medical",
+    contact_pageTitle: "Talk to our team about care, access, or volunteering.",
+    contact_pageText:
+      "Whether you need help booking a consultation, have questions about eligibility, or want to support the mission, we will point you to the right next step.",
+    contact_primaryCta: "Email Support",
+    contact_secondaryCta: "Book Appointment",
+    contact_panelEyebrow: "Support Snapshot",
+    contact_panelTitle: "Fast, bilingual help for patients and volunteers.",
+    contact_panelText:
+      "Our team coordinates patient scheduling, general questions, and volunteer inquiries in English and Spanish.",
+    contact_fact1Value: "1-2 Days",
+    contact_fact1Label: "Typical email response time",
+    contact_fact2Value: "English + Spanish",
+    contact_fact2Label: "Languages supported by the team",
+    contact_fact3Value: "Virtual First",
+    contact_fact3Label: "Most support starts online",
+    contact_methodsKicker: "Ways to Reach Us",
+    contact_methodsTitle: "Choose the fastest path for what you need.",
+    contact_methodsText:
+      "Use the option that matches your situation and we will route your request to the right team.",
+    contact_method1Eyebrow: "General Support",
+    contact_method1Title: "Email the care team",
+    contact_method1Text:
+      "Ask questions about appointments, patient access, platform support, or follow-up care.",
+    contact_method1Cta: "care@shpemedical.org",
+    contact_method2Eyebrow: "Patient Access",
+    contact_method2Title: "Start a consultation request",
+    contact_method2Text:
+      "Create an account, review specialties, and request a visit with a licensed provider.",
+    contact_method2Cta: "Go to patient sign in",
+    contact_method3Eyebrow: "Volunteer Interest",
+    contact_method3Title: "Talk with the volunteer team",
+    contact_method3Text:
+      "Doctors, nurses, and specialists can review the volunteer process and submit interest forms.",
+    contact_method3Cta: "Open volunteer page",
+    contact_expectKicker: "What to Expect",
+    contact_expectTitle: "How SHPE Medical support works after you reach out.",
+    contact_expect1Title: "Tell us what you need",
+    contact_expect1Text:
+      "Share whether you are looking for patient care, scheduling help, technical support, or volunteer information.",
+    contact_expect2Title: "We route your request",
+    contact_expect2Text:
+      "The right coordinator follows up with next steps, bilingual guidance, and any links you need.",
+    contact_expect3Title: "Move into care or onboarding",
+    contact_expect3Text:
+      "Patients can book appointments, and clinicians can continue into volunteer review and approval.",
+    contact_bannerKicker: "Need a Faster Next Step?",
+    contact_bannerTitle: "Start with the portal if you are ready to take action now.",
+    contact_bannerText:
+      "Patients can head straight into booking, while doctors and specialists can review the volunteer pathway and application requirements.",
+    contact_bannerPrimary: "Go to Sign In",
+    contact_bannerSecondary: "Volunteer With Us",
 
     // Reviews section
     reviews_kicker: "Reviews",
@@ -593,6 +645,58 @@ const translations = {
     contact_eyebrow: "¿Listo para comenzar?",
     contact_title: "Habla con un proveedor licenciado hoy.",
     contact_cta: "Contáctanos",
+    contact_pageKicker: "Contacta a SHPE Medical",
+    contact_pageTitle: "Habla con nuestro equipo sobre atención, acceso o voluntariado.",
+    contact_pageText:
+      "Si necesitas ayuda para agendar una consulta, tienes preguntas sobre elegibilidad o quieres apoyar la misión, te guiaremos al siguiente paso correcto.",
+    contact_primaryCta: "Enviar correo",
+    contact_secondaryCta: "Agendar Cita",
+    contact_panelEyebrow: "Resumen de Soporte",
+    contact_panelTitle: "Ayuda rápida y bilingüe para pacientes y voluntarios.",
+    contact_panelText:
+      "Nuestro equipo coordina citas de pacientes, preguntas generales y consultas de voluntariado en inglés y español.",
+    contact_fact1Value: "1-2 Días",
+    contact_fact1Label: "Tiempo típico de respuesta por correo",
+    contact_fact2Value: "Inglés + Español",
+    contact_fact2Label: "Idiomas atendidos por el equipo",
+    contact_fact3Value: "Virtual Primero",
+    contact_fact3Label: "La mayoría del apoyo comienza en línea",
+    contact_methodsKicker: "Formas de Contactarnos",
+    contact_methodsTitle: "Elige la vía más rápida para lo que necesitas.",
+    contact_methodsText:
+      "Usa la opción que mejor se ajuste a tu situación y dirigiremos tu solicitud al equipo correcto.",
+    contact_method1Eyebrow: "Soporte General",
+    contact_method1Title: "Escribe al equipo de atención",
+    contact_method1Text:
+      "Haz preguntas sobre citas, acceso para pacientes, soporte de la plataforma o seguimiento médico.",
+    contact_method1Cta: "care@shpemedical.org",
+    contact_method2Eyebrow: "Acceso del Paciente",
+    contact_method2Title: "Inicia una solicitud de consulta",
+    contact_method2Text:
+      "Crea una cuenta, revisa especialidades y solicita una visita con un proveedor licenciado.",
+    contact_method2Cta: "Ir al ingreso del paciente",
+    contact_method3Eyebrow: "Interés en Voluntariado",
+    contact_method3Title: "Habla con el equipo de voluntarios",
+    contact_method3Text:
+      "Doctores, enfermeros y especialistas pueden revisar el proceso de voluntariado y enviar su interés.",
+    contact_method3Cta: "Abrir página de voluntariado",
+    contact_expectKicker: "Qué Esperar",
+    contact_expectTitle: "Cómo funciona el soporte de SHPE Medical después de contactarnos.",
+    contact_expect1Title: "Cuéntanos qué necesitas",
+    contact_expect1Text:
+      "Comparte si buscas atención médica, ayuda para agendar, soporte técnico o información sobre voluntariado.",
+    contact_expect2Title: "Dirigimos tu solicitud",
+    contact_expect2Text:
+      "El coordinador adecuado te responde con los siguientes pasos, orientación bilingüe y los enlaces necesarios.",
+    contact_expect3Title: "Continúa hacia la atención o la incorporación",
+    contact_expect3Text:
+      "Los pacientes pueden agendar citas y los profesionales pueden continuar con la revisión y aprobación de voluntariado.",
+    contact_bannerKicker: "¿Necesitas un paso más rápido?",
+    contact_bannerTitle: "Empieza en el portal si ya estás listo para actuar.",
+    contact_bannerText:
+      "Los pacientes pueden avanzar directamente al agendamiento, mientras que doctores y especialistas pueden revisar la ruta de voluntariado y los requisitos.",
+    contact_bannerPrimary: "Ir a Iniciar Sesión",
+    contact_bannerSecondary: "Hazte Voluntario",
 
     // Reviews section
     reviews_kicker: "Reseñas",

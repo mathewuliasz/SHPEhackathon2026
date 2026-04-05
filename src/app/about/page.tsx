@@ -47,7 +47,7 @@ export default async function AboutPage() {
             {t(lang, "nav_about")}
           </Link>
           <Link href="/reviews">{t(lang, "nav_reviews")}</Link>
-          <Link href="/#contact-us">{t(lang, "nav_contact")}</Link>
+          <Link href="/contact">{t(lang, "nav_contact")}</Link>
         </nav>
 
         <div className={styles.headerActions}>

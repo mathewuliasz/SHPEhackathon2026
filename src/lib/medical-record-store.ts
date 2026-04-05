@@ -57,6 +57,36 @@ export async function listMedicalRecordsForUser(userId: string) {
   return records.map(mapMedicalRecord);
 }
 
+export async function listMedicalRecordsForDoctor(doctorName: string) {
+  const trimmedName = doctorName.trim();
+  const normalizedName = trimmedName.replace(/^Dr\.\s*/i, "");
+  const candidates = Array.from(
+    new Set([trimmedName, normalizedName, `Dr. ${normalizedName}`].filter(Boolean)),
+  );
+
+  const resultSets = await Promise.all(
+    candidates.map(async (candidate) => {
+      const records = await supabaseRequest<SupabaseMedicalRecord[]>(
+        `app_medical_records?doctor=ilike.*${encodeURIComponent(candidate)}*&select=*&order=record_date.desc&order=created_at.desc`,
+        { method: "GET" },
+      );
+
+      return records.map(mapMedicalRecord);
+    }),
+  );
+
+  const deduped = new Map<string, StoredMedicalRecord>();
+  for (const records of resultSets) {
+    for (const record of records) {
+      deduped.set(record.id, record);
+    }
+  }
+
+  return Array.from(deduped.values()).sort((a, b) =>
+    `${b.recordDate}${b.createdAt}`.localeCompare(`${a.recordDate}${a.createdAt}`),
+  );
+}
+
 export async function createMedicalRecord(input: {
   userId: string;
   title: string;

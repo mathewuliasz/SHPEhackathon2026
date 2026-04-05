@@ -1,52 +1,21 @@
+import { getCurrentUser } from "@/lib/auth";
 import { getLanguage, t } from "@/lib/language";
+import { listMedicalRecordsForUser } from "@/lib/medical-record-store";
 import styles from "../records/page.module.css";
 
-type LabResult = {
-  id: string;
-  title: string;
-  doctor: string;
-  date: string;
-  summary: string;
-  status: string;
-  tone: "normal" | "borderline";
-};
+function statusClassName(status: string) {
+  if (status === "Borderline" || status === "Needs Attention") {
+    return styles.statusBorderline;
+  }
 
-const labResults: LabResult[] = [
-  {
-    id: "lab-cbc",
-    title: "Complete Blood Count (CBC)",
-    doctor: "Dr. Sarah Chen",
-    date: "2024-05-20",
-    summary: "All values within normal range.",
-    status: "Normal",
-    tone: "normal",
-  },
-  {
-    id: "lab-hba1c",
-    title: "HbA1c Test",
-    doctor: "Dr. James Patel",
-    date: "2024-04-15",
-    summary: "HbA1c: 6.2% — Monitor closely.",
-    status: "Borderline",
-    tone: "borderline",
-  },
-  {
-    id: "lab-lipid",
-    title: "Lipid Panel",
-    doctor: "Dr. Sarah Chen",
-    date: "2024-03-10",
-    summary: "LDL: 95 mg/dL, HDL: 55 mg/dL.",
-    status: "Normal",
-    tone: "normal",
-  },
-];
-
-function statusClassName(tone: LabResult["tone"]) {
-  return tone === "borderline" ? styles.statusBorderline : styles.statusNormal;
+  return styles.statusNormal;
 }
 
 export default async function LabResultsPage() {
+  const user = await getCurrentUser();
   const lang = await getLanguage();
+  const records = user ? await listMedicalRecordsForUser(user.userId) : [];
+  const labResults = records.filter((record) => record.category === "lab_results");
 
   return (
     <section className={styles.page}>
@@ -57,23 +26,32 @@ export default async function LabResultsPage() {
         </div>
       </div>
 
-      <div className={styles.grid}>
-        {labResults.map((item) => (
-          <article key={item.id} className={styles.card}>
-            <div className={styles.cardTop}>
-              <h2 className={styles.cardTitle}>{item.title}</h2>
-              <span className={`${styles.status} ${statusClassName(item.tone)}`}>
-                {item.status}
-              </span>
-            </div>
+      {labResults.length === 0 ? (
+        <article className={styles.emptyStateCard}>
+          <h2 className={styles.cardTitle}>No lab results yet</h2>
+          <p className={styles.cardSummary}>
+            When lab records are added to your account, they will appear here.
+          </p>
+        </article>
+      ) : (
+        <div className={styles.grid}>
+          {labResults.map((item) => (
+            <article key={item.id} className={styles.card}>
+              <div className={styles.cardTop}>
+                <h2 className={styles.cardTitle}>{item.title}</h2>
+                <span className={`${styles.status} ${statusClassName(item.status)}`}>
+                  {item.status}
+                </span>
+              </div>
 
-            <p className={styles.cardMeta}>
-              {item.doctor} • {item.date}
-            </p>
-            <p className={styles.cardSummary}>{item.summary}</p>
-          </article>
-        ))}
-      </div>
+              <p className={styles.cardMeta}>
+                {item.doctor} • {item.recordDate}
+              </p>
+              <p className={styles.cardSummary}>{item.summary}</p>
+            </article>
+          ))}
+        </div>
+      )}
     </section>
   );
 }
