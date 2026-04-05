@@ -3,6 +3,7 @@ import { createZoomMeeting } from "@/lib/zoom";
 import { sendAppointmentConfirmation } from "@/lib/email";
 import { getCurrentUser } from "@/lib/auth";
 import { createClient } from "@supabase/supabase-js";
+import { createRecallBot } from "@/lib/recall";
 
 const PREREQ_DOCUMENTS: Record<string, string> = {
   "General Practice": `📋 PRE-APPOINTMENT CHECKLIST — General Practice
@@ -144,6 +145,21 @@ export async function POST(req: NextRequest) {
 
     if (updateError) {
       console.error("Failed to save Zoom link to appointment:", updateError);
+    }
+
+    // Create Recall.ai bot to join and transcribe the meeting
+    try {
+      const bot = await createRecallBot(
+        meeting.join_url,
+        "MediTrack AI Notetaker"
+      );
+      await supabaseAdmin
+        .from("appointments")
+        .update({ recall_bot_id: bot.id })
+        .eq("id", body.appointmentId);
+      console.log("Recall bot created:", bot.id);
+    } catch (recallErr) {
+      console.error("Failed to create Recall bot:", recallErr);
     }
 
     // Send confirmation email to logged-in user

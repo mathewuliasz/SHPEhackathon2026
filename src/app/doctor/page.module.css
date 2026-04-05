@@ -548,6 +548,28 @@
   border-bottom-left-radius: 6px;
 }
 
+.messageSystem {
+  align-self: center;
+  max-width: 90%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  line-height: 1.6;
+  background: linear-gradient(135deg, #f0f7ff, #e8f4f8);
+  color: #1a1a2e;
+  border: 1px solid #d0e3f0;
+  white-space: pre-wrap;
+  font-size: 0.85rem;
+}
+
+.systemLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #2f55db;
+  margin-bottom: 6px;
+}
+
 .messageMeta {
   display: block;
   margin-top: 6px;

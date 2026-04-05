@@ -30,13 +30,14 @@ export interface Appointment {
   user_id: string | null;
   zoom_join_url?: string | null;
   zoom_meeting_id?: number | null;
+  recall_bot_id?: string | null;
   created_at: string;
 }
 
 export interface Message {
   id: string;
   appointment_id: string;
-  sender_type: "patient" | "doctor";
+  sender_type: "patient" | "doctor" | "system";
   content: string;
   created_at: string;
 }

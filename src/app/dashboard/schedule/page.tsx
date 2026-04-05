@@ -11,17 +11,16 @@ function ScheduleContent() {
   const { t } = useLanguage();
 
   return (
-    <main className="min-h-screen px-4 py-10 sm:px-6 lg:px-10">
-      <div className=" w-full max-w-7xl">
-        <div className="mx-auto max-w-4xl px-2 pb-6 pt-6 text-center sm:px-6 lg:translate-x-6">
-          <span className="mb-4 inline-flex text-xs font-semibold uppercase tracking-[0.24em] text-gray-500 lg:translate-x-30">
-    {t("schedule_kicker")}
-  </span>
-
-           <h1 className="mb-10 text-4xl font-semibold text-gray-900 sm:text-5xl lg:translate-x-[140px]">
-    {t("schedule_title")}
-  </h1>
-          <p className=" max-w-2xl text-center text-lg leading-8 text-gray-600 lg:translate-x-60">
+    <main className="min-h-screen px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-7xl">
+        <div className="mx-auto max-w-4xl px-2 pb-6 pt-6 text-center sm:px-6">
+          <span className="mb-4 inline-flex text-xs font-semibold uppercase tracking-[0.24em] text-gray-500">
+            {t("schedule_kicker")}
+          </span>
+          <h1 className="mb-4 text-4xl font-semibold text-gray-900 sm:text-5xl">
+            {t("schedule_title")}
+          </h1>
+          <p className="mx-auto max-w-2xl text-center text-lg leading-8 text-gray-600">
             {t("schedule_text")}
           </p>
         </div>
