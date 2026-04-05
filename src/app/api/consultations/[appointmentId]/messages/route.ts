@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
+import { refreshPatientContext } from "@/lib/patient-context-store";
 
 async function verifyOwnership(appointmentId: string, userId: string) {
   const { data } = await supabase
@@ -77,5 +78,6 @@ export async function POST(
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  refreshPatientContext(user).catch(() => {});
   return NextResponse.json({ message: data });
 }

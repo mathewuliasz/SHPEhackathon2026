@@ -94,6 +94,7 @@ export function ScheduleWizard({ initialSpecialtyName }: ScheduleWizardProps) {
         console.error("Zoom meeting creation failed:", zoomErr);
       }
 
+      fetch("/api/patient-context", { method: "POST" }).catch(() => {});
       setStep(4);
     } catch (err) {
       console.error("Booking failed:", err);

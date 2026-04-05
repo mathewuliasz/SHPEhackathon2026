@@ -1,5 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
+import { getCurrentUser } from "@/lib/auth";
+import {
+  getCachedPatientContext,
+  refreshPatientContext,
+} from "@/lib/patient-context-store";
 
 const SYSTEM_PROMPT = `You are a helpful medical assistant chatbot embedded in a health dashboard called MediTrack. You can help users with:
 
@@ -12,7 +17,9 @@ const SYSTEM_PROMPT = `You are a helpful medical assistant chatbot embedded in a
    - Medical Records/Meetings: Access your medical records and scheduled meetings
    - Your Profile: Manage your personal and medical profile information
 
-Keep responses concise and friendly. If asked about specific biomarker values, explain what they mean in simple terms. Always recommend consulting a healthcare professional for medical decisions.`;
+Keep responses concise and friendly. If asked about specific biomarker values, explain what they mean in simple terms. Always recommend consulting a healthcare professional for medical decisions.
+
+If patient context data is provided below, use it to answer questions about the patient's medical records, prescriptions, and appointments. Reference the actual data when relevant. Never fabricate data not listed. If a section is empty, tell the patient no records were found.`;
 
 export async function POST(req: NextRequest) {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -25,15 +32,40 @@ export async function POST(req: NextRequest) {
 
   const { messages } = await req.json();
 
+  let systemInstruction = SYSTEM_PROMPT;
+  const user = await getCurrentUser();
+  if (user) {
+    let context = await getCachedPatientContext(user.userId);
+    if (context === null) {
+      await refreshPatientContext(user);
+      context = await getCachedPatientContext(user.userId);
+    }
+    if (context) {
+      systemInstruction = SYSTEM_PROMPT + "\n\n---\nPatient Context:\n" + context;
+    }
+  }
+
   const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+  const model = genAI.getGenerativeModel({
+    model: "gemini-2.5-flash",
+    systemInstruction: {
+      role: "system",
+      parts: [{ text: systemInstruction }],
+    },
+  });
+
+  const historyMessages = messages.slice(0, -1);
+  const firstUserIdx = historyMessages.findIndex(
+    (m: { role: string }) => m.role === "user",
+  );
+  const validHistory =
+    firstUserIdx === -1 ? [] : historyMessages.slice(firstUserIdx);
 
   const chat = model.startChat({
-    history: messages.slice(0, -1).map((m: { role: string; content: string }) => ({
+    history: validHistory.map((m: { role: string; content: string }) => ({
       role: m.role === "assistant" ? "model" : "user",
       parts: [{ text: m.content }],
     })),
-    systemInstruction: SYSTEM_PROMPT,
   });
 
   const lastMessage = messages[messages.length - 1].content;
