@@ -31,6 +31,7 @@ export function AuthCard({
     fullName: "",
     email: "",
     password: "",
+    role: "patient" as "patient" | "admin",
     acceptedTerms: false,
   });
 
@@ -154,6 +155,20 @@ export function AuthCard({
 
         {isSignUp ? (
           <div className={styles.formMeta}>
+            <label className={styles.checkbox}>
+              <input
+                type="checkbox"
+                checked={signUpForm.role === "admin"}
+                onChange={(event) =>
+                  setSignUpForm((current) => ({
+                    ...current,
+                    role: event.target.checked ? "admin" : "patient",
+                  }))
+                }
+              />
+              <span style={{ fontWeight: 600, color: "#2f55db" }}>Register as Administrator</span>
+            </label>
+
             <label className={styles.checkbox}>
               <input
                 type="checkbox"

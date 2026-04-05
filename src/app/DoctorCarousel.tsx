@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./page.module.css";
 
 const doctors = [
-  { name: "Dr. Elena Ruiz", specialty: "Family Care" },
-  { name: "Dr. Marcus Lee", specialty: "Internal Medicine" },
-  { name: "Dr. Nina Patel", specialty: "Urgent Care" },
+  { name: "Dr. Elena Ruiz", specialty: "Family Care", rating: 4.9, count: 128 },
+  { name: "Dr. Marcus Lee", specialty: "Internal Medicine", rating: 4.8, count: 94 },
+  { name: "Dr. Nina Patel", specialty: "Urgent Care", rating: 4.9, count: 156 },
 ] as const;
 
 export function DoctorCarousel() {
@@ -120,6 +120,11 @@ export function DoctorCarousel() {
             <div>
               <strong>{doctor.name}</strong>
               <span>{doctor.specialty}</span>
+              <div className={styles.doctorRating}>
+                <span>★</span>
+                <strong>{doctor.rating}</strong>
+                <span className={styles.doctorRatingCount}>({doctor.count})</span>
+              </div>
             </div>
           </article>
         ))}

@@ -12,6 +12,7 @@ type DashboardShellProps = {
   user: {
     fullName: string;
     email: string;
+    role: string;
   };
 };
 
@@ -23,6 +24,18 @@ const menuItems = [
       <svg viewBox="0 0 24 24">
         <path d="M3 11.5 12 4l9 7.5" />
         <path d="M5 10.5V20h5v-5h4v5h5v-9.5" />
+      </svg>
+    ),
+  },
+  {
+    labelKey: "admin_navAdmin",
+    href: "/dashboard/admin",
+    isAdminOnly: true,
+    icon: (
+      <svg viewBox="0 0 24 24">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+        <path d="M12 8v4" />
+        <path d="M12 16h.01" />
       </svg>
     ),
   },
@@ -183,24 +196,26 @@ export default function DashboardShell({
         </div>
 
         <nav className={styles.drawerNav}>
-          {menuItems.map((item) => {
-            const isActive =
-              item.href === "/dashboard"
-                ? pathname === "/dashboard"
-                : pathname.startsWith(item.href);
+          {menuItems
+            .filter((item) => !item.isAdminOnly || user.role === "admin")
+            .map((item) => {
+              const isActive =
+                item.href === "/dashboard"
+                  ? pathname === "/dashboard"
+                  : pathname.startsWith(item.href);
 
-            return (
-              <Link
-                key={item.labelKey}
-                href={item.href}
-                className={`${styles.navItem} ${isActive ? styles.navItemActive : ""}`}
-                onClick={() => setMenuOpen(false)}
-              >
-                <span className={styles.navIcon}>{item.icon}</span>
-                {t(item.labelKey)}
-              </Link>
-            );
-          })}
+              return (
+                <Link
+                  key={item.labelKey}
+                  href={item.href}
+                  className={`${styles.navItem} ${isActive ? styles.navItemActive : ""}`}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span className={styles.navIcon}>{item.icon}</span>
+                  {t(item.labelKey)}
+                </Link>
+              );
+            })}
         </nav>
 
         <div className={styles.drawerFooter}>

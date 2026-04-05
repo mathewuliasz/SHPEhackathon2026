@@ -20,7 +20,7 @@ export default async function DashboardLayout({
 
   return (
     <>
-      <DashboardShell user={{ fullName: user.fullName, email: user.email }}>
+      <DashboardShell user={{ fullName: user.fullName, email: user.email, role: user.role }}>
         {children}
       </DashboardShell>
       <Chatbot />

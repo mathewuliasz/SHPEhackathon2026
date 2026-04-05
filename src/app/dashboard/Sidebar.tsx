@@ -6,7 +6,7 @@ import styles from "./layout.module.css";
 import LogoutButton from "./LogoutButton";
 
 type SidebarProps = {
-  user: { fullName: string; email: string };
+  user: { fullName: string; email: string; role: string };
 };
 
 const navItems = [
@@ -22,6 +22,18 @@ const navItems = [
       </svg>
     ),
     exact: true,
+  },
+  {
+    href: "/dashboard/admin",
+    label: "Admin Panel",
+    isAdminOnly: true,
+    icon: (
+      <svg viewBox="0 0 24 24">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+        <path d="M12 8v4" />
+        <path d="M12 16h.01" />
+      </svg>
+    ),
   },
   {
     href: "/dashboard/schedule",
@@ -87,21 +99,23 @@ export default function Sidebar({ user }: SidebarProps) {
         Medi<span className={styles.logoAccent}>Track</span>
       </div>
       <nav className={styles.nav}>
-        {navItems.map((item) => {
-          const isActive = item.exact
-            ? pathname === item.href
-            : pathname.startsWith(item.href);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={isActive ? styles.navItemActive : styles.navItem}
-            >
-              <span className={styles.navIcon}>{item.icon}</span>
-              {item.label}
-            </Link>
-          );
-        })}
+        {navItems
+          .filter((item) => !item.isAdminOnly || user.role === "admin")
+          .map((item) => {
+            const isActive = item.exact
+              ? pathname === item.href
+              : pathname.startsWith(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={isActive ? styles.navItemActive : styles.navItem}
+              >
+                <span className={styles.navIcon}>{item.icon}</span>
+                {item.label}
+              </Link>
+            );
+          })}
       </nav>
       <div className={styles.userPanel}>
         <strong>{user.fullName}</strong>

@@ -358,6 +358,22 @@
   font-size: 0.96rem;
 }
 
+.doctorRating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 6px;
+  color: #f0c546;
+  font-size: 0.9rem;
+}
+
+.doctorRatingCount {
+  color: #8d96aa;
+  font-size: 0.82rem;
+  margin-left: 2px;
+}
+
 .carouselSlideActive {
   transform: translateY(-14px);
   padding-bottom: 28px;

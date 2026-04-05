@@ -14,12 +14,14 @@ export async function POST(request: NextRequest) {
       fullName?: string;
       email?: string;
       password?: string;
+      role?: "patient" | "admin";
       acceptedTerms?: boolean;
     };
 
     const fullName = body.fullName?.trim() ?? "";
     const email = body.email?.trim() ?? "";
     const password = body.password?.trim() ?? "";
+    const role = body.role ?? "patient";
     const acceptedTerms = Boolean(body.acceptedTerms);
 
     if (!fullName || !email || !password) {
@@ -58,6 +60,7 @@ export async function POST(request: NextRequest) {
       fullName,
       email,
       passwordHash: hashPassword(password),
+      role,
       preferredLanguage,
     });
 
