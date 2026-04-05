@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useLanguage } from "@/lib/LanguageContext";
 import styles from "./layout.module.css";
 import LogoutButton from "./LogoutButton";
-import LanguageToggle from "@/components/LanguageToggle";
 
 type DashboardShellProps = {
   children: React.ReactNode;
@@ -44,6 +43,15 @@ const menuItems = [
     icon: (
       <svg viewBox="0 0 24 24">
         <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.9 8.9 0 0 1-3.5-.7L3 21l1.8-5.1A8.5 8.5 0 1 1 21 11.5Z" />
+      </svg>
+    ),
+  },
+  {
+    labelKey: "sidebar_triage",
+    href: "/dashboard/triage",
+    icon: (
+      <svg viewBox="0 0 24 24">
+        <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 15h-2v-2h2Zm0-4h-2V7h2Z" />
       </svg>
     ),
   },
@@ -123,7 +131,6 @@ export default function DashboardShell({
         </label>
 
         <div className={styles.topbarRight}>
-          <LanguageToggle />
           <button type="button" className={styles.notificationButton} aria-label={t("shell_notifications")}>
             <svg viewBox="0 0 24 24">
               <path d="M15 17H5.5a1.5 1.5 0 0 1-1.2-2.4L6 12.5V10a6 6 0 1 1 12 0v2.5l1.7 2.1a1.5 1.5 0 0 1-1.2 2.4H15" />

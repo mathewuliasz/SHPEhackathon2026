@@ -147,17 +147,16 @@ export default async function Dashboard() {
         <div className={styles.triageInner}>
           <div className={styles.triageBadge}>
             <span className={styles.triagePulse} />
-            AI-Powered
+            {t(lang, "dash_triageBadge")}
           </div>
           <h2 className={styles.triageTitle}>
-            Not sure which specialist you need?
+            {t(lang, "dash_triageTitle")}
           </h2>
           <p className={styles.triageDescription}>
-            Describe your symptoms and our AI triage assistant will analyze them
-            and recommend the right type of doctor — then book directly.
+            {t(lang, "dash_triageText")}
           </p>
           <Link className={styles.triageAction} href="/dashboard/triage">
-            Start Symptom Check
+            {t(lang, "dash_triageCta")}
             <svg viewBox="0 0 24 24">
               <path d="M5 12h14" />
               <path d="m13 5 7 7-7 7" />

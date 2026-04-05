@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useTransition } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 import type { StoredMedicalRecord } from "@/lib/medical-record-store";
 import styles from "./page.module.css";
 
@@ -73,14 +74,14 @@ const visitHistory: RecordCard[] = [
   },
 ];
 
-const tabs: Array<{
+const tabDefs: Array<{
   id: TabId;
-  label: string;
+  labelKey: string;
   icon: React.ReactNode;
 }> = [
   {
     id: "lab-results",
-    label: "Lab Results",
+    labelKey: "records_tabLab",
     icon: (
       <svg viewBox="0 0 24 24">
         <path d="m12 3 2.8 5.6 6.2.9-4.5 4.4 1.1 6.1L12 17.3 6.4 20l1.1-6.1L3 9.5l6.2-.9L12 3Z" />
@@ -89,7 +90,7 @@ const tabs: Array<{
   },
   {
     id: "visit-history",
-    label: "Visit History",
+    labelKey: "records_tabVisits",
     icon: (
       <svg viewBox="0 0 24 24">
         <rect x="5" y="4" width="14" height="16" rx="2" />
@@ -101,7 +102,7 @@ const tabs: Array<{
   },
   {
     id: "uploads",
-    label: "Uploads",
+    labelKey: "records_tabUploads",
     icon: (
       <svg viewBox="0 0 24 24">
         <path d="M12 16V4" />
@@ -164,6 +165,7 @@ export function RecordsWorkspace({
 }: {
   initialUploadedRecords: StoredMedicalRecord[];
 }) {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<TabId>("visit-history");
   const [uploadedRecords, setUploadedRecords] = useState<RecordCard[]>(
     initialUploadedRecords.map(mapUploadedRecord),
@@ -196,7 +198,7 @@ export function RecordsWorkspace({
         | null;
 
       if (!response.ok) {
-        setError(data?.error ?? "Could not scan and save this report.");
+        setError(data?.error ?? t("records_scanError"));
         return;
       }
 
@@ -204,7 +206,7 @@ export function RecordsWorkspace({
         setUploadedRecords((current) => [mapUploadedRecord(data.record!), ...current]);
       }
 
-      setSuccess("Report scanned and saved to this user account.");
+      setSuccess(t("records_scanSuccess"));
     });
   }
 
@@ -232,7 +234,7 @@ export function RecordsWorkspace({
       />
 
       <div className={styles.tabBar}>
-        {tabs.map((tab) => (
+        {tabDefs.map((tab) => (
           <button
             key={tab.id}
             type="button"
@@ -240,7 +242,7 @@ export function RecordsWorkspace({
             onClick={() => setActiveTab(tab.id)}
           >
             {tab.icon}
-            {tab.label}
+            {t(tab.labelKey)}
           </button>
         ))}
       </div>
@@ -263,10 +265,10 @@ export function RecordsWorkspace({
               <path d="M5 20h14" />
             </svg>
           </span>
-          <strong>Drag & drop files here</strong>
-          <p>PDF screenshots as images, JPG, PNG, or WEBP up to 10MB</p>
+          <strong>{t("records_dragDrop")}</strong>
+          <p>{t("records_dragDropHint")}</p>
           <label htmlFor="recordUploadInput" className={styles.browseButton}>
-            {isPending ? "Scanning..." : "Browse Files"}
+            {isPending ? t("records_scanning") : t("records_browse")}
           </label>
           {error ? <p className={styles.formError}>{error}</p> : null}
           {success ? <p className={styles.formSuccess}>{success}</p> : null}
@@ -289,13 +291,13 @@ export function RecordsWorkspace({
               </p>
               <p className={styles.cardSummary}>{item.summary}</p>
               {item.sourceFileName ? (
-                <p className={styles.cardSource}>Source: {item.sourceFileName}</p>
+                <p className={styles.cardSource}>{t("records_source")} {item.sourceFileName}</p>
               ) : null}
             </article>
           ))
         ) : (
           <div className={styles.emptyState}>
-            No uploaded records yet. Add a report image to generate a web summary.
+            {t("records_empty")}
           </div>
         )}
       </div>

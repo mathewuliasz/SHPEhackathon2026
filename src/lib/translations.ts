@@ -216,6 +216,26 @@ const translations = {
     records_subtitle: "View and manage your health records.",
     records_upload: "Upload New Record",
 
+    // Dashboard triage card
+    dash_triageBadge: "AI-Powered",
+    dash_triageTitle: "Not sure which specialist you need?",
+    dash_triageText:
+      "Describe your symptoms and our AI triage assistant will analyze them and recommend the right type of doctor — then book directly.",
+    dash_triageCta: "Start Symptom Check",
+
+    // Records
+    records_tabLab: "Lab Results",
+    records_tabVisits: "Visit History",
+    records_tabUploads: "Uploads",
+    records_dragDrop: "Drag & drop files here",
+    records_dragDropHint: "PDF screenshots as images, JPG, PNG, or WEBP up to 10MB",
+    records_browse: "Browse Files",
+    records_scanning: "Scanning...",
+    records_scanError: "Could not scan and save this report.",
+    records_scanSuccess: "Report scanned and saved to this user account.",
+    records_source: "Source:",
+    records_empty: "No uploaded records yet. Add a report image to generate a web summary.",
+
     // Schedule
     schedule_kicker: "Smart Booking Flow",
     schedule_title: "Schedule an Appointment",
@@ -290,6 +310,9 @@ const translations = {
 
     // Profile
     profile_title: "Your Profile",
+    profile_languageSection: "Language Preference",
+    profile_languageText: "Choose your preferred language for the dashboard and all pages.",
+    profile_languageSaved: "Language updated.",
 
     // About page
     about_logIn: "Log In",
@@ -412,6 +435,96 @@ const translations = {
     logout_button: "Log Out",
     logout_signingOut: "Signing out...",
     logout_error: "Could not log out.",
+
+    // Triage
+    triage_headerTitle: "Symptom Triage",
+    triage_headerSubtitle: "Describe your symptoms to find the right specialist",
+    triage_welcome:
+      "Hi! I'm your MediTrack triage assistant. Tell me about your symptoms and I'll help you figure out which type of specialist you should see.",
+    triage_placeholder: "Describe your symptoms...",
+    triage_error: "Sorry, something went wrong. Please try again.",
+    triage_urgencyEmergency: "Emergency",
+    triage_urgencyHigh: "High Urgency",
+    triage_urgencyModerate: "Moderate Urgency",
+    triage_urgencyLow: "Low Urgency",
+    triage_confidence: "confidence",
+    triage_disclaimer:
+      "This is not a medical diagnosis. Please consult a healthcare professional for proper evaluation and treatment.",
+    triage_bookWith: "Book with",
+    triage_startOver: "Start Over",
+
+    // Sidebar (new)
+    sidebar_triage: "Symptom Triage",
+
+    // Volunteer page
+    vol_brandTag: "Nonprofit",
+    vol_navBookAppointment: "Book Appointment",
+    vol_navAbout: "About Us",
+    vol_navVolunteer: "Volunteer",
+    vol_kicker: "Unete · Join Us",
+    vol_title: "Volunteer as a Healthcare Professional",
+    vol_text:
+      "Give back to the community by offering free online consultations to low-income Hispanic families. Your expertise changes lives.",
+    vol_benefit1Title: "Flexible Hours",
+    vol_benefit1Text: "Volunteer as little as 1 hour/week. Completely on your schedule.",
+    vol_benefit2Title: "100% Online",
+    vol_benefit2Text: "All consultations are virtual. No travel, no clinic setup needed.",
+    vol_benefit3Title: "Real Impact",
+    vol_benefit3Text: "Directly help underserved families who would otherwise go without care.",
+    vol_benefit4Title: "Coordinated Support",
+    vol_benefit4Text: "Our team handles scheduling, translation, and admin. You just show up.",
+
+    // Volunteer form
+    volForm_section1: "Personal Information",
+    volForm_firstName: "First Name",
+    volForm_lastName: "Last Name",
+    volForm_email: "Email Address",
+    volForm_phone: "Phone Number",
+    volForm_section2: "Professional Credentials",
+    volForm_license: "Medical License Number",
+    volForm_state: "Licensing State",
+    volForm_specialty: "Primary Specialty",
+    volForm_selectSpecialty: "Select specialty...",
+    volForm_experience: "Years of Experience",
+    volForm_selectRange: "Select range...",
+    volForm_section3: "Availability & Languages",
+    volForm_languagesSpoken: "Languages You Speak",
+    volForm_whenAvailable: "When Are You Available?",
+    volForm_hoursPerMonth: "Hours Available Per Month",
+    volForm_selectHours: "Select...",
+    volForm_section4: "Why Do You Want to Volunteer?",
+    volForm_motivationPlaceholder:
+      "Share a bit about your motivation to serve the Hispanic community...",
+    volForm_terms:
+      "I confirm that I hold a valid medical license and agree to SaludConecta's Volunteer Code of Conduct and Privacy Policy. I understand all consultations are provided on a voluntary, pro bono basis.",
+    volForm_submitting: "Submitting...",
+    volForm_submit: "Submit Application",
+    volForm_success:
+      "Application submitted. An admin can now review and approve volunteer access.",
+    volForm_error: "Unable to submit application.",
+
+    // Admin
+    admin_navAdmin: "Admin",
+    admin_kicker: "Admin Review",
+    admin_title: "Volunteer Access Approvals",
+    admin_text: "Review incoming volunteer applications and approve or reject access.",
+    admin_email: "Email:",
+    admin_phone: "Phone:",
+    admin_license: "License:",
+    admin_experience: "Experience:",
+    admin_hoursMonth: "Hours/Month:",
+    admin_submitted: "Submitted:",
+    admin_notProvided: "Not provided",
+    admin_languages: "Languages",
+    admin_noneSelected: "None selected",
+    admin_availability: "Availability",
+    admin_motivation: "Motivation",
+    admin_noMotivation: "No motivation statement provided.",
+    admin_approve: "Approve",
+    admin_reject: "Reject",
+    admin_empty: "No volunteer applications submitted yet.",
+    admin_loadError: "Unable to load volunteer applications.",
+    admin_updateError: "Unable to update volunteer application.",
   },
 
   es: {
@@ -628,10 +741,28 @@ const translations = {
     rx_expired: "Expirado",
     rx_pending: "Pendiente",
 
+    // Dashboard triage card
+    dash_triageBadge: "IA Integrada",
+    dash_triageTitle: "¿No sabes qué especialista necesitas?",
+    dash_triageText:
+      "Describe tus síntomas y nuestro asistente de triaje con IA los analizará y te recomendará el tipo de doctor adecuado — luego agenda directamente.",
+    dash_triageCta: "Iniciar Revisión de Síntomas",
+
     // Records
     records_title: "Expedientes Médicos",
     records_subtitle: "Consulta y administra tus expedientes de salud.",
     records_upload: "Subir Nuevo Expediente",
+    records_tabLab: "Resultados de Laboratorio",
+    records_tabVisits: "Historial de Visitas",
+    records_tabUploads: "Subidos",
+    records_dragDrop: "Arrastra y suelta archivos aquí",
+    records_dragDropHint: "Capturas de PDF como imágenes, JPG, PNG o WEBP hasta 10MB",
+    records_browse: "Explorar Archivos",
+    records_scanning: "Escaneando...",
+    records_scanError: "No se pudo escanear y guardar este informe.",
+    records_scanSuccess: "Informe escaneado y guardado en esta cuenta de usuario.",
+    records_source: "Fuente:",
+    records_empty: "Aún no hay expedientes subidos. Agrega una imagen de informe para generar un resumen web.",
 
     // Schedule
     schedule_kicker: "Reserva Inteligente",
@@ -707,6 +838,9 @@ const translations = {
 
     // Profile
     profile_title: "Tu Perfil",
+    profile_languageSection: "Preferencia de Idioma",
+    profile_languageText: "Elige tu idioma preferido para el panel y todas las páginas.",
+    profile_languageSaved: "Idioma actualizado.",
 
     // About page
     about_logIn: "Iniciar Sesión",
@@ -831,6 +965,96 @@ const translations = {
     logout_button: "Cerrar Sesión",
     logout_signingOut: "Cerrando sesión...",
     logout_error: "No se pudo cerrar sesión.",
+
+    // Triage
+    triage_headerTitle: "Triaje de Síntomas",
+    triage_headerSubtitle: "Describe tus síntomas para encontrar al especialista adecuado",
+    triage_welcome:
+      "¡Hola! Soy tu asistente de triaje de MediTrack. Cuéntame tus síntomas y te ayudaré a determinar qué tipo de especialista deberías ver.",
+    triage_placeholder: "Describe tus síntomas...",
+    triage_error: "Lo sentimos, algo salió mal. Por favor intenta de nuevo.",
+    triage_urgencyEmergency: "Emergencia",
+    triage_urgencyHigh: "Urgencia Alta",
+    triage_urgencyModerate: "Urgencia Moderada",
+    triage_urgencyLow: "Urgencia Baja",
+    triage_confidence: "confianza",
+    triage_disclaimer:
+      "Esto no es un diagnóstico médico. Por favor consulta a un profesional de la salud para una evaluación y tratamiento adecuados.",
+    triage_bookWith: "Agendar con",
+    triage_startOver: "Empezar de Nuevo",
+
+    // Sidebar (new)
+    sidebar_triage: "Triaje de Síntomas",
+
+    // Volunteer page
+    vol_brandTag: "Sin Fines de Lucro",
+    vol_navBookAppointment: "Agendar Cita",
+    vol_navAbout: "Sobre Nosotros",
+    vol_navVolunteer: "Voluntariado",
+    vol_kicker: "Únete · Join Us",
+    vol_title: "Sé Voluntario como Profesional de la Salud",
+    vol_text:
+      "Devuélvele a la comunidad ofreciendo consultas gratuitas en línea a familias hispanas de bajos ingresos. Tu experiencia cambia vidas.",
+    vol_benefit1Title: "Horarios Flexibles",
+    vol_benefit1Text: "Sé voluntario tan solo 1 hora/semana. Completamente a tu horario.",
+    vol_benefit2Title: "100% En Línea",
+    vol_benefit2Text: "Todas las consultas son virtuales. Sin viajes, sin configuración de clínica.",
+    vol_benefit3Title: "Impacto Real",
+    vol_benefit3Text: "Ayuda directamente a familias desatendidas que de otro modo no recibirían atención.",
+    vol_benefit4Title: "Apoyo Coordinado",
+    vol_benefit4Text: "Nuestro equipo se encarga de la programación, traducción y administración. Tú solo asistes.",
+
+    // Volunteer form
+    volForm_section1: "Información Personal",
+    volForm_firstName: "Nombre",
+    volForm_lastName: "Apellido",
+    volForm_email: "Correo Electrónico",
+    volForm_phone: "Número de Teléfono",
+    volForm_section2: "Credenciales Profesionales",
+    volForm_license: "Número de Licencia Médica",
+    volForm_state: "Estado de Licencia",
+    volForm_specialty: "Especialidad Principal",
+    volForm_selectSpecialty: "Seleccionar especialidad...",
+    volForm_experience: "Años de Experiencia",
+    volForm_selectRange: "Seleccionar rango...",
+    volForm_section3: "Disponibilidad e Idiomas",
+    volForm_languagesSpoken: "Idiomas que Hablas",
+    volForm_whenAvailable: "¿Cuándo Estás Disponible?",
+    volForm_hoursPerMonth: "Horas Disponibles al Mes",
+    volForm_selectHours: "Seleccionar...",
+    volForm_section4: "¿Por Qué Quieres Ser Voluntario?",
+    volForm_motivationPlaceholder:
+      "Comparte un poco sobre tu motivación para servir a la comunidad hispana...",
+    volForm_terms:
+      "Confirmo que poseo una licencia médica válida y acepto el Código de Conducta de Voluntarios y la Política de Privacidad de SaludConecta. Entiendo que todas las consultas se brindan de forma voluntaria y pro bono.",
+    volForm_submitting: "Enviando...",
+    volForm_submit: "Enviar Solicitud",
+    volForm_success:
+      "Solicitud enviada. Un administrador puede ahora revisar y aprobar el acceso de voluntario.",
+    volForm_error: "No se pudo enviar la solicitud.",
+
+    // Admin
+    admin_navAdmin: "Admin",
+    admin_kicker: "Revisión de Admin",
+    admin_title: "Aprobaciones de Acceso de Voluntarios",
+    admin_text: "Revisa las solicitudes de voluntarios entrantes y aprueba o rechaza el acceso.",
+    admin_email: "Correo:",
+    admin_phone: "Teléfono:",
+    admin_license: "Licencia:",
+    admin_experience: "Experiencia:",
+    admin_hoursMonth: "Horas/Mes:",
+    admin_submitted: "Enviada:",
+    admin_notProvided: "No proporcionado",
+    admin_languages: "Idiomas",
+    admin_noneSelected: "Ninguno seleccionado",
+    admin_availability: "Disponibilidad",
+    admin_motivation: "Motivación",
+    admin_noMotivation: "No se proporcionó declaración de motivación.",
+    admin_approve: "Aprobar",
+    admin_reject: "Rechazar",
+    admin_empty: "Aún no se han enviado solicitudes de voluntarios.",
+    admin_loadError: "No se pudieron cargar las solicitudes de voluntarios.",
+    admin_updateError: "No se pudo actualizar la solicitud de voluntario.",
   },
 } as const;
 

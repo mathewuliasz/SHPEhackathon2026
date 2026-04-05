@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 import styles from "./page.module.css";
 
 type VolunteerApplication = {
@@ -22,6 +23,7 @@ type VolunteerApplication = {
 };
 
 export default function AdminVolunteerApplications() {
+  const { t } = useLanguage();
   const [applications, setApplications] = useState<VolunteerApplication[]>([]);
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
@@ -35,7 +37,7 @@ export default function AdminVolunteerApplications() {
         };
 
         if (!response.ok) {
-          throw new Error(data.error ?? "Unable to load volunteer applications.");
+          throw new Error(data.error ?? t("admin_loadError"));
         }
 
         setApplications(data.applications ?? []);
@@ -43,7 +45,7 @@ export default function AdminVolunteerApplications() {
       .catch((err: Error) => {
         setError(err.message);
       });
-  }, []);
+  }, [t]);
 
   function updateStatus(applicationId: string, status: "approved" | "rejected") {
     setError("");
@@ -60,7 +62,7 @@ export default function AdminVolunteerApplications() {
         | null;
 
       if (!response.ok || !data?.application) {
-        setError(data?.error ?? "Unable to update volunteer application.");
+        setError(data?.error ?? t("admin_updateError"));
         return;
       }
 
@@ -74,9 +76,9 @@ export default function AdminVolunteerApplications() {
     <section className={styles.reviewPanel}>
       <div className={styles.reviewPanelHeader}>
         <div>
-          <span className={styles.kicker}>Admin Review</span>
-          <h2>Volunteer Access Approvals</h2>
-          <p>Review incoming volunteer applications and approve or reject access.</p>
+          <span className={styles.kicker}>{t("admin_kicker")}</span>
+          <h2>{t("admin_title")}</h2>
+          <p>{t("admin_text")}</p>
         </div>
       </div>
 
@@ -100,27 +102,27 @@ export default function AdminVolunteerApplications() {
             </div>
 
             <div className={styles.applicationMeta}>
-              <div><strong>Email:</strong> {application.email}</div>
-              <div><strong>Phone:</strong> {application.phoneNumber || "Not provided"}</div>
-              <div><strong>License:</strong> {application.medicalLicenseNumber}</div>
-              <div><strong>Experience:</strong> {application.yearsOfExperience || "Not provided"}</div>
-              <div><strong>Hours/Month:</strong> {application.hoursPerMonth || "Not provided"}</div>
-              <div><strong>Submitted:</strong> {new Date(application.createdAt).toLocaleDateString()}</div>
+              <div><strong>{t("admin_email")}</strong> {application.email}</div>
+              <div><strong>{t("admin_phone")}</strong> {application.phoneNumber || t("admin_notProvided")}</div>
+              <div><strong>{t("admin_license")}</strong> {application.medicalLicenseNumber}</div>
+              <div><strong>{t("admin_experience")}</strong> {application.yearsOfExperience || t("admin_notProvided")}</div>
+              <div><strong>{t("admin_hoursMonth")}</strong> {application.hoursPerMonth || t("admin_notProvided")}</div>
+              <div><strong>{t("admin_submitted")}</strong> {new Date(application.createdAt).toLocaleDateString()}</div>
             </div>
 
             <div className={styles.applicationBlock}>
-              <strong>Languages</strong>
-              <p>{application.languages.length > 0 ? application.languages.join(", ") : "None selected"}</p>
+              <strong>{t("admin_languages")}</strong>
+              <p>{application.languages.length > 0 ? application.languages.join(", ") : t("admin_noneSelected")}</p>
             </div>
 
             <div className={styles.applicationBlock}>
-              <strong>Availability</strong>
-              <p>{application.availability.length > 0 ? application.availability.join(", ") : "None selected"}</p>
+              <strong>{t("admin_availability")}</strong>
+              <p>{application.availability.length > 0 ? application.availability.join(", ") : t("admin_noneSelected")}</p>
             </div>
 
             <div className={styles.applicationBlock}>
-              <strong>Motivation</strong>
-              <p>{application.motivation || "No motivation statement provided."}</p>
+              <strong>{t("admin_motivation")}</strong>
+              <p>{application.motivation || t("admin_noMotivation")}</p>
             </div>
 
             <div className={styles.applicationActions}>
@@ -130,7 +132,7 @@ export default function AdminVolunteerApplications() {
                 onClick={() => updateStatus(application.id, "approved")}
                 disabled={isPending}
               >
-                Approve
+                {t("admin_approve")}
               </button>
               <button
                 type="button"
@@ -138,14 +140,14 @@ export default function AdminVolunteerApplications() {
                 onClick={() => updateStatus(application.id, "rejected")}
                 disabled={isPending}
               >
-                Reject
+                {t("admin_reject")}
               </button>
             </div>
           </article>
         ))}
 
         {applications.length === 0 && !error ? (
-          <div className={styles.emptyState}>No volunteer applications submitted yet.</div>
+          <div className={styles.emptyState}>{t("admin_empty")}</div>
         ) : null}
       </div>
     </section>
