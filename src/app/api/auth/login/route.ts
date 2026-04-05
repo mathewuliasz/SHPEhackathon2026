@@ -39,6 +39,7 @@ export async function POST(request: Request) {
         id: user.id,
         fullName: user.fullName,
         email: user.email,
+        role: user.role,
       },
     });
 
@@ -48,6 +49,7 @@ export async function POST(request: Request) {
         userId: user.id,
         fullName: user.fullName,
         email: user.email,
+        role: user.role,
       }),
       getSessionCookieOptions(),
     );
