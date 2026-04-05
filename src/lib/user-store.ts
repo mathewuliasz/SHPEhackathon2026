@@ -8,6 +8,7 @@ type SupabaseUserRecord = {
   password_hash: string;
   role: AppRole;
   doctor_id: string | null;
+  preferred_language: string;
   created_at: string;
 };
 
@@ -18,6 +19,7 @@ export type StoredUser = {
   passwordHash: string;
   role: AppRole;
   doctorProfileId: string | null;
+  preferredLanguage: string;
   createdAt: string;
 };
 
@@ -29,6 +31,7 @@ function mapUser(record: SupabaseUserRecord): StoredUser {
     passwordHash: record.password_hash,
     role: record.role,
     doctorProfileId: record.doctor_id,
+    preferredLanguage: record.preferred_language ?? "en",
     createdAt: record.created_at,
   };
 }
@@ -51,6 +54,7 @@ export async function createUser(input: {
   passwordHash: string;
   role?: AppRole;
   doctorProfileId?: string | null;
+  preferredLanguage?: string;
 }) {
   const records = await supabaseRequest<SupabaseUserRecord[]>("app_users", {
     method: "POST",
@@ -61,6 +65,7 @@ export async function createUser(input: {
         password_hash: input.passwordHash,
         role: input.role ?? "patient",
         doctor_id: input.doctorProfileId ?? null,
+        preferred_language: input.preferredLanguage ?? "en",
       },
     ]),
   });

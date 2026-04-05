@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
+import { getLanguage, t } from "@/lib/language";
 import { getConsultationDoctors } from "@/scheduling/lib/scheduling-data";
 import type { ConsultationDoctor } from "@/scheduling/types/scheduling";
 import styles from "./page.module.css";
@@ -13,7 +14,7 @@ function formatDate(dateStr: string) {
   });
 }
 
-function DoctorCard({ doctor }: { doctor: ConsultationDoctor }) {
+function DoctorCard({ doctor, lang }: { doctor: ConsultationDoctor; lang: import("@/lib/translations").Lang }) {
   const initials = doctor.name
     .replace(/^Dr\.\s*/, "")
     .split(" ")
@@ -44,7 +45,7 @@ function DoctorCard({ doctor }: { doctor: ConsultationDoctor }) {
             </span>
             {nextAppointment
               ? formatDate(nextAppointment.date)
-              : "No date"}
+              : t(lang, "consult_noDate")}
           </span>
           <span className={styles.metaItem}>
             <span className={styles.metaIcon}>
@@ -52,8 +53,10 @@ function DoctorCard({ doctor }: { doctor: ConsultationDoctor }) {
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
               </svg>
             </span>
-            {doctor.appointments.length} appointment
-            {doctor.appointments.length !== 1 ? "s" : ""}
+            {doctor.appointments.length}{" "}
+            {doctor.appointments.length !== 1
+              ? t(lang, "consult_appointments")
+              : t(lang, "consult_appointment")}
           </span>
         </div>
       </div>
@@ -66,15 +69,14 @@ export default async function Consultations() {
   const user = await getCurrentUser();
   if (!user) return null;
 
+  const lang = await getLanguage();
   const doctors = await getConsultationDoctors(user.userId);
 
   return (
     <div>
       <div className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>Your Consultation/Chats</h1>
-        <p className={styles.pageSubtitle}>
-          Doctors you have visited or have upcoming appointments with
-        </p>
+        <h1 className={styles.pageTitle}>{t(lang, "consult_title")}</h1>
+        <p className={styles.pageSubtitle}>{t(lang, "consult_subtitle")}</p>
       </div>
 
       {doctors.length === 0 ? (
@@ -84,15 +86,13 @@ export default async function Consultations() {
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
           </div>
-          <div className={styles.emptyTitle}>No consultations yet</div>
-          <div className={styles.emptyText}>
-            Book an appointment to start chatting with a doctor.
-          </div>
+          <div className={styles.emptyTitle}>{t(lang, "consult_emptyTitle")}</div>
+          <div className={styles.emptyText}>{t(lang, "consult_emptyText")}</div>
         </div>
       ) : (
         <div className={styles.doctorGrid}>
           {doctors.map((doctor) => (
-            <DoctorCard key={doctor.id} doctor={doctor} />
+            <DoctorCard key={doctor.id} doctor={doctor} lang={lang} />
           ))}
         </div>
       )}

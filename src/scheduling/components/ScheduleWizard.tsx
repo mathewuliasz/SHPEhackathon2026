@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 import { StepIndicator } from "./StepIndicator";
 import { SpecialtyPicker } from "./SpecialtyPicker";
 import { DoctorPicker } from "./DoctorPicker";
@@ -14,6 +15,7 @@ interface ScheduleWizardProps {
 }
 
 export function ScheduleWizard({ initialSpecialtyName }: ScheduleWizardProps) {
+  const { t } = useLanguage();
   const [step, setStep] = useState(1);
   const [selectedSpecialty, setSelectedSpecialty] = useState<Specialty | null>(null);
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
@@ -94,10 +96,11 @@ export function ScheduleWizard({ initialSpecialtyName }: ScheduleWizardProps) {
         console.error("Zoom meeting creation failed:", zoomErr);
       }
 
+      fetch("/api/patient-context", { method: "POST" }).catch(() => {});
       setStep(4);
     } catch (err) {
       console.error("Booking failed:", err);
-      alert("Failed to book appointment. Please try again.");
+      alert(t("dateTime_bookingFailed"));
     } finally {
       setIsBooking(false);
     }

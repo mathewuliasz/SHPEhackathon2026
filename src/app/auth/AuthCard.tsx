@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 import styles from "./page.module.css";
 
 type AuthCardProps = {
@@ -17,6 +18,7 @@ export function AuthCard({
   allowSignUp = true,
 }: AuthCardProps) {
   const router = useRouter();
+  const { t } = useLanguage();
   const [mode, setMode] = useState<"signin" | "signup">(initialMode);
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
@@ -67,7 +69,7 @@ export function AuthCard({
         | null;
 
       if (!response.ok) {
-        setError(data?.error ?? "Something went wrong. Please try again.");
+        setError(data?.error ?? t("auth_error"));
         return;
       }
 
@@ -81,24 +83,24 @@ export function AuthCard({
   return (
     <section className={styles.formCard}>
       <div className={styles.formHeader}>
-        <div className={styles.formKicker}>{isSignUp ? "Sign Up" : "Sign In"}</div>
-        <h2>{isSignUp ? "Create your account" : "Welcome back"}</h2>
+        <div className={styles.formKicker}>{isSignUp ? t("auth_signUp") : t("auth_signIn")}</div>
+        <h2>{isSignUp ? t("auth_createAccount") : t("auth_welcomeBack")}</h2>
         <p>
           {isSignUp
-            ? "Set up your patient profile to request and manage care."
+            ? t("auth_createDesc")
             : loginVariant === "doctor"
               ? "Access upcoming appointments and patient messages in your doctor workspace."
-              : "Access your appointments, records, and provider messages."}
+              : t("auth_accessDesc")}
         </p>
       </div>
 
       <form className={styles.form} onSubmit={handleSubmit}>
         {isSignUp ? (
           <label className={styles.field}>
-            <span>Full Name</span>
+            <span>{t("auth_fullName")}</span>
             <input
               type="text"
-              placeholder="Enter your full name"
+              placeholder={t("auth_fullNamePlaceholder")}
               value={signUpForm.fullName}
               onChange={(event) =>
                 setSignUpForm((current) => ({
@@ -111,10 +113,10 @@ export function AuthCard({
         ) : null}
 
         <label className={styles.field}>
-          <span>Email Address</span>
+          <span>{t("auth_email")}</span>
           <input
             type="email"
-            placeholder="you@example.com"
+            placeholder={t("auth_emailPlaceholder")}
             value={isSignUp ? signUpForm.email : signInForm.email}
             onChange={(event) =>
               isSignUp
@@ -131,10 +133,10 @@ export function AuthCard({
         </label>
 
         <label className={styles.field}>
-          <span>{isSignUp ? "Create Password" : "Password"}</span>
+          <span>{isSignUp ? t("auth_createPassword") : t("auth_password")}</span>
           <input
             type="password"
-            placeholder={isSignUp ? "Choose a secure password" : "Enter your password"}
+            placeholder={isSignUp ? t("auth_createPasswordPlaceholder") : t("auth_passwordPlaceholder")}
             value={isSignUp ? signUpForm.password : signInForm.password}
             onChange={(event) =>
               isSignUp
@@ -163,11 +165,11 @@ export function AuthCard({
                   }))
                 }
               />
-              <span>I agree to the patient privacy and care terms.</span>
+              <span>{t("auth_agreeTerms")}</span>
             </label>
 
             <div className={styles.memberPrompt}>
-              <span>Already a member?</span>
+              <span>{t("auth_alreadyMember")}</span>
               <Link
                 href="/auth"
                 onClick={(event) => {
@@ -175,7 +177,7 @@ export function AuthCard({
                   switchMode("signin");
                 }}
               >
-                Sign in
+                {t("auth_signInLink")}
               </Link>
             </div>
           </div>
@@ -192,17 +194,17 @@ export function AuthCard({
                   }))
                 }
               />
-              <span>Keep me signed in</span>
+              <span>{t("auth_keepSignedIn")}</span>
             </label>
 
             <div className={styles.signInMetaRow}>
               <Link className={styles.helperLink} href="/forgot-password">
-                Forgot password?
+                {t("auth_forgotPassword")}
               </Link>
 
               {allowSignUp ? (
                 <div className={styles.memberPrompt}>
-                  <span>Not a member?</span>
+                  <span>{t("auth_notMember")}</span>
                   <Link
                     href="/auth?mode=signup"
                     onClick={(event) => {
@@ -210,7 +212,7 @@ export function AuthCard({
                       switchMode("signup");
                     }}
                   >
-                    Sign up
+                    {t("auth_signUpLink")}
                   </Link>
                 </div>
               ) : null}
@@ -222,10 +224,10 @@ export function AuthCard({
 
         <button className={styles.primaryButton} type="submit" disabled={isPending}>
           {isPending
-            ? "Please wait..."
+            ? t("auth_pleaseWait")
             : isSignUp
-              ? "Create Account"
-              : "Sign In"}
+              ? t("auth_createAccountBtn")
+              : t("auth_signIn")}
         </button>
       </form>
     </section>

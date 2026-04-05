@@ -2,46 +2,30 @@ import Link from "next/link";
 import { listReviews } from "@/lib/review-store";
 import { DoctorCarousel } from "./DoctorCarousel";
 import { MouseTiltCard } from "./MouseTiltCard";
+import LanguageToggle from "@/components/LanguageToggle";
+import { getLanguage, t } from "@/lib/language";
 import styles from "./page.module.css";
 
-const services = [
-  {
-    title: "Health Plan & Process",
-    description:
-      "Personalized health strategies tailored to your lifestyle and long-term goals.",
-    accent: "sky",
-    icon: <ClipboardHeartIcon />,
-  },
-  {
-    title: "Supplemental Benefits",
-    description:
-      "Comprehensive benefit packages to support your overall wellbeing and recovery.",
-    accent: "lavender",
-    icon: <BrainShieldIcon />,
-  },
-  {
-    title: "Healthcare Strategy Experts",
-    description:
-      "Expert guidance from certified healthcare planning professionals.",
-    accent: "violet",
-    icon: <CareBasketIcon />,
-  },
+const serviceIcons = [
+  { accent: "sky", icon: <ClipboardHeartIcon /> },
+  { accent: "lavender", icon: <BrainShieldIcon /> },
+  { accent: "violet", icon: <CareBasketIcon /> },
 ] as const;
 
-const categories = [
-  { title: "Doctor List", icon: <DoctorIcon /> },
-  { title: "Hospitals", icon: <HospitalIcon /> },
-  { title: "Departments", icon: <DepartmentsIcon /> },
-  { title: "Location", icon: <LocationIcon /> },
-  { title: "Disease", icon: <CommunityIcon /> },
-  { title: "Prescriptions", icon: <PillIcon /> },
+const categoryIcons = [
+  { key: "cat_doctorList" as const, icon: <DoctorIcon /> },
+  { key: "cat_hospitals" as const, icon: <HospitalIcon /> },
+  { key: "cat_departments" as const, icon: <DepartmentsIcon /> },
+  { key: "cat_location" as const, icon: <LocationIcon /> },
+  { key: "cat_disease" as const, icon: <CommunityIcon /> },
+  { key: "cat_prescriptions" as const, icon: <PillIcon /> },
 ] as const;
 
-const menuItems = [
-  { label: "Home", href: "#top" },
-  { label: "About Us", href: "/about" },
-  { label: "Reviews", href: "/reviews" },
-  { label: "Contact Us", href: "#contact-us" },
+const menuKeys = [
+  { key: "nav_home" as const, href: "#top" },
+  { key: "nav_about" as const, href: "/about" },
+  { key: "nav_reviews" as const, href: "/reviews" },
+  { key: "nav_contact" as const, href: "#contact-us" },
 ] as const;
 
 const fallbackReviews = [
@@ -76,6 +60,7 @@ type ReviewCard = {
 };
 
 export default async function Home() {
+  const lang = await getLanguage();
   let reviewCards: ReviewCard[] = [...fallbackReviews];
 
   try {
@@ -93,27 +78,34 @@ export default async function Home() {
     reviewCards = [...fallbackReviews];
   }
 
+  const services = [
+    { titleKey: "service1_title" as const, descKey: "service1_desc" as const, accent: "sky", icon: serviceIcons[0].icon },
+    { titleKey: "service2_title" as const, descKey: "service2_desc" as const, accent: "lavender", icon: serviceIcons[1].icon },
+    { titleKey: "service3_title" as const, descKey: "service3_desc" as const, accent: "violet", icon: serviceIcons[2].icon },
+  ];
+
   return (
     <div className={styles.page}>
       <header className={styles.header}>
         <a className={styles.brand} href="#top">
-          SHPE Medical
+          {t(lang, "brand")}
         </a>
 
         <nav className={styles.nav} aria-label="Primary">
-          {menuItems.map((item) => (
-            <Link key={item.label} href={item.href}>
-              {item.label}
+          {menuKeys.map((item) => (
+            <Link key={item.key} href={item.href}>
+              {t(lang, item.key)}
             </Link>
           ))}
         </nav>
 
         <div className={styles.headerActions}>
+          <LanguageToggle />
           <Link className={styles.headerSecondaryCta} href="/auth">
-            Log In
+            {t(lang, "nav_login")}
           </Link>
           <Link className={styles.headerCta} href="/auth?mode=signup">
-            Get Started
+            {t(lang, "nav_getStarted")}
           </Link>
         </div>
       </header>
@@ -123,25 +115,23 @@ export default async function Home() {
           <div className={styles.heroCopy}>
             <div className={styles.kicker}>
               <span className={styles.kickerIcon}>🏥</span>
-              Trusted Online Healthcare
+              {t(lang, "hero_kicker")}
             </div>
 
             <h1 className={styles.heroTitle}>
-              Looking for a <span>Trusted</span> &amp; Secured Online Doctor?
+              {t(lang, "hero_title_1")}<span>{t(lang, "hero_title_accent")}</span>{t(lang, "hero_title_2")}
             </h1>
 
             <p className={styles.heroText}>
-              Welcome to <strong>SHPE HealthCare</strong> connect with licensed
-              medical professionals for virtual consultations from the comfort
-              of your home.
+              {t(lang, "hero_text_1")}<strong>{t(lang, "hero_text_bold")}</strong>{t(lang, "hero_text_2")}
             </p>
 
             <div className={styles.heroActions}>
               <Link className={styles.primaryButton} href="/auth">
-                Book Appointment
+                {t(lang, "hero_bookAppointment")}
               </Link>
               <Link className={styles.secondaryButton} href="/about">
-                Learn More
+                {t(lang, "hero_learnMore")}
               </Link>
             </div>
           </div>
@@ -152,23 +142,23 @@ export default async function Home() {
               <div className={styles.visualPanel}>
               <div className={styles.badgeCard}>
                 <span className={styles.badgeDot} />
-                24/7 Virtual Support
+                {t(lang, "hero_virtualSupport")}
               </div>
 
               <DoctorCarousel />
 
               <div className={styles.statsStrip}>
                 <div>
-                  <strong>120+</strong>
-                  <span>Certified doctors</span>
+                  <strong>{t(lang, "hero_doctorCount")}</strong>
+                  <span>{t(lang, "hero_doctorLabel")}</span>
                 </div>
                 <div>
-                  <strong>4.9/5</strong>
-                  <span>Patient rating</span>
+                  <strong>{t(lang, "hero_rating")}</strong>
+                  <span>{t(lang, "hero_ratingLabel")}</span>
                 </div>
                 <div>
-                  <strong>15 min</strong>
-                  <span>Average response</span>
+                  <strong>{t(lang, "hero_responseTime")}</strong>
+                  <span>{t(lang, "hero_responseLabel")}</span>
                 </div>
               </div>
               </div>
@@ -178,17 +168,14 @@ export default async function Home() {
 
         <section className={styles.section} id="about-us">
           <div className={styles.sectionHeader}>
-            <div className={styles.sectionKicker}>Our Services</div>
-            <h2>We provide accessible &amp; licensed doctors</h2>
-            <p>
-              Our network of certified professionals is here to support every
-              aspect of your health journey.
-            </p>
+            <div className={styles.sectionKicker}>{t(lang, "services_kicker")}</div>
+            <h2>{t(lang, "services_title")}</h2>
+            <p>{t(lang, "services_text")}</p>
           </div>
 
           <div className={styles.serviceGrid}>
             {services.map((service) => (
-              <MouseTiltCard key={service.title}>
+              <MouseTiltCard key={service.titleKey}>
                 <article className={styles.serviceCard}>
                   <div
                     className={`${styles.serviceIcon} ${
@@ -197,9 +184,9 @@ export default async function Home() {
                   >
                     {service.icon}
                   </div>
-                  <h3>{service.title}</h3>
-                  <p>{service.description}</p>
-                  <a href="#contact-us">Learn more →</a>
+                  <h3>{t(lang, service.titleKey)}</h3>
+                  <p>{t(lang, service.descKey)}</p>
+                  <a href="#contact-us">{t(lang, "services_learnMore")}</a>
                 </article>
               </MouseTiltCard>
             ))}
@@ -208,17 +195,17 @@ export default async function Home() {
 
         <section className={styles.section} id="profile">
           <div className={styles.sectionHeader}>
-            <div className={styles.sectionKicker}>Browse</div>
-            <h2>Categories</h2>
-            <p>Browse our full range of healthcare services</p>
+            <div className={styles.sectionKicker}>{t(lang, "categories_kicker")}</div>
+            <h2>{t(lang, "categories_title")}</h2>
+            <p>{t(lang, "categories_text")}</p>
           </div>
 
           <div className={styles.categoryGrid}>
-            {categories.map((category) => (
-              <MouseTiltCard key={category.title}>
+            {categoryIcons.map((category) => (
+              <MouseTiltCard key={category.key}>
                 <article className={styles.categoryCard}>
                   <div className={styles.categoryIcon}>{category.icon}</div>
-                  <h3>{category.title}</h3>
+                  <h3>{t(lang, category.key)}</h3>
                 </article>
               </MouseTiltCard>
             ))}
@@ -227,19 +214,19 @@ export default async function Home() {
 
         <section className={styles.contactBand} id="contact-us">
           <div>
-            <span className={styles.contactEyebrow}>Ready to get started?</span>
-            <h2>Speak with a licensed provider today.</h2>
+            <span className={styles.contactEyebrow}>{t(lang, "contact_eyebrow")}</span>
+            <h2>{t(lang, "contact_title")}</h2>
           </div>
           <a className={styles.primaryButton} href="mailto:care@shpehealth.com">
-            Contact Us
+            {t(lang, "contact_cta")}
           </a>
         </section>
 
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
-            <div className={styles.sectionKicker}>Reviews</div>
-            <h2>What patients are saying</h2>
-            <p>Recent feedback from people using SHPE Health Care.</p>
+            <div className={styles.sectionKicker}>{t(lang, "reviews_kicker")}</div>
+            <h2>{t(lang, "reviews_title")}</h2>
+            <p>{t(lang, "reviews_text")}</p>
           </div>
 
           <div className={styles.reviewCardGrid}>
@@ -274,7 +261,7 @@ export default async function Home() {
 
           <div className={styles.reviewPreviewAction}>
             <Link className={styles.secondaryButton} href="/reviews">
-              Read All Reviews
+              {t(lang, "reviews_readAll")}
             </Link>
           </div>
         </section>
@@ -286,13 +273,10 @@ export default async function Home() {
                 <SupportIcon />
               </div>
               <div className={styles.bottomCtaCopy}>
-                <h2>Need more advice?</h2>
-                <p>
-                  Our care team is standing by to provide guidance for your
-                  health questions.
-                </p>
+                <h2>{t(lang, "bottom_adviceTitle")}</h2>
+                <p>{t(lang, "bottom_adviceText")}</p>
                 <a className={styles.bottomPrimaryButton} href="#contact-us">
-                  Get Help
+                  {t(lang, "bottom_adviceCta")}
                 </a>
               </div>
             </article>
@@ -300,13 +284,10 @@ export default async function Home() {
 
           <article className={styles.reviewsPanel} id="reviews">
             <div className={styles.bottomCtaCopy}>
-              <h2>Read All About our Success Stories</h2>
-              <p>
-                Browse real patient experiences and learn how we&apos;ve made a
-                difference.
-              </p>
+              <h2>{t(lang, "bottom_storiesTitle")}</h2>
+              <p>{t(lang, "bottom_storiesText")}</p>
               <Link className={styles.bottomSecondaryButton} href="/reviews">
-                Read Reviews
+                {t(lang, "bottom_storiesCta")}
               </Link>
             </div>
             <div className={styles.reviewsIcon}>

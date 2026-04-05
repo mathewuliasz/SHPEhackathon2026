@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useState, useTransition } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 import styles from "../auth/page.module.css";
 
 export function ForgotPasswordForm() {
+  const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -31,11 +33,11 @@ export function ForgotPasswordForm() {
         | null;
 
       if (!response.ok) {
-        setError(data?.error ?? "Could not generate a reset link.");
+        setError(data?.error ?? t("forgot_error"));
         return;
       }
 
-      setSuccess(data?.message ?? "Reset link generated.");
+      setSuccess(data?.message ?? t("forgot_success"));
       setResetUrl(data?.resetUrl ?? "");
     });
   }
@@ -43,17 +45,17 @@ export function ForgotPasswordForm() {
   return (
     <section className={styles.formCard}>
       <div className={styles.formHeader}>
-        <div className={styles.formKicker}>Forgot Password</div>
-        <h2>Request reset link</h2>
-        <p>Use your account email to start the password reset process.</p>
+        <div className={styles.formKicker}>{t("forgot_formKicker")}</div>
+        <h2>{t("forgot_formTitle")}</h2>
+        <p>{t("forgot_formText")}</p>
       </div>
 
       <form className={styles.form} onSubmit={handleSubmit}>
         <label className={styles.field}>
-          <span>Email Address</span>
+          <span>{t("auth_email")}</span>
           <input
             type="email"
-            placeholder="you@example.com"
+            placeholder={t("auth_emailPlaceholder")}
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
@@ -68,7 +70,7 @@ export function ForgotPasswordForm() {
         ) : null}
 
         <button className={styles.primaryButton} type="submit" disabled={isPending}>
-          {isPending ? "Generating..." : "Send Reset Link"}
+          {isPending ? t("forgot_generating") : t("forgot_sendLink")}
         </button>
       </form>
     </section>

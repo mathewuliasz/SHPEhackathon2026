@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "@/lib/LanguageContext";
 import styles from "./TriageChat.module.css";
 
 type Message = {
@@ -14,12 +15,6 @@ type TriageResult = {
   confidence_score: number;
   reasoning: string;
   urgency: "low" | "moderate" | "high" | "emergency";
-};
-
-const WELCOME_MESSAGE: Message = {
-  role: "assistant",
-  content:
-    "Hi! I'm your MediTrack triage assistant. Tell me about your symptoms and I'll help you figure out which type of specialist you should see.",
 };
 
 function tryParseTriageResult(text: string): TriageResult | null {
@@ -57,30 +52,41 @@ function urgencyStyle(urgency: string) {
   }
 }
 
-function urgencyLabel(urgency: string) {
-  switch (urgency) {
-    case "emergency":
-      return "Emergency";
-    case "high":
-      return "High Urgency";
-    case "moderate":
-      return "Moderate Urgency";
-    default:
-      return "Low Urgency";
-  }
-}
-
 export default function TriageChat() {
   const router = useRouter();
-  const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
+  const { lang, t } = useLanguage();
+
+  const [messages, setMessages] = useState<Message[]>([
+    { role: "assistant", content: t("triage_welcome") },
+  ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [triageResult, setTriageResult] = useState<TriageResult | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Reset chat when language changes
+  useEffect(() => {
+    setMessages([{ role: "assistant", content: t("triage_welcome") }]);
+    setInput("");
+    setTriageResult(null);
+  }, [lang, t]);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isLoading, triageResult]);
+
+  function urgencyLabel(urgency: string) {
+    switch (urgency) {
+      case "emergency":
+        return t("triage_urgencyEmergency");
+      case "high":
+        return t("triage_urgencyHigh");
+      case "moderate":
+        return t("triage_urgencyModerate");
+      default:
+        return t("triage_urgencyLow");
+    }
+  }
 
   async function handleSend() {
     const text = input.trim();
@@ -127,7 +133,7 @@ export default function TriageChat() {
         ...prev,
         {
           role: "assistant",
-          content: "Sorry, something went wrong. Please try again.",
+          content: t("triage_error"),
         },
       ]);
     } finally {
@@ -136,7 +142,7 @@ export default function TriageChat() {
   }
 
   function handleReset() {
-    setMessages([WELCOME_MESSAGE]);
+    setMessages([{ role: "assistant", content: t("triage_welcome") }]);
     setInput("");
     setTriageResult(null);
   }
@@ -144,9 +150,9 @@ export default function TriageChat() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2 className={styles.headerTitle}>Symptom Triage</h2>
+        <h2 className={styles.headerTitle}>{t("triage_headerTitle")}</h2>
         <p className={styles.headerSubtitle}>
-          Describe your symptoms to find the right specialist
+          {t("triage_headerSubtitle")}
         </p>
       </div>
 
@@ -182,13 +188,12 @@ export default function TriageChat() {
                 {urgencyLabel(triageResult.urgency)}
               </span>
               <span className={styles.confidenceBadge}>
-                {triageResult.confidence_score}% confidence
+                {triageResult.confidence_score}% {t("triage_confidence")}
               </span>
             </div>
             <p className={styles.resultReasoning}>{triageResult.reasoning}</p>
             <p className={styles.disclaimer}>
-              This is not a medical diagnosis. Please consult a healthcare
-              professional for proper evaluation and treatment.
+              {t("triage_disclaimer")}
             </p>
           </div>
         )}
@@ -206,10 +211,10 @@ export default function TriageChat() {
               )
             }
           >
-            Book with {triageResult.specialty}
+            {t("triage_bookWith")} {triageResult.specialty}
           </button>
           <button className={styles.resetBtn} onClick={handleReset}>
-            Start Over
+            {t("triage_startOver")}
           </button>
         </div>
       ) : (
@@ -217,7 +222,7 @@ export default function TriageChat() {
           <input
             className={styles.input}
             type="text"
-            placeholder="Describe your symptoms..."
+            placeholder={t("triage_placeholder")}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {

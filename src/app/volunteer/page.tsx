@@ -1,29 +1,8 @@
 import Link from "next/link";
+import { getLanguage, t } from "@/lib/language";
+import LanguageToggle from "@/components/LanguageToggle";
 import styles from "./page.module.css";
 import { VolunteerApplicationForm } from "./VolunteerApplicationForm";
-
-const benefitCards = [
-  {
-    icon: "◔",
-    title: "Flexible Hours",
-    text: "Volunteer as little as 1 hour/week. Completely on your schedule.",
-  },
-  {
-    icon: "◎",
-    title: "100% Online",
-    text: "All consultations are virtual. No travel, no clinic setup needed.",
-  },
-  {
-    icon: "◌",
-    title: "Real Impact",
-    text: "Directly help underserved families who would otherwise go without care.",
-  },
-  {
-    icon: "▣",
-    title: "Coordinated Support",
-    text: "Our team handles scheduling, translation, and admin. You just show up.",
-  },
-] as const;
 
 const languages = [
   "Spanish / Espanol",
@@ -52,54 +31,51 @@ const specialties = [
 const experienceRanges = ["0-2 years", "3-5 years", "6-10 years", "10+ years"] as const;
 const monthlyHours = ["1-4 hours", "5-8 hours", "9-12 hours", "12+ hours"] as const;
 
-export default function VolunteerPage() {
+export default async function VolunteerPage() {
+  const lang = await getLanguage();
+
+  const benefitCards = [
+    { icon: "◔", titleKey: "vol_benefit1Title" as const, textKey: "vol_benefit1Text" as const },
+    { icon: "◎", titleKey: "vol_benefit2Title" as const, textKey: "vol_benefit2Text" as const },
+    { icon: "◌", titleKey: "vol_benefit3Title" as const, textKey: "vol_benefit3Text" as const },
+    { icon: "▣", titleKey: "vol_benefit4Title" as const, textKey: "vol_benefit4Text" as const },
+  ];
+
   return (
     <div className={styles.page}>
       <header className={styles.header}>
         <Link className={styles.brand} href="/">
           <span className={styles.brandMark}>⌘</span>
-          <span className={styles.brandText}>SHPE Medical</span>
-          <span className={styles.brandTag}>Sin Fines de Lucro</span>
+          <span className={styles.brandText}>{t(lang, "brand")}</span>
+          <span className={styles.brandTag}>{t(lang, "vol_brandTag")}</span>
         </Link>
 
         <nav className={styles.nav} aria-label="Primary">
-          <Link href="/dashboard/schedule">Book Appointment</Link>
-          <Link href="/about">About Us</Link>
+          <Link href="/dashboard/schedule">{t(lang, "vol_navBookAppointment")}</Link>
+          <Link href="/about">{t(lang, "vol_navAbout")}</Link>
           <Link href="/volunteer" aria-current="page">
-            Volunteer
+            {t(lang, "vol_navVolunteer")}
           </Link>
         </nav>
 
         <div className={styles.headerMeta}>
-          <button className={styles.notification} type="button" aria-label="Notifications">
-            !
-            <span>3</span>
-          </button>
-          <div className={styles.profilePill}>
-            <span className={styles.profileAvatar}>YT</span>
-            <div>
-              <strong>Yi Team</strong>
-            </div>
-          </div>
+          <LanguageToggle />
         </div>
       </header>
 
       <main className={styles.main}>
         <section className={styles.hero}>
           <div className={styles.heroBadge}>⌘</div>
-          <span className={styles.kicker}>Unete · Join Us</span>
-          <h1>Volunteer as a Healthcare Professional</h1>
-          <p>
-            Give back to the community by offering free online consultations to
-            low-income Hispanic families. Your expertise changes lives.
-          </p>
+          <span className={styles.kicker}>{t(lang, "vol_kicker")}</span>
+          <h1>{t(lang, "vol_title")}</h1>
+          <p>{t(lang, "vol_text")}</p>
 
           <div className={styles.benefitsGrid}>
             {benefitCards.map((card) => (
-              <article key={card.title} className={styles.benefitCard}>
+              <article key={card.titleKey} className={styles.benefitCard}>
                 <div className={styles.benefitIcon}>{card.icon}</div>
-                <h2>{card.title}</h2>
-                <p>{card.text}</p>
+                <h2>{t(lang, card.titleKey)}</h2>
+                <p>{t(lang, card.textKey)}</p>
               </article>
             ))}
           </div>

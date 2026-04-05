@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
+import { getLanguage, t } from "@/lib/language";
 import styles from "./page.module.css";
 
 type StatCard = {
@@ -18,14 +19,15 @@ type QuickLink = {
 
 const stats: StatCard[] = [
   {
-    title: "Active Prescriptions",
+    title: "Lab Results",
     value: "3",
     detail: "Updated today",
     tone: "blue",
     icon: (
       <svg viewBox="0 0 24 24">
-        <path d="M8 7.5 16.5 16a3.18 3.18 0 1 1-4.5 4.5L3.5 12A3.18 3.18 0 0 1 8 7.5Z" />
-        <path d="m14 5 5 5" />
+        <path d="M9 2v6l-2 8a4 4 0 0 0 4 4h2a4 4 0 0 0 4-4l-2-8V2" />
+        <path d="M7 2h10" />
+        <path d="M12 16h.01" />
       </svg>
     ),
   },
@@ -69,23 +71,6 @@ const stats: StatCard[] = [
   },
 ];
 
-const quickLinks: QuickLink[] = [
-  {
-    title: "Find a specialist",
-    description: "Browse doctors by specialty and compare providers.",
-    href: "/dashboard/doctors",
-  },
-  {
-    title: "Write a review",
-    description: "Leave feedback after a visit and help other patients.",
-    href: "/reviews",
-  },
-  {
-    title: "Reset account access",
-    description: "Manage password recovery and security settings.",
-    href: "/forgot-password",
-  },
-];
 
 function StatIcon({
   tone,
@@ -99,25 +84,37 @@ function StatIcon({
 
 export default async function Dashboard() {
   const user = await getCurrentUser();
+  const lang = await getLanguage();
   const firstName = user?.fullName.split(" ")[0] ?? "Patient";
+  const greeting = t(lang, "dash_greeting").replace("{name}", firstName);
+
+  const translatedStats: StatCard[] = [
+    { ...stats[0], title: t(lang, "dash_labResults"), detail: t(lang, "dash_updatedToday") },
+    { ...stats[1], title: t(lang, "dash_upcomingAppointments"), detail: t(lang, "dash_nextTomorrow") },
+    { ...stats[2], title: t(lang, "dash_unreadMessages"), detail: t(lang, "dash_fromConsultants") },
+    { ...stats[3], title: t(lang, "dash_pendingReviews"), detail: t(lang, "dash_shareFeedback") },
+  ];
+
+  const translatedQuickLinks: QuickLink[] = [
+    { title: t(lang, "dash_findSpecialist"), description: t(lang, "dash_findSpecialistDesc"), href: "/dashboard/schedule" },
+    { title: t(lang, "dash_writeReview"), description: t(lang, "dash_writeReviewDesc"), href: "/reviews" },
+    { title: t(lang, "dash_resetAccess"), description: t(lang, "dash_resetAccessDesc"), href: "/forgot-password" },
+  ];
 
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
         <div className={styles.heroContent}>
-          <p className={styles.eyebrow}>Today&apos;s Summary</p>
-          <h1 className={styles.heroTitle}>Good morning, {firstName}</h1>
-          <p className={styles.heroText}>
-            Here is your health summary for today. Review appointments, messages,
-            prescriptions, and next steps in one place.
-          </p>
+          <p className={styles.eyebrow}>{t(lang, "dash_todaySummary")}</p>
+          <h1 className={styles.heroTitle}>{greeting}</h1>
+          <p className={styles.heroText}>{t(lang, "dash_summaryText")}</p>
 
           <div className={styles.heroActions}>
-            <Link className={styles.primaryAction} href="/dashboard/doctors">
-              Book Appointment
+            <Link className={styles.primaryAction} href="/dashboard/schedule">
+              {t(lang, "dash_bookAppointment")}
             </Link>
             <Link className={styles.secondaryAction} href="/reviews">
-              View Reviews
+              {t(lang, "dash_viewReviews")}
             </Link>
           </div>
         </div>
@@ -125,15 +122,15 @@ export default async function Dashboard() {
         <div className={styles.heroVisual} aria-hidden="true">
           <div className={styles.heroGlow} />
           <div className={styles.heroCard}>
-            <span className={styles.heroCardLabel}>Next Check-In</span>
-            <strong>Tomorrow, 10:00 AM</strong>
-            <span>Internal medicine follow-up with your care team.</span>
+            <span className={styles.heroCardLabel}>{t(lang, "dash_nextCheckIn")}</span>
+            <strong>{t(lang, "dash_nextCheckInTime")}</strong>
+            <span>{t(lang, "dash_nextCheckInDesc")}</span>
           </div>
         </div>
       </section>
 
       <section className={styles.statsGrid}>
-        {stats.map((stat) => (
+        {translatedStats.map((stat) => (
           <article key={stat.title} className={styles.statCard}>
             <StatIcon tone={stat.tone}>{stat.icon}</StatIcon>
 
@@ -151,17 +148,16 @@ export default async function Dashboard() {
         <div className={styles.triageInner}>
           <div className={styles.triageBadge}>
             <span className={styles.triagePulse} />
-            AI-Powered
+            {t(lang, "dash_triageBadge")}
           </div>
           <h2 className={styles.triageTitle}>
-            Not sure which specialist you need?
+            {t(lang, "dash_triageTitle")}
           </h2>
           <p className={styles.triageDescription}>
-            Describe your symptoms and our AI triage assistant will analyze them
-            and recommend the right type of doctor — then book directly.
+            {t(lang, "dash_triageText")}
           </p>
           <Link className={styles.triageAction} href="/dashboard/triage">
-            Start Symptom Check
+            {t(lang, "dash_triageCta")}
             <svg viewBox="0 0 24 24">
               <path d="M5 12h14" />
               <path d="m13 5 7 7-7 7" />
@@ -178,16 +174,16 @@ export default async function Dashboard() {
       <section className={styles.quickSection}>
         <div className={styles.sectionHeader}>
           <div>
-            <p className={styles.sectionEyebrow}>Quick Actions</p>
-            <h2 className={styles.sectionTitle}>Continue where you left off</h2>
+            <p className={styles.sectionEyebrow}>{t(lang, "dash_quickActions")}</p>
+            <h2 className={styles.sectionTitle}>{t(lang, "dash_continueWhereLeft")}</h2>
           </div>
           <Link className={styles.sectionLink} href="/dashboard/consultations">
-            Open consultations
+            {t(lang, "dash_openConsultations")}
           </Link>
         </div>
 
         <div className={styles.quickGrid}>
-          {quickLinks.map((item) => (
+          {translatedQuickLinks.map((item) => (
             <Link key={item.title} href={item.href} className={styles.quickCard}>
               <div>
                 <h3 className={styles.quickTitle}>{item.title}</h3>

@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { listReviews } from "@/lib/review-store";
+import { getLanguage, t } from "@/lib/language";
+import LanguageToggle from "@/components/LanguageToggle";
 import { ReviewsClient } from "./ReviewsClient";
 import styles from "./page.module.css";
 
@@ -34,6 +36,7 @@ const reviews = [
 ] as const;
 
 export default async function ReviewsPage() {
+  const lang = await getLanguage();
   let storedReviews = [] as Awaited<ReturnType<typeof listReviews>>;
 
   try {
@@ -55,32 +58,33 @@ export default async function ReviewsPage() {
     <div className={styles.page}>
       <header className={styles.header}>
         <Link className={styles.brand} href="/">
-          SHPE Health Care
+          {t(lang, "brand")}
         </Link>
 
         <nav className={styles.nav} aria-label="Primary">
-          <Link href="/">Home</Link>
-          <Link href="/about">About Us</Link>
+          <Link href="/">{t(lang, "nav_home")}</Link>
+          <Link href="/about">{t(lang, "nav_about")}</Link>
           <Link href="/reviews" aria-current="page">
-            Reviews
+            {t(lang, "nav_reviews")}
           </Link>
-          <Link href="/#contact-us">Contact Us</Link>
+          <Link href="/#contact-us">{t(lang, "nav_contact")}</Link>
         </nav>
 
         <div className={styles.headerActions}>
+          <LanguageToggle />
           <Link className={styles.headerSecondaryCta} href="/auth">
-            Log In
+            {t(lang, "nav_login")}
           </Link>
           <Link className={styles.headerCta} href="/auth?mode=signup">
-            Get Started
+            {t(lang, "nav_getStarted")}
           </Link>
         </div>
       </header>
 
       <main className={styles.main}>
         <section className={styles.hero}>
-          <div className={styles.kicker}>Patient Reviews</div>
-          <h1>Here&apos;s what our customers have to say.</h1>
+          <div className={styles.kicker}>{t(lang, "reviewsPage_kicker")}</div>
+          <h1>{t(lang, "reviewsPage_title")}</h1>
         </section>
 
         <section className={styles.reviewList}>

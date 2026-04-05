@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 import styles from "./page.module.css";
 
 type VolunteerApplicationFormProps = {
@@ -18,6 +19,7 @@ export function VolunteerApplicationForm({
   availability,
   monthlyHours,
 }: VolunteerApplicationFormProps) {
+  const { t } = useLanguage();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isPending, startTransition] = useTransition();
@@ -68,11 +70,11 @@ export function VolunteerApplicationForm({
         | null;
 
       if (!response.ok) {
-        setError(data?.error ?? "Unable to submit application.");
+        setError(data?.error ?? t("volForm_error"));
         return;
       }
 
-      setSuccess("Application submitted. An admin can now review and approve volunteer access.");
+      setSuccess(t("volForm_success"));
       setForm({
         firstName: "",
         lastName: "",
@@ -96,13 +98,13 @@ export function VolunteerApplicationForm({
       <section className={styles.formSection}>
         <div className={styles.sectionHeader}>
           <span className={styles.stepNumber}>1</span>
-          <h2>Personal Information</h2>
+          <h2>{t("volForm_section1")}</h2>
         </div>
 
         <div className={styles.fieldGrid}>
           <label className={styles.field}>
             <span>
-              First Name <em>*</em>
+              {t("volForm_firstName")} <em>*</em>
             </span>
             <input
               placeholder="Maria"
@@ -113,7 +115,7 @@ export function VolunteerApplicationForm({
           </label>
           <label className={styles.field}>
             <span>
-              Last Name <em>*</em>
+              {t("volForm_lastName")} <em>*</em>
             </span>
             <input
               placeholder="Gonzalez"
@@ -124,7 +126,7 @@ export function VolunteerApplicationForm({
           </label>
           <label className={styles.field}>
             <span>
-              Email Address <em>*</em>
+              {t("volForm_email")} <em>*</em>
             </span>
             <input
               placeholder="doctor@example.com"
@@ -134,7 +136,7 @@ export function VolunteerApplicationForm({
             />
           </label>
           <label className={styles.field}>
-            <span>Phone Number</span>
+            <span>{t("volForm_phone")}</span>
             <input
               placeholder="(555) 000-0000"
               type="tel"
@@ -148,13 +150,13 @@ export function VolunteerApplicationForm({
       <section className={styles.formSection}>
         <div className={styles.sectionHeader}>
           <span className={styles.stepNumber}>2</span>
-          <h2>Professional Credentials</h2>
+          <h2>{t("volForm_section2")}</h2>
         </div>
 
         <div className={styles.fieldGrid}>
           <label className={styles.field}>
             <span>
-              Medical License Number <em>*</em>
+              {t("volForm_license")} <em>*</em>
             </span>
             <input
               placeholder="TX-123456"
@@ -167,7 +169,7 @@ export function VolunteerApplicationForm({
           </label>
           <label className={styles.field}>
             <span>
-              Licensing State <em>*</em>
+              {t("volForm_state")} <em>*</em>
             </span>
             <input
               placeholder="Texas"
@@ -178,14 +180,14 @@ export function VolunteerApplicationForm({
           </label>
           <label className={styles.field}>
             <span>
-              Primary Specialty <em>*</em>
+              {t("volForm_specialty")} <em>*</em>
             </span>
             <select
               value={form.primarySpecialty}
               onChange={(event) => setForm((current) => ({ ...current, primarySpecialty: event.target.value }))}
             >
               <option value="" disabled>
-                Select specialty...
+                {t("volForm_selectSpecialty")}
               </option>
               {specialties.map((specialty) => (
                 <option key={specialty} value={specialty}>
@@ -195,13 +197,13 @@ export function VolunteerApplicationForm({
             </select>
           </label>
           <label className={styles.field}>
-            <span>Years of Experience</span>
+            <span>{t("volForm_experience")}</span>
             <select
               value={form.yearsOfExperience}
               onChange={(event) => setForm((current) => ({ ...current, yearsOfExperience: event.target.value }))}
             >
               <option value="" disabled>
-                Select range...
+                {t("volForm_selectRange")}
               </option>
               {experienceRanges.map((range) => (
                 <option key={range} value={range}>
@@ -216,11 +218,11 @@ export function VolunteerApplicationForm({
       <section className={styles.formSection}>
         <div className={styles.sectionHeader}>
           <span className={styles.stepNumber}>3</span>
-          <h2>Availability &amp; Languages</h2>
+          <h2>{t("volForm_section3")}</h2>
         </div>
 
         <div className={styles.choiceBlock}>
-          <h3>Languages You Speak</h3>
+          <h3>{t("volForm_languagesSpoken")}</h3>
           <div className={styles.pillRow}>
             {languages.map((item) => (
               <label
@@ -239,7 +241,7 @@ export function VolunteerApplicationForm({
         </div>
 
         <div className={styles.choiceBlock}>
-          <h3>When Are You Available?</h3>
+          <h3>{t("volForm_whenAvailable")}</h3>
           <div className={styles.pillRow}>
             {availability.map((item) => (
               <label
@@ -259,13 +261,13 @@ export function VolunteerApplicationForm({
 
         <div className={styles.singleFieldRow}>
           <label className={styles.field}>
-            <span>Hours Available Per Month</span>
+            <span>{t("volForm_hoursPerMonth")}</span>
             <select
               value={form.hoursPerMonth}
               onChange={(event) => setForm((current) => ({ ...current, hoursPerMonth: event.target.value }))}
             >
               <option value="" disabled>
-                Select...
+                {t("volForm_selectHours")}
               </option>
               {monthlyHours.map((range) => (
                 <option key={range} value={range}>
@@ -280,12 +282,12 @@ export function VolunteerApplicationForm({
       <section className={styles.formSection}>
         <div className={styles.sectionHeader}>
           <span className={styles.stepNumber}>4</span>
-          <h2>Why Do You Want to Volunteer?</h2>
+          <h2>{t("volForm_section4")}</h2>
         </div>
 
         <label className={`${styles.field} ${styles.fieldFull}`}>
           <textarea
-            placeholder="Share a bit about your motivation to serve the Hispanic community..."
+            placeholder={t("volForm_motivationPlaceholder")}
             rows={6}
             value={form.motivation}
             onChange={(event) => setForm((current) => ({ ...current, motivation: event.target.value }))}
@@ -300,18 +302,14 @@ export function VolunteerApplicationForm({
             checked={form.acceptedTerms}
             onChange={(event) => setForm((current) => ({ ...current, acceptedTerms: event.target.checked }))}
           />
-          <span>
-            I confirm that I hold a valid medical license and agree to SaludConecta&apos;s Volunteer
-            Code of Conduct and Privacy Policy. I understand all consultations are provided on a
-            voluntary, pro bono basis.
-          </span>
+          <span>{t("volForm_terms")}</span>
         </label>
 
         {error ? <p className={styles.errorMessage}>{error}</p> : null}
         {success ? <p className={styles.successMessage}>{success}</p> : null}
 
         <button className={styles.submitButton} type="submit" disabled={isPending}>
-          {isPending ? "Submitting..." : "Submit Application"} <span aria-hidden="true">→</span>
+          {isPending ? t("volForm_submitting") : t("volForm_submit")} <span aria-hidden="true">→</span>
         </button>
       </div>
     </form>
