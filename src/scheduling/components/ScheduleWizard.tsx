@@ -33,12 +33,10 @@ export function ScheduleWizard() {
 
   const handleSelectSpecialty = (specialty: Specialty) => {
     setSelectedSpecialty(specialty);
-    setStep(2);
   };
 
   const handleSelectDoctor = (doctor: Doctor) => {
     setSelectedDoctor(doctor);
-    setStep(3);
   };
 
   const handleConfirmBooking = async (date: string, time: string) => {
@@ -82,28 +80,35 @@ export function ScheduleWizard() {
   };
 
   return (
-    <div>
+    <div className="mx-auto flex w-full max-w-6xl flex-col items-center space-y-8">
       <StepIndicator currentStep={step} />
 
-      {step > 1 && step < 4 && (
-        <button
-          onClick={handleBack}
-          className="mb-4 text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1"
-        >
-          ← Back
-        </button>
-      )}
-
-      <div className="animate-fade-in-up" key={step}>
-        {step === 1 && <SpecialtyPicker onSelect={handleSelectSpecialty} />}
-        {step === 2 && selectedSpecialty && (
-          <DoctorPicker specialtyId={selectedSpecialty.id} onSelect={handleSelectDoctor} />
+      <div className="flex w-full justify-center animate-fade-in-up" key={step}>
+        {step === 1 && (
+          <SpecialtyPicker
+            selectedSpecialtyId={selectedSpecialty?.id ?? null}
+            onSelect={handleSelectSpecialty}
+            onContinue={() => selectedSpecialty && setStep(2)}
+          />
         )}
-        {step === 3 && selectedDoctor && (
+        {step === 2 && selectedSpecialty && (
+          <DoctorPicker
+            specialtyId={selectedSpecialty.id}
+            specialtyName={selectedSpecialty.name}
+            selectedDoctorId={selectedDoctor?.id ?? null}
+            onSelect={handleSelectDoctor}
+            onBack={handleBack}
+            onContinue={() => selectedDoctor && setStep(3)}
+          />
+        )}
+        {step === 3 && selectedSpecialty && selectedDoctor && (
           <DateTimePicker
             doctorId={selectedDoctor.id}
+            doctor={selectedDoctor}
+            specialty={selectedSpecialty}
             onConfirm={handleConfirmBooking}
             isBooking={isBooking}
+            onBack={handleBack}
           />
         )}
         {step === 4 && selectedSpecialty && selectedDoctor && selectedDate && selectedTime && (

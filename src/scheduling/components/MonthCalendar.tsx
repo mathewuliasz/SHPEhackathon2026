@@ -41,37 +41,34 @@ export function MonthCalendar({
 
   return (
     <div>
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="mb-5 flex items-center justify-between">
         <button
           onClick={onPrevMonth}
           disabled={isPastMonth || isCurrentMonth}
-          className="p-2 rounded-lg hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[#dbe2ec] text-lg text-[#647083] transition-colors hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-30"
         >
           ‹
         </button>
-        <h3 className="text-lg font-semibold">
+        <h3 className="text-lg font-semibold text-[#27313f] sm:text-xl">
           {MONTH_NAMES[month]} {year}
         </h3>
         <button
           onClick={onNextMonth}
-          className="p-2 rounded-lg hover:bg-gray-100"
+          className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[#dbe2ec] text-lg text-[#647083] transition-colors hover:bg-[#f8fafc]"
         >
           ›
         </button>
       </div>
 
-      {/* Day labels */}
-      <div className="grid grid-cols-7 gap-1 mb-1">
+      <div className="mb-2 grid grid-cols-7 gap-2">
         {DAY_LABELS.map((d) => (
-          <div key={d} className="text-center text-xs font-medium text-gray-500 py-1">
+          <div key={d} className="py-2 text-center text-xs font-semibold uppercase tracking-[0.16em] text-[#98a2ad]">
             {d}
           </div>
         ))}
       </div>
 
-      {/* Day cells */}
-      <div className="grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 gap-2">
         {Array.from({ length: firstDayOfWeek }).map((_, i) => (
           <div key={`empty-${i}`} />
         ))}
@@ -83,17 +80,17 @@ export function MonthCalendar({
           const isSelected = dateStr === selectedDate;
 
           let cellClass =
-            "h-10 rounded-lg text-sm flex items-center justify-center transition-colors ";
+            "flex h-12 items-center justify-center rounded-2xl text-sm transition-all ";
 
           if (isSelected) {
-            cellClass += "bg-green-500 text-white font-bold cursor-pointer";
+            cellClass += "bg-[#4a84ec] text-white font-bold cursor-pointer";
           } else if (isAvailable && !isPast) {
             cellClass +=
-              "bg-green-100 text-green-800 hover:bg-green-200 cursor-pointer font-medium";
+              "bg-[#eef4fb] text-[#4a84ec] hover:bg-[#e5eefb] cursor-pointer font-semibold";
           } else if (isPast) {
-            cellClass += "text-gray-300 cursor-default";
+            cellClass += "text-[#ccd4e0] cursor-default";
           } else {
-            cellClass += "text-gray-400 cursor-default";
+            cellClass += "text-[#aab5c4] cursor-default";
           }
 
           return (

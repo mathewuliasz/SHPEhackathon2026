@@ -28,43 +28,45 @@ function formatTime(time24: string): string {
 
 export function Confirmation({ specialty, doctor, date, time, onReset }: ConfirmationProps) {
   return (
-    <div className="text-center py-6">
-      <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-        <span className="text-3xl">✓</span>
+    <div className="rounded-[30px] border border-[#d9eadf] bg-[linear-gradient(180deg,#f9fffb,#ffffff)] px-6 py-10 text-center shadow-[0_24px_50px_rgba(60,122,89,0.10)] sm:px-8">
+      <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-[28px] bg-[linear-gradient(135deg,#dff7e7,#f4fff7)] text-[#2f8a5d] shadow-[0_14px_30px_rgba(57,145,92,0.14)]">
+        <span className="text-4xl">✓</span>
       </div>
-      <h2 className="text-2xl font-bold text-gray-900 mb-2">Booking Confirmed!</h2>
-      <p className="text-gray-500 mb-6">
+      <h2 className="mb-3 text-3xl font-bold tracking-[-0.03em] text-[#23324b]">
+        Booking Confirmed
+      </h2>
+      <p className="mx-auto mb-8 max-w-xl text-sm leading-7 text-[#6d7d96] sm:text-base">
         Your appointment has been successfully scheduled.
       </p>
 
-      <div className="bg-white rounded-xl border border-gray-200 p-5 text-left space-y-3 max-w-sm mx-auto mb-6">
-        <div>
-          <p className="text-xs text-gray-400 uppercase tracking-wide">Specialty</p>
-          <p className="font-medium text-gray-800">
+      <div className="mx-auto mb-8 grid max-w-3xl gap-4 text-left md:grid-cols-2">
+        <div className="rounded-[24px] border border-[#e2eaf5] bg-white p-5 shadow-[0_12px_26px_rgba(80,103,144,0.06)]">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-[#8ba0bf]">Specialty</p>
+          <p className="mt-2 font-medium text-[#24334c]">
             {specialty.icon} {specialty.name}
           </p>
         </div>
-        <div>
-          <p className="text-xs text-gray-400 uppercase tracking-wide">Doctor</p>
-          <p className="font-medium text-gray-800">{doctor.name}</p>
+        <div className="rounded-[24px] border border-[#e2eaf5] bg-white p-5 shadow-[0_12px_26px_rgba(80,103,144,0.06)]">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-[#8ba0bf]">Doctor</p>
+          <p className="mt-2 font-medium text-[#24334c]">{doctor.name}</p>
         </div>
-        <div>
-          <p className="text-xs text-gray-400 uppercase tracking-wide">Date</p>
-          <p className="font-medium text-gray-800">{formatDate(date)}</p>
+        <div className="rounded-[24px] border border-[#e2eaf5] bg-white p-5 shadow-[0_12px_26px_rgba(80,103,144,0.06)]">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-[#8ba0bf]">Date</p>
+          <p className="mt-2 font-medium text-[#24334c]">{formatDate(date)}</p>
         </div>
-        <div>
-          <p className="text-xs text-gray-400 uppercase tracking-wide">Time</p>
-          <p className="font-medium text-gray-800">{formatTime(time)}</p>
+        <div className="rounded-[24px] border border-[#e2eaf5] bg-white p-5 shadow-[0_12px_26px_rgba(80,103,144,0.06)]">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-[#8ba0bf]">Time</p>
+          <p className="mt-2 font-medium text-[#24334c]">{formatTime(time)}</p>
         </div>
       </div>
 
-      <p className="text-sm text-gray-500 mb-6">
+      <p className="mb-8 text-sm text-[#6d7d96]">
         You should be receiving a confirmation email shortly.
       </p>
 
       <button
         onClick={onReset}
-        className="px-6 py-2.5 rounded-xl font-semibold text-blue-600 border border-blue-600 hover:bg-blue-50 transition-colors"
+        className="rounded-[20px] border border-[#bfd1ee] bg-white px-6 py-3 font-semibold text-[#3565d8] transition-colors hover:bg-[#f4f8ff]"
       >
         Schedule Another Appointment
       </button>

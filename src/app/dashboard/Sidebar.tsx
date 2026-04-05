@@ -45,7 +45,7 @@ const navItems = [
   },
   {
     href: "/dashboard/prescriptions",
-    label: "View Current Prescriptions",
+    label: "Current Prescriptions",
     icon: (
       <svg viewBox="0 0 24 24">
         <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
@@ -57,7 +57,7 @@ const navItems = [
   },
   {
     href: "/dashboard/records",
-    label: "Medical Records/Meetings",
+    label: "Medical Records",
     icon: (
       <svg viewBox="0 0 24 24">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />

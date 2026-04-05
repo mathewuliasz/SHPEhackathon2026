@@ -68,8 +68,15 @@ const fallbackReviews = [
   },
 ] as const;
 
+type ReviewCard = {
+  name: string;
+  location: string;
+  content: string;
+  rating: number;
+};
+
 export default async function Home() {
-  let reviewCards = fallbackReviews;
+  let reviewCards: ReviewCard[] = [...fallbackReviews];
 
   try {
     const storedReviews = await listReviews(3);
@@ -83,7 +90,7 @@ export default async function Home() {
       }));
     }
   } catch {
-    reviewCards = fallbackReviews;
+    reviewCards = [...fallbackReviews];
   }
 
   return (
