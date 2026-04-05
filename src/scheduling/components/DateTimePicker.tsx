@@ -137,6 +137,7 @@ export function DateTimePicker({
                 slots={slotsForDate}
                 selectedTime={selectedTime}
                 onSelectTime={setSelectedTime}
+                selectedDate={selectedDate}
               />
             </div>
           </div>
