@@ -11,8 +11,8 @@ function ScheduleContent() {
   const { t } = useLanguage();
 
   return (
-    <main className="min-h-screen bg-[#f6f8fb] px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
+    <main className="py-8">
+      <div className="mx-auto w-full">
         <div className="px-2 pt-6 pb-3 text-center sm:px-6 lg:px-10">
           <span className="mb-4 inline-flex rounded-full px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-[#4a84ec]">
             {t("schedule_kicker")}

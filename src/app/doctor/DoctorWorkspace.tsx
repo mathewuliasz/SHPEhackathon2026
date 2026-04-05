@@ -202,12 +202,21 @@ export default function DoctorWorkspace({
                   className={
                     message.sender_type === "doctor"
                       ? styles.messageSent
+                      : message.sender_type === "system"
+                      ? styles.messageSystem
                       : styles.messageReceived
                   }
                 >
+                  {message.sender_type === "system" && (
+                    <div className={styles.systemLabel}>AI Meeting Notes</div>
+                  )}
                   <div>{message.content}</div>
                   <span className={styles.messageMeta}>
-                    {message.sender_type === "doctor" ? "You" : "Patient"}
+                    {message.sender_type === "doctor"
+                      ? "You"
+                      : message.sender_type === "system"
+                      ? "AI Summary"
+                      : "Patient"}
                   </span>
                 </div>
               ))

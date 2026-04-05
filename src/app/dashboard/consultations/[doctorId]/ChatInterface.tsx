@@ -149,9 +149,14 @@ export default function ChatInterface({ appointments, doctorName }: Props) {
                     className={
                       msg.sender_type === "patient"
                         ? styles.messageSent
+                        : msg.sender_type === "system"
+                        ? styles.messageSystem
                         : styles.messageReceived
                     }
                   >
+                    {msg.sender_type === "system" && (
+                      <div className={styles.systemLabel}>AI Meeting Notes</div>
+                    )}
                     {msg.content}
                     <div className={styles.messageTime}>
                       {formatTimestamp(msg.created_at)}
