@@ -2,7 +2,35 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 
-async function verifyOwnership(appointmentId: string, userId: string) {
+async function verifyOwnership(
+  appointmentId: string,
+  userId: string,
+  role: "patient" | "doctor" | "admin",
+  doctorProfileId?: string | null,
+) {
+  if (role === "admin") {
+    const { data } = await supabase
+      .from("appointments")
+      .select("id")
+      .eq("id", appointmentId)
+      .single();
+    return !!data;
+  }
+
+  if (role === "doctor") {
+    if (!doctorProfileId) {
+      return false;
+    }
+
+    const { data } = await supabase
+      .from("appointments")
+      .select("id")
+      .eq("id", appointmentId)
+      .eq("doctor_id", doctorProfileId)
+      .single();
+    return !!data;
+  }
+
   const { data } = await supabase
     .from("appointments")
     .select("id")
@@ -23,7 +51,12 @@ export async function GET(
 
   const { appointmentId } = await params;
 
-  const owns = await verifyOwnership(appointmentId, user.userId);
+  const owns = await verifyOwnership(
+    appointmentId,
+    user.userId,
+    user.role,
+    user.doctorProfileId,
+  );
   if (!owns) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -52,7 +85,12 @@ export async function POST(
 
   const { appointmentId } = await params;
 
-  const owns = await verifyOwnership(appointmentId, user.userId);
+  const owns = await verifyOwnership(
+    appointmentId,
+    user.userId,
+    user.role,
+    user.doctorProfileId,
+  );
   if (!owns) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -67,7 +105,7 @@ export async function POST(
     .from("messages")
     .insert({
       appointment_id: appointmentId,
-      sender_type: "patient",
+      sender_type: user.role === "doctor" ? "doctor" : "patient",
       content,
     })
     .select("*")

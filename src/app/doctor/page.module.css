@@ -1,0 +1,434 @@
+.page {
+  display: grid;
+  gap: 28px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.9fr);
+  gap: 24px;
+  padding: 36px;
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.18), transparent 28%),
+    linear-gradient(135deg, #163b7a, #2f55db 55%, #3f75ca);
+  color: #fff;
+  box-shadow: 0 28px 64px rgba(37, 73, 148, 0.22);
+}
+
+.kicker {
+  display: inline-flex;
+  margin-bottom: 14px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.heroCopy {
+  max-width: 760px;
+}
+
+.hero h1 {
+  margin: 0 0 10px;
+  font-size: clamp(2.3rem, 4vw, 4.2rem);
+  letter-spacing: -0.05em;
+  line-height: 1.02;
+}
+
+.hero p {
+  margin: 0;
+  max-width: 680px;
+  color: rgba(255, 255, 255, 0.86);
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+
+.heroRail {
+  display: grid;
+  gap: 18px;
+}
+
+.heroHighlight,
+.metricCard,
+.statCard,
+.scheduleSpotlight,
+.summaryCard,
+.appointmentsPanel,
+.chatPanel,
+.unlinkedState {
+  background: #fff;
+  box-shadow: 0 18px 40px rgba(86, 109, 145, 0.08);
+}
+
+.heroHighlight {
+  padding: 24px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: none;
+}
+
+.heroHighlight span,
+.metricCard span,
+.sectionEyebrow {
+  display: inline-flex;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.heroHighlight strong {
+  display: block;
+  margin-top: 14px;
+  font-size: 1.8rem;
+  letter-spacing: -0.04em;
+}
+
+.heroHighlight p {
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 0.98rem;
+}
+
+.heroMetrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.metricCard {
+  padding: 22px;
+  border-radius: 24px;
+  color: #24324c;
+}
+
+.metricCard span,
+.sectionEyebrow {
+  color: #6f7d92;
+}
+
+.metricCard strong {
+  display: block;
+  margin-top: 10px;
+  font-size: 1.25rem;
+  letter-spacing: -0.03em;
+}
+
+.workspace {
+  display: grid;
+  gap: 28px;
+}
+
+.overviewGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.statCard {
+  padding: 22px 24px;
+  border-radius: 24px;
+}
+
+.statCard span {
+  color: #7f8b9d;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.statCard strong {
+  display: block;
+  margin: 14px 0 8px;
+  color: #24324c;
+  font-size: 2rem;
+  letter-spacing: -0.04em;
+}
+
+.statCard p {
+  margin: 0;
+  color: #7f8b9d;
+  line-height: 1.5;
+}
+
+.spotlightGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+  gap: 20px;
+}
+
+.scheduleSpotlight,
+.summaryCard {
+  padding: 26px 28px;
+  border-radius: 28px;
+}
+
+.scheduleSpotlight {
+  background: linear-gradient(180deg, rgba(239, 245, 255, 0.95), rgba(255, 255, 255, 0.98));
+  border: 1px solid #dbe5f6;
+}
+
+.summaryCard {
+  border: 1px solid #dde6f4;
+}
+
+.scheduleSpotlight h2,
+.summaryCard h2 {
+  margin: 12px 0 10px;
+  color: #24324c;
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+  letter-spacing: -0.04em;
+}
+
+.scheduleSpotlight p,
+.summaryCard p {
+  margin: 0;
+  color: #718095;
+  line-height: 1.65;
+}
+
+.spotlightMeta,
+.summaryPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.spotlightMeta div,
+.summaryPills span {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid #dbe5f6;
+}
+
+.spotlightMeta span {
+  color: #7f8b9d;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.spotlightMeta strong {
+  color: #24324c;
+  font-size: 1rem;
+}
+
+.summaryPills span {
+  display: inline-flex;
+  color: #49648c;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.82fr) minmax(0, 1.18fr);
+  gap: 24px;
+}
+
+.appointmentsPanel,
+.chatPanel,
+.unlinkedState {
+  padding: 24px;
+  border-radius: 24px;
+}
+
+.panelHeader,
+.chatHeader {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.panelHeader h2,
+.chatHeader h2,
+.unlinkedState h1 {
+  margin: 0 0 6px;
+  color: #24324c;
+  font-size: 1.5rem;
+}
+
+.panelHeader p,
+.chatHeader p,
+.unlinkedState p,
+.emptyState,
+.messageMeta {
+  margin: 0;
+  color: #7f8b9d;
+  line-height: 1.5;
+}
+
+.appointmentList {
+  display: grid;
+  gap: 12px;
+}
+
+.appointmentCard {
+  padding: 16px 18px;
+  border: 1px solid #dfe6f0;
+  border-radius: 18px;
+  background: #fbfcfe;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.appointmentCard:hover {
+  transform: translateY(-1px);
+  border-color: #b8cdef;
+}
+
+.appointmentCardActive {
+  border-color: #7ca3eb;
+  box-shadow: 0 0 0 3px rgba(63, 117, 202, 0.1);
+}
+
+.appointmentCardTop,
+.appointmentCardMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.appointmentCardTop strong {
+  color: #24324c;
+}
+
+.appointmentCardTop span,
+.appointmentCardMeta span {
+  color: #7f8b9d;
+  font-size: 0.92rem;
+}
+
+.messageList {
+  min-height: 420px;
+  max-height: 520px;
+  overflow-y: auto;
+  padding: 10px 4px 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.messageSent,
+.messageReceived {
+  max-width: 74%;
+  padding: 14px 16px;
+  border-radius: 18px;
+  line-height: 1.5;
+}
+
+.messageSent {
+  align-self: flex-end;
+  background: #2f55db;
+  color: #fff;
+  border-bottom-right-radius: 6px;
+}
+
+.messageReceived {
+  align-self: flex-start;
+  background: #eef3fa;
+  color: #24324c;
+  border-bottom-left-radius: 6px;
+}
+
+.messageMeta {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.78rem;
+}
+
+.inputBar {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.chatInput {
+  flex: 1;
+  min-height: 56px;
+  padding: 0 18px;
+  border: 1px solid #dfe6f0;
+  border-radius: 16px;
+  outline: none;
+}
+
+.sendButton,
+.zoomLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 20px;
+  border-radius: 16px;
+  background: #2f55db;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  border: 0;
+}
+
+.zoomLink {
+  min-height: 48px;
+  padding: 0 18px;
+}
+
+.sendButton:disabled {
+  opacity: 0.6;
+}
+
+.emptyState,
+.unlinkedState {
+  text-align: center;
+}
+
+@media (max-width: 980px) {
+  .overviewGrid,
+  .mainGrid,
+  .spotlightGrid,
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .messageSent,
+  .messageReceived {
+    max-width: 88%;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero,
+  .scheduleSpotlight,
+  .summaryCard,
+  .appointmentsPanel,
+  .chatPanel {
+    padding: 22px;
+  }
+
+  .heroMetrics {
+    grid-template-columns: 1fr;
+  }
+
+  .inputBar,
+  .chatHeader {
+    flex-direction: column;
+  }
+
+  .zoomLink,
+  .sendButton {
+    width: 100%;
+  }
+}

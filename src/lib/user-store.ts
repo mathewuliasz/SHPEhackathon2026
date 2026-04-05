@@ -7,6 +7,7 @@ type SupabaseUserRecord = {
   email: string;
   password_hash: string;
   role: AppRole;
+  doctor_id: string | null;
   created_at: string;
 };
 
@@ -16,6 +17,7 @@ export type StoredUser = {
   email: string;
   passwordHash: string;
   role: AppRole;
+  doctorProfileId: string | null;
   createdAt: string;
 };
 
@@ -26,6 +28,7 @@ function mapUser(record: SupabaseUserRecord): StoredUser {
     email: record.email,
     passwordHash: record.password_hash,
     role: record.role,
+    doctorProfileId: record.doctor_id,
     createdAt: record.created_at,
   };
 }
@@ -47,6 +50,7 @@ export async function createUser(input: {
   email: string;
   passwordHash: string;
   role?: AppRole;
+  doctorProfileId?: string | null;
 }) {
   const records = await supabaseRequest<SupabaseUserRecord[]>("app_users", {
     method: "POST",
@@ -56,6 +60,7 @@ export async function createUser(input: {
         email: input.email.trim().toLowerCase(),
         password_hash: input.passwordHash,
         role: input.role ?? "patient",
+        doctor_id: input.doctorProfileId ?? null,
       },
     ]),
   });

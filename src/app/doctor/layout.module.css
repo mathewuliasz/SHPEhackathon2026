@@ -1,0 +1,231 @@
+.wrapper {
+  min-height: 100vh;
+  background: #f5f7fb;
+  color: #253041;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px 24px;
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid #dfe5ef;
+  backdrop-filter: blur(18px);
+}
+
+.topbarLeft,
+.topbarRight,
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.menuToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 14px;
+  background: #f3f5f8;
+  color: #6c7686;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.menuToggle:hover,
+.menuToggle:hover {
+  background: #e9edf5;
+  color: #3f75ca;
+}
+
+.menuToggle svg,
+ .menuToggle svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #34404f;
+  text-decoration: none;
+}
+
+.brandMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1f4fa8, #3f75ca);
+  color: #fff;
+  font-weight: 800;
+}
+
+.brandText {
+  font-size: 1.05rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.profileAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3f75ca, #4e88e7);
+  color: #fff;
+  font-weight: 800;
+}
+
+.profileText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profileText span {
+  color: #8a94a4;
+  font-size: 0.8rem;
+}
+
+.logoutSlot {
+  min-width: 132px;
+}
+
+.logoutSlot :global(button) {
+  width: 100%;
+  min-height: 46px;
+  border: 0;
+  border-radius: 14px;
+  background: #edf3ff;
+  color: #3f75ca;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.logoutSlot :global(button:hover) {
+  background: #dfeaff;
+}
+
+.content {
+  width: min(1280px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 28px 0 54px;
+}
+
+.menuBar {
+  position: sticky;
+  top: 69px;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(1280px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 14px 0 10px;
+  background: linear-gradient(180deg, rgba(245, 247, 251, 0.98), rgba(245, 247, 251, 0.82));
+  backdrop-filter: blur(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease, max-height 0.2s ease;
+}
+
+.menuBarClosed {
+  opacity: 0;
+  pointer-events: none;
+  max-height: 0;
+  overflow: hidden;
+  padding-top: 0;
+  padding-bottom: 0;
+  transform: translateY(-6px);
+}
+
+.menuBarOpen {
+  opacity: 1;
+  pointer-events: auto;
+  max-height: 120px;
+  transform: translateY(0);
+}
+
+.menuItem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 18px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid #dfe5ef;
+  color: #687487;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.menuItem:hover {
+  transform: translateY(-1px);
+  color: #244895;
+  background: #fff;
+}
+
+.menuItemActive {
+  background: linear-gradient(135deg, #2f55db, #466bfa);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(47, 85, 219, 0.18);
+}
+
+@media (max-width: 880px) {
+  .topbar {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .topbarRight {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .menuBar {
+    top: 121px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .content {
+    width: min(100% - 24px, 1280px);
+  }
+}
+
+@media (max-width: 640px) {
+  .topbarRight {
+    justify-content: flex-end;
+  }
+
+  .profileText {
+    display: none;
+  }
+}

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import {
   AUTH_COOKIE_NAME,
   createSessionToken,
+  getDefaultRouteForRole,
   getSessionCookieOptions,
   hashPassword,
 } from "@/lib/auth";
@@ -64,6 +65,7 @@ export async function POST(request: Request) {
         fullName: user.fullName,
         email: user.email,
         role: user.role,
+        redirectTo: getDefaultRouteForRole(user.role),
       },
     });
 
@@ -74,6 +76,7 @@ export async function POST(request: Request) {
         fullName: user.fullName,
         email: user.email,
         role: user.role,
+        doctorProfileId: user.doctorProfileId,
       }),
       getSessionCookieOptions(),
     );

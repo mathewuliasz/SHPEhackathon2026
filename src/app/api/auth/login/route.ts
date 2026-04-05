@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import {
   AUTH_COOKIE_NAME,
   createSessionToken,
+  getDefaultRouteForRole,
   getSessionCookieOptions,
   verifyPassword,
 } from "@/lib/auth";
@@ -12,10 +13,12 @@ export async function POST(request: Request) {
     const body = (await request.json()) as {
       email?: string;
       password?: string;
+      expectedRole?: "doctor";
     };
 
     const email = body.email?.trim() ?? "";
     const password = body.password?.trim() ?? "";
+    const expectedRole = body.expectedRole;
 
     if (!email || !password) {
       return NextResponse.json(
@@ -33,6 +36,13 @@ export async function POST(request: Request) {
       );
     }
 
+    if (expectedRole === "doctor" && user.role !== "doctor") {
+      return NextResponse.json(
+        { error: "This account does not have doctor access." },
+        { status: 403 },
+      );
+    }
+
     const response = NextResponse.json({
       ok: true,
       user: {
@@ -40,6 +50,8 @@ export async function POST(request: Request) {
         fullName: user.fullName,
         email: user.email,
         role: user.role,
+        doctorProfileId: user.doctorProfileId,
+        redirectTo: getDefaultRouteForRole(user.role),
       },
     });
 
@@ -50,6 +62,7 @@ export async function POST(request: Request) {
         fullName: user.fullName,
         email: user.email,
         role: user.role,
+        doctorProfileId: user.doctorProfileId,
       }),
       getSessionCookieOptions(),
     );

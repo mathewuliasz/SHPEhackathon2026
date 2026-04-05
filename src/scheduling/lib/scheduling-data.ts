@@ -133,6 +133,50 @@ export async function getMessagesForAppointment(
   return data || [];
 }
 
+export async function getDoctorProfileForUser(userId: string): Promise<Doctor | null> {
+  const { data, error } = await supabase
+    .from("app_users")
+    .select("doctor_id")
+    .eq("id", userId)
+    .single();
+
+  if (error || !data?.doctor_id) {
+    return null;
+  }
+
+  return getDoctorById(data.doctor_id);
+}
+
+export async function getAppointmentsForDoctor(
+  doctorId: string
+): Promise<Appointment[]> {
+  const { data, error } = await supabase
+    .from("appointments")
+    .select("*")
+    .eq("doctor_id", doctorId)
+    .order("date", { ascending: true })
+    .order("time", { ascending: true });
+
+  if (error) throw error;
+  return data || [];
+}
+
+export async function getUpcomingAppointmentsForDoctor(
+  doctorId: string
+): Promise<Appointment[]> {
+  const today = new Date().toISOString().slice(0, 10);
+  const { data, error } = await supabase
+    .from("appointments")
+    .select("*")
+    .eq("doctor_id", doctorId)
+    .gte("date", today)
+    .order("date", { ascending: true })
+    .order("time", { ascending: true });
+
+  if (error) throw error;
+  return data || [];
+}
+
 export async function bookAppointment(params: {
   doctorId: string;
   specialtyId: string;

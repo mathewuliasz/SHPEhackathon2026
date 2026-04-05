@@ -12,7 +12,7 @@ export default async function AdminPage() {
   }
 
   if (user.role !== "admin") {
-    redirect("/dashboard");
+    redirect(user.role === "doctor" ? "/doctor" : "/dashboard");
   }
 
   return (

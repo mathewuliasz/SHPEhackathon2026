@@ -4,13 +4,14 @@ import { createHmac, randomBytes, scryptSync, timingSafeEqual } from "node:crypt
 export const AUTH_COOKIE_NAME = "shpe_auth_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
 
-export type AppRole = "patient" | "admin";
+export type AppRole = "patient" | "admin" | "doctor";
 
 type SessionPayload = {
   userId: string;
   email: string;
   fullName: string;
   role: AppRole;
+  doctorProfileId?: string | null;
   exp: number;
 };
 
@@ -94,6 +95,7 @@ export function verifySessionToken(token: string): SessionUser | null {
       email: payload.email,
       fullName: payload.fullName,
       role: payload.role,
+      doctorProfileId: payload.doctorProfileId ?? null,
     };
   } catch {
     return null;
@@ -119,4 +121,16 @@ export function getSessionCookieOptions() {
     path: "/",
     maxAge: SESSION_TTL_SECONDS,
   };
+}
+
+export function getDefaultRouteForRole(role: AppRole) {
+  if (role === "admin") {
+    return "/admin";
+  }
+
+  if (role === "doctor") {
+    return "/doctor";
+  }
+
+  return "/dashboard";
 }

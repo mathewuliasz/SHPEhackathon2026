@@ -7,9 +7,15 @@ import styles from "./page.module.css";
 
 type AuthCardProps = {
   initialMode: "signin" | "signup";
+  loginVariant?: "default" | "doctor";
+  allowSignUp?: boolean;
 };
 
-export function AuthCard({ initialMode }: AuthCardProps) {
+export function AuthCard({
+  initialMode,
+  loginVariant = "default",
+  allowSignUp = true,
+}: AuthCardProps) {
   const router = useRouter();
   const [mode, setMode] = useState<"signin" | "signup">(initialMode);
   const [error, setError] = useState("");
@@ -46,6 +52,7 @@ export function AuthCard({ initialMode }: AuthCardProps) {
         : {
             email: signInForm.email,
             password: signInForm.password,
+            ...(loginVariant === "doctor" ? { expectedRole: "doctor" as const } : {}),
           };
 
     startTransition(async () => {
@@ -56,7 +63,7 @@ export function AuthCard({ initialMode }: AuthCardProps) {
       });
 
       const data = (await response.json().catch(() => null)) as
-        | { error?: string }
+        | { error?: string; user?: { redirectTo?: string } }
         | null;
 
       if (!response.ok) {
@@ -64,7 +71,7 @@ export function AuthCard({ initialMode }: AuthCardProps) {
         return;
       }
 
-      router.push("/dashboard");
+      router.push(data?.user?.redirectTo ?? "/dashboard");
       router.refresh();
     });
   }
@@ -79,7 +86,9 @@ export function AuthCard({ initialMode }: AuthCardProps) {
         <p>
           {isSignUp
             ? "Set up your patient profile to request and manage care."
-            : "Access your appointments, records, and provider messages."}
+            : loginVariant === "doctor"
+              ? "Access upcoming appointments and patient messages in your doctor workspace."
+              : "Access your appointments, records, and provider messages."}
         </p>
       </div>
 
@@ -191,18 +200,20 @@ export function AuthCard({ initialMode }: AuthCardProps) {
                 Forgot password?
               </Link>
 
-              <div className={styles.memberPrompt}>
-                <span>Not a member?</span>
-                <Link
-                  href="/auth?mode=signup"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    switchMode("signup");
-                  }}
-                >
-                  Sign up
-                </Link>
-              </div>
+              {allowSignUp ? (
+                <div className={styles.memberPrompt}>
+                  <span>Not a member?</span>
+                  <Link
+                    href="/auth?mode=signup"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      switchMode("signup");
+                    }}
+                  >
+                    Sign up
+                  </Link>
+                </div>
+              ) : null}
             </div>
           </div>
         )}

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser, getDefaultRouteForRole } from "@/lib/auth";
 import { AuthCard } from "./AuthCard";
 import styles from "./page.module.css";
 
@@ -22,7 +22,7 @@ export default async function AuthPage({ searchParams }: AuthPageProps) {
   const user = await getCurrentUser();
 
   if (user) {
-    redirect("/dashboard");
+    redirect(getDefaultRouteForRole(user.role));
   }
 
   return (
