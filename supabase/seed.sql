@@ -35,6 +35,8 @@ CREATE TABLE IF NOT EXISTS appointments (
   date date NOT NULL,
   time text NOT NULL,
   patient_name text NOT NULL DEFAULT '',
+  zoom_join_url text DEFAULT NULL,
+  zoom_meeting_id bigint DEFAULT NULL,
   created_at timestamptz NOT NULL DEFAULT now()
 );
 

@@ -28,6 +28,8 @@ export interface Appointment {
   time: string;
   patient_name: string;
   user_id: string | null;
+  zoom_join_url?: string | null;
+  zoom_meeting_id?: number | null;
   created_at: string;
 }
 

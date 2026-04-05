@@ -147,8 +147,20 @@ export function DateTimePicker({
             <div className="space-y-6">
               <SummaryRow label="Doctor" value={doctor.name} detail={doctor.bio} icon="◉" />
               <SummaryRow label="Specialty" value={specialty.name} detail="" icon="⌁" />
-              <SummaryRow label="Date" value={formatDatePreview(selectedDate)} detail="" icon="□" muted={!selectedDate} />
-              <SummaryRow label="Time" value={formatTimePreview(selectedTime)} detail="" icon="◔" muted={!selectedTime} />
+              <SummaryRow
+                label="Date"
+                value={formatDatePreview(selectedDate)}
+                detail=""
+                icon="□"
+                muted={!selectedDate}
+              />
+              <SummaryRow
+                label="Time"
+                value={formatTimePreview(selectedTime)}
+                detail=""
+                icon="◔"
+                muted={!selectedTime}
+              />
             </div>
 
             <div className="mt-8 border-t border-[#edf1f5] pt-8">

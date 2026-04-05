@@ -1,7 +1,7 @@
 import { ScheduleWizard } from "@/scheduling/components/ScheduleWizard";
 
 export const metadata = {
-  title: "Schedule Appointment | MedSchedule",
+  title: "Schedule Appointment | MediTrack",
 };
 
 export default function SchedulePage() {
@@ -15,13 +15,13 @@ export default function SchedulePage() {
           <h1 className="mb-4 text-4xl font-semibold tracking-[-0.04em] text-[#1f2733] sm:text-5xl">
             Schedule an Appointment
           </h1>
-          <p className="mb-4 inline-flex rounded-full px-4 py-1 text-lg leading-8 text-[#7c8797]">
+          <p className="mx-auto max-w-2xl text-center text-lg leading-8 text-[#7c8797]">
             Choose a specialty, review providers, and lock in a visit without jumping
             between screens.
           </p>
         </div>
 
-        <div className="pb-240">
+        <div className="pb-8">
           <ScheduleWizard />
         </div>
       </div>

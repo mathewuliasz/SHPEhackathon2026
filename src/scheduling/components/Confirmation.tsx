@@ -1,3 +1,6 @@
+"use client";
+
+import Link from "next/link";
 import type { Specialty, Doctor } from "@/scheduling/types/scheduling";
 
 interface ConfirmationProps {
@@ -5,6 +8,7 @@ interface ConfirmationProps {
   doctor: Doctor;
   date: string;
   time: string;
+  zoomLink?: string | null;
   onReset: () => void;
 }
 
@@ -26,7 +30,14 @@ function formatTime(time24: string): string {
   return `${hour12}:${String(m).padStart(2, "0")} ${period}`;
 }
 
-export function Confirmation({ specialty, doctor, date, time, onReset }: ConfirmationProps) {
+export function Confirmation({
+  specialty,
+  doctor,
+  date,
+  time,
+  zoomLink,
+  onReset,
+}: ConfirmationProps) {
   return (
     <div className="rounded-[30px] border border-[#d9eadf] bg-[linear-gradient(180deg,#f9fffb,#ffffff)] px-6 py-10 text-center shadow-[0_24px_50px_rgba(60,122,89,0.10)] sm:px-8">
       <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-[28px] bg-[linear-gradient(135deg,#dff7e7,#f4fff7)] text-[#2f8a5d] shadow-[0_14px_30px_rgba(57,145,92,0.14)]">
@@ -60,16 +71,43 @@ export function Confirmation({ specialty, doctor, date, time, onReset }: Confirm
         </div>
       </div>
 
+      {zoomLink ? (
+        <div className="mb-8 flex justify-center">
+          <a
+            href={zoomLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-[20px] bg-[#eaf3ff] px-6 py-3 font-semibold text-[#3565d8] transition-colors hover:bg-[#dcecff]"
+          >
+            Join Zoom Meeting
+          </a>
+        </div>
+      ) : null}
+
       <p className="mb-8 text-sm text-[#6d7d96]">
         You should be receiving a confirmation email shortly.
       </p>
 
-      <button
-        onClick={onReset}
-        className="rounded-[20px] border border-[#bfd1ee] bg-white px-6 py-3 font-semibold text-[#3565d8] transition-colors hover:bg-[#f4f8ff]"
-      >
-        Schedule Another Appointment
-      </button>
+      <div className="flex flex-wrap items-center justify-center gap-4">
+        <Link
+          href={`/dashboard/consultations/${doctor.id}`}
+          className="rounded-[20px] bg-[#2f8a5d] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#27744f]"
+        >
+          Go to Consultation Chat
+        </Link>
+        <Link
+          href="/dashboard"
+          className="rounded-[20px] bg-[#3565d8] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#2b56bb]"
+        >
+          Back to Dashboard
+        </Link>
+        <button
+          onClick={onReset}
+          className="rounded-[20px] border border-[#bfd1ee] bg-white px-6 py-3 font-semibold text-[#3565d8] transition-colors hover:bg-[#f4f8ff]"
+        >
+          Schedule Another Appointment
+        </button>
+      </div>
     </div>
   );
 }
